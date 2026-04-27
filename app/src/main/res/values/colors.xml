@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="colorPrimary">#009688</color>
-    <color name="colorPrimaryVariant">#00796B</color>
-    <color name="colorAccent">#009688</color>
-    <color name="light_gray">#F5F5F5</color>
-    <color name="medium_gray">#7F8C8D</color>
-    <color name="dark_gray">#2C3E50</color>
+    <color name="black">#191C1D</color>
+    <color name="white">#FFFFFF</color>
+    <color name="colorPrimary">#0E6858</color>
+    <color name="colorPrimaryVariant">#328171</color>
+    <color name="colorAccent">#88D5C2</color>
+    <color name="app_background_color">#E8F0EE</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorOnSurface">#191C1D</color>
+    <color name="colorSecondary">#586062</color>
+    <color name="light_gray">#F2F4F5</color>
+    <color name="medium_gray">#BEC9C4</color>
+    <color name="dark_gray">#2E3132</color>
+    <color name="colorError">#BA1A1A</color>
+    <color name="rating_gold">#FFB400</color>
 </resources>

@@ -49,6 +49,9 @@ dependencies {
     // Firestore - to access your doctors data
     implementation "com.google.firebase:firebase-firestore"
 
+    // Realtime Database
+    implementation "com.google.firebase:firebase-database"
+
     // Firebase Authentication (optional, for user login)
     implementation "com.google.firebase:firebase-auth"
 

@@ -14,6 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 public class Signup extends AppCompatActivity {
 
@@ -21,6 +25,7 @@ public class Signup extends AppCompatActivity {
     private Button btnSignup;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,7 @@ public class Signup extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         etName = findViewById(R.id.etName);
         etEmail = findViewById(R.id.etEmail);
@@ -77,14 +83,27 @@ public class Signup extends AppCompatActivity {
                     btnSignup.setVisibility(View.VISIBLE);
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            saveUserToFirestore(user.getUid(), name, email);
+                        }
                         Toast.makeText(Signup.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
-
                         startActivity(new Intent(Signup.this, Login.class));
                         finish();
                     } else {
                         Toast.makeText(Signup.this, "Authentication failed: " + task.getException().getMessage(),
                                 Toast.LENGTH_LONG).show();
                     }
+                });
+    }
+
+    private void saveUserToFirestore(String uid, String name, String email) {
+        HashMap<String, Object> userData = new HashMap<>();
+        userData.put("name", name);
+        userData.put("email", email);
+
+        mDatabase.child("users").child(uid).setValue(userData)
+                .addOnFailureListener(e -> {
+                    Toast.makeText(Signup.this, "Error saving profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 }
