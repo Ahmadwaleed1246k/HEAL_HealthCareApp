@@ -1,11 +1,14 @@
 package com.example.heal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,6 +43,29 @@ public class LabTestsActivity extends AppCompatActivity {
 
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
+        
+        CardView profileCard = findViewById(R.id.profileCard);
+        profileCard.setOnClickListener(v -> {
+            startActivity(new Intent(this, ProfileActivity.class));
+        });
+        
+        TextView tabMyResults = findViewById(R.id.tabMyResults);
+        TextView tabBookNewTest = findViewById(R.id.tabBookNewTest);
+        
+        tabMyResults.setOnClickListener(v -> {
+            tabMyResults.setBackgroundResource(R.drawable.bg_tab_active);
+            tabMyResults.setTextColor(getResources().getColor(R.color.white));
+            tabBookNewTest.setBackgroundResource(R.drawable.bg_tab_inactive);
+            tabBookNewTest.setTextColor(getResources().getColor(R.color.colorSecondary));
+            Toast.makeText(this, "My Results tab selected", Toast.LENGTH_SHORT).show();
+        });
+        
+        tabBookNewTest.setOnClickListener(v -> {
+            tabBookNewTest.setBackgroundResource(R.drawable.bg_tab_active);
+            tabBookNewTest.setTextColor(getResources().getColor(R.color.white));
+            tabMyResults.setBackgroundResource(R.drawable.bg_tab_inactive);
+            tabMyResults.setTextColor(getResources().getColor(R.color.colorSecondary));
+        });
 
         rvTestCategories = findViewById(R.id.rvTestCategories);
         rvPopularPackages = findViewById(R.id.rvPopularPackages);

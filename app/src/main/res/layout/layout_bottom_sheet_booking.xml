@@ -35,15 +35,15 @@
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_tab_inactive"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="4dp">
 
         <TextView
             android:id="@+id/btnClinicVisit"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/bg_tab_active"
-            android:backgroundTint="@color/white"
+            android:background="@drawable/bg_tab_white"
             android:gravity="center"
             android:text="Clinic Visit"
             android:textColor="@color/colorPrimary"
@@ -55,6 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@null"
             android:gravity="center"
             android:text="Home Collection"
             android:textColor="@color/colorSecondary"
@@ -84,6 +85,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/btnDate1"
                 android:layout_width="60dp"
                 android:layout_height="70dp"
                 android:layout_marginEnd="8dp"
@@ -91,12 +93,14 @@
                 android:gravity="center"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/tvDate1Day"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="MON"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
                 <TextView
+                    android:id="@+id/tvDate1Num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
@@ -106,20 +110,22 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/btnDate2"
                 android:layout_width="60dp"
                 android:layout_height="70dp"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_tab_inactive"
-                android:backgroundTint="@color/white"
+                android:background="@drawable/bg_tab_white"
                 android:gravity="center"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/tvDate2Day"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TUE"
                     android:textColor="@color/colorSecondary"
                     android:textSize="12sp" />
                 <TextView
+                    android:id="@+id/tvDate2Num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
@@ -129,20 +135,22 @@
             </LinearLayout>
             
             <LinearLayout
+                android:id="@+id/btnDate3"
                 android:layout_width="60dp"
                 android:layout_height="70dp"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_tab_inactive"
-                android:backgroundTint="@color/white"
+                android:background="@drawable/bg_tab_white"
                 android:gravity="center"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/tvDate3Day"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="WED"
                     android:textColor="@color/colorSecondary"
                     android:textSize="12sp" />
                 <TextView
+                    android:id="@+id/tvDate3Num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
@@ -177,11 +185,10 @@
             android:layout_columnWeight="1"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_tab_inactive"
-            android:backgroundTint="@color/white"
+            android:background="@drawable/bg_tab_active"
             android:gravity="center"
             android:text="09:00 AM"
-            android:textColor="@color/colorSecondary" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/btnTime11"
@@ -190,8 +197,7 @@
             android:layout_columnWeight="1"
             android:layout_marginStart="4dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_tab_inactive"
-            android:backgroundTint="@color/white"
+            android:background="@drawable/bg_tab_white"
             android:gravity="center"
             android:text="11:00 AM"
             android:textColor="@color/colorSecondary" />

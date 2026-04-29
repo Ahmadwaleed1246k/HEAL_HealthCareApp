@@ -47,15 +47,31 @@ public class LabTestBookingBottomSheet extends BottomSheetDialogFragment {
         
         TextView btnClinicVisit = view.findViewById(R.id.btnClinicVisit);
         TextView btnHomeCollection = view.findViewById(R.id.btnHomeCollection);
+        
+        // Dates
+        View btnDate1 = view.findViewById(R.id.btnDate1);
+        View btnDate2 = view.findViewById(R.id.btnDate2);
+        View btnDate3 = view.findViewById(R.id.btnDate3);
+        
+        TextView tvDate1Day = view.findViewById(R.id.tvDate1Day);
+        TextView tvDate1Num = view.findViewById(R.id.tvDate1Num);
+        TextView tvDate2Day = view.findViewById(R.id.tvDate2Day);
+        TextView tvDate2Num = view.findViewById(R.id.tvDate2Num);
+        TextView tvDate3Day = view.findViewById(R.id.tvDate3Day);
+        TextView tvDate3Num = view.findViewById(R.id.tvDate3Num);
+        
+        // Times
+        TextView btnTime9 = view.findViewById(R.id.btnTime9);
+        TextView btnTime11 = view.findViewById(R.id.btnTime11);
 
         tvPrepInstructions.setText(labTest.getPreparation_instructions());
         btnConfirmAppointment.setText("Confirm Appointment + $" + String.format("%.2f", labTest.getPrice()));
 
         btnClinicVisit.setOnClickListener(v -> {
             appointmentType = "clinic_visit";
-            btnClinicVisit.setBackgroundResource(R.drawable.bg_tab_active);
+            btnClinicVisit.setBackgroundResource(R.drawable.bg_tab_white);
             btnClinicVisit.setTextColor(getResources().getColor(R.color.colorPrimary));
-            btnHomeCollection.setBackgroundResource(R.drawable.bg_tab_inactive);
+            btnHomeCollection.setBackgroundResource(0);
             btnHomeCollection.setTextColor(getResources().getColor(R.color.colorSecondary));
         });
 
@@ -65,10 +81,71 @@ public class LabTestBookingBottomSheet extends BottomSheetDialogFragment {
                 return;
             }
             appointmentType = "home_collection";
-            btnHomeCollection.setBackgroundResource(R.drawable.bg_tab_active);
+            btnHomeCollection.setBackgroundResource(R.drawable.bg_tab_white);
             btnHomeCollection.setTextColor(getResources().getColor(R.color.colorPrimary));
-            btnClinicVisit.setBackgroundResource(R.drawable.bg_tab_inactive);
+            btnClinicVisit.setBackgroundResource(0);
             btnClinicVisit.setTextColor(getResources().getColor(R.color.colorSecondary));
+        });
+        
+        btnDate1.setOnClickListener(v -> {
+            preferredDate = "2026-05-12";
+            btnDate1.setBackgroundResource(R.drawable.bg_tab_active);
+            tvDate1Day.setTextColor(getResources().getColor(R.color.white));
+            tvDate1Num.setTextColor(getResources().getColor(R.color.white));
+            
+            btnDate2.setBackgroundResource(R.drawable.bg_tab_white);
+            tvDate2Day.setTextColor(getResources().getColor(R.color.colorSecondary));
+            tvDate2Num.setTextColor(getResources().getColor(R.color.colorOnSurface));
+            
+            btnDate3.setBackgroundResource(R.drawable.bg_tab_white);
+            tvDate3Day.setTextColor(getResources().getColor(R.color.colorSecondary));
+            tvDate3Num.setTextColor(getResources().getColor(R.color.colorOnSurface));
+        });
+        
+        btnDate2.setOnClickListener(v -> {
+            preferredDate = "2026-05-13";
+            btnDate2.setBackgroundResource(R.drawable.bg_tab_active);
+            tvDate2Day.setTextColor(getResources().getColor(R.color.white));
+            tvDate2Num.setTextColor(getResources().getColor(R.color.white));
+            
+            btnDate1.setBackgroundResource(R.drawable.bg_tab_white);
+            tvDate1Day.setTextColor(getResources().getColor(R.color.colorSecondary));
+            tvDate1Num.setTextColor(getResources().getColor(R.color.colorOnSurface));
+            
+            btnDate3.setBackgroundResource(R.drawable.bg_tab_white);
+            tvDate3Day.setTextColor(getResources().getColor(R.color.colorSecondary));
+            tvDate3Num.setTextColor(getResources().getColor(R.color.colorOnSurface));
+        });
+        
+        btnDate3.setOnClickListener(v -> {
+            preferredDate = "2026-05-14";
+            btnDate3.setBackgroundResource(R.drawable.bg_tab_active);
+            tvDate3Day.setTextColor(getResources().getColor(R.color.white));
+            tvDate3Num.setTextColor(getResources().getColor(R.color.white));
+            
+            btnDate1.setBackgroundResource(R.drawable.bg_tab_white);
+            tvDate1Day.setTextColor(getResources().getColor(R.color.colorSecondary));
+            tvDate1Num.setTextColor(getResources().getColor(R.color.colorOnSurface));
+            
+            btnDate2.setBackgroundResource(R.drawable.bg_tab_white);
+            tvDate2Day.setTextColor(getResources().getColor(R.color.colorSecondary));
+            tvDate2Num.setTextColor(getResources().getColor(R.color.colorOnSurface));
+        });
+        
+        btnTime9.setOnClickListener(v -> {
+            timeSlot = "09:00 AM";
+            btnTime9.setBackgroundResource(R.drawable.bg_tab_active);
+            btnTime9.setTextColor(getResources().getColor(R.color.white));
+            btnTime11.setBackgroundResource(R.drawable.bg_tab_white);
+            btnTime11.setTextColor(getResources().getColor(R.color.colorSecondary));
+        });
+        
+        btnTime11.setOnClickListener(v -> {
+            timeSlot = "11:00 AM";
+            btnTime11.setBackgroundResource(R.drawable.bg_tab_active);
+            btnTime11.setTextColor(getResources().getColor(R.color.white));
+            btnTime9.setBackgroundResource(R.drawable.bg_tab_white);
+            btnTime9.setTextColor(getResources().getColor(R.color.colorSecondary));
         });
 
         btnConfirmAppointment.setOnClickListener(v -> {
