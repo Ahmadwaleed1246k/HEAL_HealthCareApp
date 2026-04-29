@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_sheet"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_schedule"
+            app:tint="@color/colorPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="sans-serif-bold"
+            android:text="Booking Details"
+            android:textColor="@color/colorOnSurface"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <!-- Visit Type Toggle -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_tab_inactive"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btnClinicVisit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_tab_active"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:text="Clinic Visit"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/btnHomeCollection"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Home Collection"
+            android:textColor="@color/colorSecondary"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-bold"
+        android:text="PREFERRED DATE"
+        android:textColor="@color/colorSecondary"
+        android:textSize="12sp"
+        android:letterSpacing="0.1" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="70dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_tab_active"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MON"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="12"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="70dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_tab_inactive"
+                android:backgroundTint="@color/white"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TUE"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="12sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="13"
+                    android:textColor="@color/colorOnSurface"
+                    android:textSize="18sp" />
+            </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="70dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_tab_inactive"
+                android:backgroundTint="@color/white"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WED"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="12sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="14"
+                    android:textColor="@color/colorOnSurface"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-bold"
+        android:text="TIME SLOT"
+        android:textColor="@color/colorSecondary"
+        android:textSize="12sp"
+        android:letterSpacing="0.1" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:columnCount="2"
+        android:alignmentMode="alignMargins">
+
+        <TextView
+            android:id="@+id/btnTime9"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_columnWeight="1"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_tab_inactive"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:text="09:00 AM"
+            android:textColor="@color/colorSecondary" />
+
+        <TextView
+            android:id="@+id/btnTime11"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_columnWeight="1"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_tab_inactive"
+            android:backgroundTint="@color/white"
+            android:gravity="center"
+            android:text="11:00 AM"
+            android:textColor="@color/colorSecondary" />
+    </GridLayout>
+
+    <!-- Preparation Guide -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_tab_inactive"
+        android:backgroundTint="#E8F5E9"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@android:drawable/ic_dialog_info"
+                app:tint="@color/colorPrimary" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Preparation Guide"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvPrepInstructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif"
+            android:text="Fast for at least 10 hours. Avoid strenuous exercise 24h prior."
+            android:textColor="@color/colorPrimaryVariant"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btnConfirmAppointment"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_tab_active"
+        android:backgroundTint="@color/black"
+        android:gravity="center"
+        android:text="Confirm Appointment + $189"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-bold"
+        android:textSize="16sp" />
+
+</LinearLayout>
