@@ -88,6 +88,10 @@ public class Login extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         Toast.makeText(Login.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                        
+                        SessionManager sessionManager = new SessionManager(Login.this);
+                        sessionManager.setLogin(true);
+
                         startActivity(new Intent(Login.this, HomeActivity.class));
                         finish();
                     } else {

@@ -87,7 +87,7 @@ public class Signup extends AppCompatActivity {
                             saveUserToFirestore(user.getUid(), name, email);
                         }
                         Toast.makeText(Signup.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Signup.this, Login.class));
+                        startActivity(new Intent(Signup.this, ProfileSetupActivity.class));
                         finish();
                     } else {
                         Toast.makeText(Signup.this, "Authentication failed: " + task.getException().getMessage(),
