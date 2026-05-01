@@ -28,7 +28,8 @@ public class AppointmentBookingActivity extends AppCompatActivity {
     private Doctor doctor;
     private RecyclerView rvDates;
     private ChipGroup cgTimeSlots;
-    private TextInputEditText etNotes;
+    private TextInputEditText etNotes, etCardNumber;
+    private TextView tvConsultationFee;
     private Button btnConfirmBooking;
     private List<BookingDate> dateList;
     private String selectedDate;
@@ -61,6 +62,8 @@ public class AppointmentBookingActivity extends AppCompatActivity {
         rvDates = findViewById(R.id.rvDates);
         cgTimeSlots = findViewById(R.id.cgTimeSlots);
         etNotes = findViewById(R.id.etNotes);
+        etCardNumber = findViewById(R.id.etCardNumber);
+        tvConsultationFee = findViewById(R.id.tvConsultationFee);
         btnConfirmBooking = findViewById(R.id.btnConfirmBooking);
         rvDates.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
     }
@@ -72,6 +75,7 @@ public class AppointmentBookingActivity extends AppCompatActivity {
 
         tvName.setText(doctor.getName());
         tvSpecialty.setText(doctor.getSpecialization());
+        tvConsultationFee.setText("Fee: $" + doctor.getConsultation_fee());
         
         Glide.with(this)
                 .load(doctor.getProfile_picture())
@@ -132,6 +136,12 @@ public class AppointmentBookingActivity extends AppCompatActivity {
             return;
         }
 
+        String cardNumber = etCardNumber.getText().toString().trim();
+        if (cardNumber.length() != 14) {
+            etCardNumber.setError("Please enter a valid 14-digit card number");
+            return;
+        }
+
         String userId = FirebaseAuth.getInstance().getUid();
         if (userId == null) return;
 
@@ -149,9 +159,11 @@ public class AppointmentBookingActivity extends AppCompatActivity {
                     userName,
                     selectedDate,
                     selectedTime,
-                    "pending"
+                    "pending",
+                    doctor.getConsultation_fee()
             );
             appointment.setNotes(notes);
+            appointment.setCardNumber(cardNumber);
             appointment.setTimestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime()));
 
             mDatabase.child("appointments").child(appointmentId).setValue(appointment)

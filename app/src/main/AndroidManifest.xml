@@ -27,6 +27,7 @@
             android:exported="false" />
         <activity android:name=".PrescriptionActivity" />
         <activity android:name=".UserPrescriptionsActivity" />
+        <activity android:name=".UserLabBookingsActivity" />
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />

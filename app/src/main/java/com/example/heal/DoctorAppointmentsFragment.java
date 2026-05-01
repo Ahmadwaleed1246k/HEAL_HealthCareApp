@@ -28,7 +28,7 @@ public class DoctorAppointmentsFragment extends Fragment {
     private List<Appointment> appointmentList;
     private DatabaseReference mDatabase, mDoctorDatabase;
     private ProgressBar progressBar;
-    private TextView tvEmpty, tvDoctorName;
+    private TextView tvEmpty, tvDoctorName, tvTotalAppointments, tvTotalRevenue;
     private android.widget.ImageView ivDoctorProfile;
     private androidx.cardview.widget.CardView profileCard;
 
@@ -41,6 +41,8 @@ public class DoctorAppointmentsFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBar);
         tvEmpty = view.findViewById(R.id.tvEmpty);
         tvDoctorName = view.findViewById(R.id.tvDoctorName);
+        tvTotalAppointments = view.findViewById(R.id.tvTotalAppointments);
+        tvTotalRevenue = view.findViewById(R.id.tvTotalRevenue);
         ivDoctorProfile = view.findViewById(R.id.ivDoctorProfile);
         profileCard = view.findViewById(R.id.profileCard);
 
@@ -137,12 +139,25 @@ public class DoctorAppointmentsFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 appointmentList.clear();
+                double totalRevenue = 0;
+                int totalBookings = 0;
+                
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Appointment appointment = dataSnapshot.getValue(Appointment.class);
                     if (appointment != null) {
                         appointmentList.add(appointment);
+                        totalBookings++;
+                        
+                        String status = appointment.getStatus();
+                        if ("accepted".equalsIgnoreCase(status) || "prescribed".equalsIgnoreCase(status)) {
+                            totalRevenue += appointment.getConsultationFee();
+                        }
                     }
                 }
+                
+                tvTotalAppointments.setText(String.valueOf(totalBookings));
+                tvTotalRevenue.setText("$" + (int)totalRevenue);
+                
                 progressBar.setVisibility(View.GONE);
                 if (appointmentList.isEmpty()) {
                     tvEmpty.setVisibility(View.VISIBLE);

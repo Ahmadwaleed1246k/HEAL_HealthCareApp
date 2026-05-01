@@ -11,12 +11,14 @@ public class Appointment {
     private String status; // pending, accepted, rejected, rescheduled
     private String notes;
     private String timestamp;
+    private double consultationFee;
+    private String cardNumber;
 
     public Appointment() {
         // Required for Firebase
     }
 
-    public Appointment(String appointmentId, String doctorId, String doctorName, String patientId, String patientName, String date, String time, String status) {
+    public Appointment(String appointmentId, String doctorId, String doctorName, String patientId, String patientName, String date, String time, String status, double consultationFee) {
         this.appointmentId = appointmentId;
         this.doctorId = doctorId;
         this.doctorName = doctorName;
@@ -25,7 +27,14 @@ public class Appointment {
         this.date = date;
         this.time = time;
         this.status = status;
+        this.consultationFee = consultationFee;
     }
+
+    public double getConsultationFee() { return consultationFee; }
+    public void setConsultationFee(double consultationFee) { this.consultationFee = consultationFee; }
+
+    public String getCardNumber() { return cardNumber; }
+    public void setCardNumber(String cardNumber) { this.cardNumber = cardNumber; }
 
     public String getAppointmentId() { return appointmentId; }
     public void setAppointmentId(String appointmentId) { this.appointmentId = appointmentId; }

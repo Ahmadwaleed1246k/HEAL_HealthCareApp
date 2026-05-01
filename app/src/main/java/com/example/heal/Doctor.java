@@ -14,9 +14,13 @@ public class Doctor implements Serializable {
     private String about;
     private List<String> sub_specialties;
     private java.util.Map<String, Object> timings;
+    private double consultation_fee;
 
     // Required empty constructor for Firebase
     public Doctor() {}
+
+    public double getConsultation_fee() { return consultation_fee; }
+    public void setConsultation_fee(double consultation_fee) { this.consultation_fee = consultation_fee; }
 
     public java.util.Map<String, Object> getTimings() { return timings; }
     public void setTimings(java.util.Map<String, Object> timings) { this.timings = timings; }
