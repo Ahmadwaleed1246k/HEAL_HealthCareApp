@@ -17,6 +17,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Heal">
         <activity
+            android:name=".DoctorHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DoctorProfileSetupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AppointmentBookingActivity"
+            android:exported="false" />
+        <activity android:name=".PrescriptionActivity" />
+        <activity android:name=".UserPrescriptionsActivity" />
+        <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity

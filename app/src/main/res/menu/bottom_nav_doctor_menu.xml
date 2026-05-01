@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_appointments"
+        android:icon="@drawable/ic_schedule"
+        android:title="Appointments" />
+    <item
+        android:id="@+id/nav_lab_tests"
+        android:icon="@drawable/ic_checkup"
+        android:title="Lab Tests" />
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_person"
+        android:title="Settings" />
+</menu>

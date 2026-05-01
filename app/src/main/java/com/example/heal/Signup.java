@@ -22,6 +22,7 @@ import java.util.HashMap;
 public class Signup extends AppCompatActivity {
 
     private EditText etName, etEmail, etPassword;
+    private android.widget.RadioGroup rgRole;
     private Button btnSignup;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
@@ -38,6 +39,7 @@ public class Signup extends AppCompatActivity {
         etName = findViewById(R.id.etName);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
+        rgRole = findViewById(R.id.rgRole);
         btnSignup = findViewById(R.id.btnSignup);
         progressBar = findViewById(R.id.progressBar);
 
@@ -53,6 +55,9 @@ public class Signup extends AppCompatActivity {
         String name = etName.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
+        
+        int selectedRoleId = rgRole.getCheckedRadioButtonId();
+        final String role = (selectedRoleId == R.id.rbDoctor) ? "Doctor" : "Patient";
 
         if (TextUtils.isEmpty(name)) {
             etName.setError("Full Name is required");
@@ -84,11 +89,8 @@ public class Signup extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
-                            saveUserToFirestore(user.getUid(), name, email);
+                            saveUserToDatabase(user.getUid(), name, email, role);
                         }
-                        Toast.makeText(Signup.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Signup.this, ProfileSetupActivity.class));
-                        finish();
                     } else {
                         Toast.makeText(Signup.this, "Authentication failed: " + task.getException().getMessage(),
                                 Toast.LENGTH_LONG).show();
@@ -96,12 +98,28 @@ public class Signup extends AppCompatActivity {
                 });
     }
 
-    private void saveUserToFirestore(String uid, String name, String email) {
+    private void saveUserToDatabase(String uid, String name, String email, String role) {
         HashMap<String, Object> userData = new HashMap<>();
         userData.put("name", name);
         userData.put("email", email);
+        userData.put("role", role);
 
         mDatabase.child("users").child(uid).setValue(userData)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(Signup.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
+                    
+                    SessionManager sessionManager = new SessionManager(Signup.this);
+                    sessionManager.setLogin(true);
+                    sessionManager.setRole(role);
+                    sessionManager.setName(name);
+                    
+                    if (role.equals("Doctor")) {
+                        startActivity(new Intent(Signup.this, DoctorProfileSetupActivity.class));
+                    } else {
+                        startActivity(new Intent(Signup.this, ProfileSetupActivity.class));
+                    }
+                    finish();
+                })
                 .addOnFailureListener(e -> {
                     Toast.makeText(Signup.this, "Error saving profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });

@@ -35,7 +35,9 @@ public class SpecialistsActivity extends AppCompatActivity {
 
         doctorList = new ArrayList<>();
         adapter = new DoctorAdapter(this, doctorList, false, doctor -> {
-            Toast.makeText(this, "Booking with " + doctor.getName(), Toast.LENGTH_SHORT).show();
+            android.content.Intent intent = new android.content.Intent(this, AppointmentBookingActivity.class);
+            intent.putExtra("doctor", doctor);
+            startActivity(intent);
         });
         rvSpecialists.setAdapter(adapter);
 

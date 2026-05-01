@@ -132,6 +132,42 @@
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="Select Role"
+                android:textColor="#2C3E50"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+
+            <RadioGroup
+                android:id="@+id/rgRole"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="32dp">
+
+                <RadioButton
+                    android:id="@+id/rbPatient"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Patient"
+                    android:checked="true"
+                    android:buttonTint="@color/colorPrimary"
+                    android:fontFamily="sans-serif-medium"/>
+
+                <RadioButton
+                    android:id="@+id/rbDoctor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Doctor"
+                    android:buttonTint="@color/colorPrimary"
+                    android:fontFamily="sans-serif-medium"/>
+            </RadioGroup>
+
             <Button
                 android:id="@+id/btnSignup"
                 android:layout_width="match_parent"

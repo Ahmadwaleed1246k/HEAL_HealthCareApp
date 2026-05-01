@@ -22,7 +22,7 @@ public class HomeActivity extends AppCompatActivity {
             if (id == R.id.nav_home) {
                 selectedFragment = new HomeFragment();
             } else if (id == R.id.nav_schedule) {
-                selectedFragment = new PlaceholderFragment("Schedule");
+                selectedFragment = new ScheduleFragment();
             } else if (id == R.id.nav_chat) {
                 selectedFragment = new PlaceholderFragment("Chat");
             } else if (id == R.id.nav_settings) {

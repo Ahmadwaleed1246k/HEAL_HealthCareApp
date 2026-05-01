@@ -23,7 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SettingsFragment extends Fragment {
 
-    private TextView tvName, tvEmail, tvPhone, tvDob, tvMemberSince;
+    private TextView tvName, tvEmail, tvPhone, tvDob, tvMemberSince, tvHealthRecordsTitle;
+    private androidx.cardview.widget.CardView cvHealthRecords;
     private Button btnLogout;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
@@ -39,11 +40,19 @@ public class SettingsFragment extends Fragment {
         tvPhone = view.findViewById(R.id.tvSettingsPhone);
         tvDob = view.findViewById(R.id.tvSettingsDob);
         tvMemberSince = view.findViewById(R.id.tvSettingsMemberSince);
+        tvHealthRecordsTitle = view.findViewById(R.id.tvHealthRecordsTitle);
+        cvHealthRecords = view.findViewById(R.id.cvHealthRecords);
         btnLogout = view.findViewById(R.id.btnLogout);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         sessionManager = new SessionManager(getActivity());
+
+        // Immediate hide if doctor (from session)
+        if ("Doctor".equalsIgnoreCase(sessionManager.getRole())) {
+            tvHealthRecordsTitle.setVisibility(View.GONE);
+            cvHealthRecords.setVisibility(View.GONE);
+        }
 
         fetchUserProfile();
 
@@ -69,6 +78,12 @@ public class SettingsFragment extends Fragment {
                         if (phone != null) tvPhone.setText(phone);
                         if (dob != null) tvDob.setText(dob);
                         if (memberSince != null) tvMemberSince.setText("MEMBER SINCE " + memberSince.toUpperCase());
+
+                        String role = snapshot.child("role").getValue(String.class);
+                        if ("Doctor".equalsIgnoreCase(role)) {
+                            tvHealthRecordsTitle.setVisibility(View.GONE);
+                            cvHealthRecords.setVisibility(View.GONE);
+                        }
                     }
                 }
 

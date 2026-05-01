@@ -83,20 +83,50 @@ public class Login extends AppCompatActivity {
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
-                    progressBar.setVisibility(View.GONE);
-                    btnLogin.setVisibility(View.VISIBLE);
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(Login.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                        
-                        SessionManager sessionManager = new SessionManager(Login.this);
-                        sessionManager.setLogin(true);
-
-                        startActivity(new Intent(Login.this, HomeActivity.class));
-                        finish();
+                        if (user != null) {
+                            fetchUserRole(user.getUid());
+                        }
                     } else {
+                        progressBar.setVisibility(View.GONE);
+                        btnLogin.setVisibility(View.VISIBLE);
                         Toast.makeText(Login.this, "Authentication failed: " + task.getException().getMessage(),
                                 Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void fetchUserRole(String uid) {
+        com.google.firebase.database.FirebaseDatabase.getInstance().getReference()
+                .child("users").child(uid)
+                .get().addOnCompleteListener(task -> {
+                    progressBar.setVisibility(View.GONE);
+                    btnLogin.setVisibility(View.VISIBLE);
+                    
+                    if (task.isSuccessful()) {
+                        com.google.firebase.database.DataSnapshot snapshot = task.getResult();
+                        String role = snapshot.child("role").getValue(String.class);
+                        String name = snapshot.child("name").getValue(String.class);
+                        
+                        if (role == null) role = "Patient";
+                        if (name == null) name = "User";
+
+                        SessionManager sessionManager = new SessionManager(Login.this);
+                        sessionManager.setLogin(true);
+                        sessionManager.setRole(role);
+                        sessionManager.setName(name);
+
+                        Toast.makeText(Login.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+
+                        if (role.equalsIgnoreCase("Doctor")) {
+                            startActivity(new Intent(Login.this, DoctorHomeActivity.class));
+                        } else {
+                            startActivity(new Intent(Login.this, HomeActivity.class));
+                        }
+                        finish();
+                    } else {
+                        Toast.makeText(Login.this, "Error fetching profile: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

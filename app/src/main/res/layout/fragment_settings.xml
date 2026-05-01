@@ -167,6 +167,7 @@
 
         <!-- Health Records -->
         <TextView
+            android:id="@+id/tvHealthRecordsTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -177,6 +178,7 @@
             android:textStyle="bold" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvHealthRecords"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"

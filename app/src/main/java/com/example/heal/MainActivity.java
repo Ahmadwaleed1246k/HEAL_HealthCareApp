@@ -17,7 +17,12 @@ public class MainActivity extends AppCompatActivity {
         
         SessionManager sessionManager = new SessionManager(this);
         if (sessionManager.isLoggedIn()) {
-            startActivity(new Intent(MainActivity.this, HomeActivity.class));
+            String role = sessionManager.getRole();
+            if (role.equals("Doctor")) {
+                startActivity(new Intent(MainActivity.this, DoctorHomeActivity.class));
+            } else {
+                startActivity(new Intent(MainActivity.this, HomeActivity.class));
+            }
             finish();
             return;
         }

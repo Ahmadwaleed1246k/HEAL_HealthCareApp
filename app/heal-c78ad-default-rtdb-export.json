@@ -1,0 +1,787 @@
+{
+  "blood_donation": {
+    "donation_bookings": {
+      "27a86533-e9c0-4887-a6ea-edfc9130c307": {
+        "blood_type": "AB+",
+        "booking_id": "27a86533-e9c0-4887-a6ea-edfc9130c307",
+        "booking_status": "confirmed",
+        "center_id": "center_002",
+        "center_name": "Botanical Heights Clinic",
+        "created_at": "2026-05-01T17:03:51Z",
+        "notes": "Booked via app",
+        "preferred_date": "2026-05-02",
+        "preferred_time_slot": "09:00 AM",
+        "user_id": "GDQgUekHr6Xn0L3HFfAFJjPoiW03",
+        "user_name": "taha atif"
+      },
+      "af3de534-020f-4563-8ad4-1d69ca4fdfe7": {
+        "blood_type": "A+",
+        "booking_id": "af3de534-020f-4563-8ad4-1d69ca4fdfe7",
+        "booking_status": "confirmed",
+        "center_id": "center_001",
+        "center_name": "Ether West Sanctuary",
+        "created_at": "2026-05-01T16:09:52Z",
+        "notes": "Booked via app",
+        "preferred_date": "2026-05-02",
+        "preferred_time_slot": "09:00 AM",
+        "user_id": "4MhLDcLFrFgnYwfN0iP7cCckGa42",
+        "user_name": "Irtaza ali"
+      },
+      "booking_don_001": {
+        "blood_type": "O+",
+        "booking_id": "booking_don_001",
+        "booking_status": "confirmed",
+        "center_id": "center_001",
+        "center_name": "Ether West Sanctuary",
+        "created_at": "2026-05-01T12:30:00Z",
+        "notes": "First time donor - needs eligibility check",
+        "preferred_date": "2026-05-15",
+        "preferred_time_slot": "10:30 AM",
+        "user_id": "4MhLDcLFrFgnYwfN0iP7cCckGa42",
+        "user_name": "Irtaza ali"
+      },
+      "booking_don_002": {
+        "blood_type": "B-",
+        "booking_id": "booking_don_002",
+        "booking_status": "confirmed",
+        "center_id": "center_001",
+        "center_name": "Ether West Sanctuary",
+        "created_at": "2026-05-01T11:15:00Z",
+        "notes": "Returning donor",
+        "preferred_date": "2026-05-10",
+        "preferred_time_slot": "09:00 AM",
+        "user_id": "NmWRPchH19PuwK8QK1U9qpPtAti1",
+        "user_name": "Rahul Sharma"
+      }
+    },
+    "donation_centers": {
+      "center_001": {
+        "address": "842 Health Blvd., Downtown",
+        "amenities": [
+          "Free WiFi",
+          "Post-donation snacks",
+          "Parking available"
+        ],
+        "center_id": "center_001",
+        "contact_phone": "+1 (555) 123-4567",
+        "distance_miles": 2.4,
+        "fast_track_available": true,
+        "name": "Ether West Sanctuary",
+        "operating_hours": {
+          "monday_friday": "08:00 AM - 08:00 PM",
+          "saturday": "09:00 AM - 06:00 PM",
+          "sunday": "10:00 AM - 04:00 PM"
+        },
+        "status": "open"
+      },
+      "center_002": {
+        "address": "12 North Garden Way",
+        "amenities": [
+          "Free parking",
+          "Refreshments"
+        ],
+        "center_id": "center_002",
+        "contact_phone": "+1 (555) 234-5678",
+        "distance_miles": 5.1,
+        "fast_track_available": false,
+        "name": "Botanical Heights Clinic",
+        "operating_hours": {
+          "monday_friday": "09:00 AM - 07:00 PM",
+          "saturday": "10:00 AM - 05:00 PM",
+          "sunday": "Closed"
+        },
+        "status": "open"
+      }
+    },
+    "donation_slots": {
+      "slot_001": {
+        "available_times": [
+          "09:00 AM",
+          "10:30 AM",
+          "01:00 PM",
+          "02:30 PM",
+          "04:00 PM"
+        ],
+        "center_id": "center_001",
+        "date": "2026-05-02",
+        "slot_id": "slot_001"
+      },
+      "slot_002": {
+        "available_times": [
+          "09:30 AM",
+          "11:00 AM",
+          "01:30 PM",
+          "03:00 PM"
+        ],
+        "center_id": "center_001",
+        "date": "2026-05-03",
+        "slot_id": "slot_002"
+      },
+      "slot_003": {
+        "available_times": [
+          "10:00 AM",
+          "11:30 AM",
+          "02:00 PM",
+          "03:30 PM"
+        ],
+        "center_id": "center_002",
+        "date": "2026-05-02",
+        "slot_id": "slot_003"
+      }
+    },
+    "donations": {
+      "donation_001": {
+        "amount_ml": 470,
+        "blood_type": "O+",
+        "center_id": "center_001",
+        "center_name": "Ether West Sanctuary",
+        "donation_date": "2026-05-01T10:30:00Z",
+        "donation_id": "donation_001",
+        "health_check": {
+          "blood_pressure_diastolic": 76,
+          "blood_pressure_systolic": 118,
+          "hemoglobin": 14.2,
+          "pulse": 72,
+          "temperature": 36.8
+        },
+        "notes": "First-time donor. Donation completed successfully.",
+        "status": "successful",
+        "units_donated": 1,
+        "user_id": "4MhLDcLFrFgnYwfN0iP7cCckGa42",
+        "user_name": "Irtaza ali"
+      },
+      "donation_002": {
+        "amount_ml": 470,
+        "blood_type": "A+",
+        "center_id": "center_001",
+        "center_name": "Ether West Sanctuary",
+        "donation_date": "2026-04-15T14:15:00Z",
+        "donation_id": "donation_002",
+        "health_check": {
+          "blood_pressure_diastolic": 78,
+          "blood_pressure_systolic": 122,
+          "hemoglobin": 13.8,
+          "pulse": 68,
+          "temperature": 36.6
+        },
+        "notes": "Regular donor. Second donation this year.",
+        "status": "successful",
+        "units_donated": 1,
+        "user_id": "GDQgUekHr6Xn0L3HFfAFJjPoiW03",
+        "user_name": "taha atif"
+      },
+      "donation_003": {
+        "amount_ml": 470,
+        "blood_type": "B-",
+        "center_id": "center_002",
+        "center_name": "Botanical Heights Clinic",
+        "donation_date": "2026-04-28T11:00:00Z",
+        "donation_id": "donation_003",
+        "health_check": {
+          "blood_pressure_diastolic": 70,
+          "blood_pressure_systolic": 115,
+          "hemoglobin": 14.5,
+          "pulse": 74,
+          "temperature": 36.9
+        },
+        "notes": "Rare blood type donor - B- urgently needed.",
+        "status": "successful",
+        "units_donated": 1,
+        "user_id": "NmWRPchH19PuwK8QK1U9qpPtAti1",
+        "user_name": "Rahul Sharma"
+      }
+    },
+    "eligibility_criteria": {
+      "additional_requirements": [
+        "No tattoos or piercings in the last 6 months",
+        "No travel to malaria-risk zones in the past 12 months",
+        "No major surgery in the past 6 months",
+        "Hemoglobin level minimum 12.5 g/dL",
+        "Blood pressure between 90/60 mmHg and 180/100 mmHg"
+      ],
+      "age_range": {
+        "max": 65,
+        "min": 17
+      },
+      "deferral_periods": {
+        "after_illness_days": 14,
+        "after_pregnancy_months": 6,
+        "after_surgery_months": 6,
+        "after_tattoo_months": 6,
+        "between_donations_days": 56
+      },
+      "general_health_required": true,
+      "min_weight_kg": 50,
+      "min_weight_lbs": 110
+    },
+    "inventory": {
+      "A+": {
+        "blood_type": "A+",
+        "critical_threshold": 15,
+        "last_updated": "2026-05-01T08:00:00Z",
+        "optimal_range": {
+          "max": 80,
+          "min": 30
+        },
+        "status": "Sufficient",
+        "units_available": 42
+      },
+      "A-": {
+        "blood_type": "A-",
+        "critical_threshold": 10,
+        "last_updated": "2026-05-01T08:00:00Z",
+        "optimal_range": {
+          "max": 60,
+          "min": 20
+        },
+        "status": "Adequate",
+        "units_available": 18
+      },
+      "AB+": {
+        "blood_type": "AB+",
+        "critical_threshold": 10,
+        "last_updated": "2026-05-01T08:00:00Z",
+        "optimal_range": {
+          "max": 60,
+          "min": 20
+        },
+        "status": "Stable",
+        "units_available": 25
+      },
+      "AB-": {
+        "blood_type": "AB-",
+        "critical_threshold": 8,
+        "last_updated": "2026-05-01T08:00:00Z",
+        "optimal_range": {
+          "max": 40,
+          "min": 15
+        },
+        "status": "Critical",
+        "units_available": 6
+      },
+      "B+": {
+        "blood_type": "B+",
+        "critical_threshold": 15,
+        "last_updated": "2026-05-01T08:00:00Z",
+        "optimal_range": {
+          "max": 75,
+          "min": 30
+        },
+        "status": "Sufficient",
+        "units_available": 38
+      },
+      "B-": {
+        "blood_type": "B-",
+        "critical_threshold": 10,
+        "last_updated": "2026-05-01T08:00:00Z",
+        "optimal_range": {
+          "max": 55,
+          "min": 20
+        },
+        "status": "Critical",
+        "units_available": 8
+      },
+      "O+": {
+        "blood_type": "O+",
+        "critical_threshold": 15,
+        "last_updated": "2026-05-01T08:00:00Z",
+        "optimal_range": {
+          "max": 100,
+          "min": 40
+        },
+        "status": "Limited",
+        "units_available": 12
+      },
+      "O-": {
+        "blood_type": "O-",
+        "critical_threshold": 12,
+        "last_updated": "2026-05-01T08:00:00Z",
+        "optimal_range": {
+          "max": 70,
+          "min": 25
+        },
+        "status": "Limited",
+        "units_available": 14
+      }
+    }
+  },
+  "doctors": {
+    "doctor_jenny_002": {
+      "about": "Dedicated eye specialist focused on LASIK and cataract surgery. Committed to providing clear vision for all patients.",
+      "availability_status": "available",
+      "consultation_fee": 200000,
+      "doctor_id": "ibbi_009",
+      "experience_years": 8,
+      "hospital_id": "hospital_cengkareng_001",
+      "hospital_location": "Cengkareng, West Jakarta",
+      "hospital_name": "Cengkareng Hospital",
+      "languages": [
+        "Indonesian",
+        "English",
+        "Mandarin"
+      ],
+      "name": "Dr. Ibrahim Ali",
+      "profile_picture": "https://drive.google.com/file/d/1jy-tY4S0PWCg4SCkSvN-zJpY53960Cq4/view?usp=drive_link",
+      "qualifications": [
+        {
+          "degree": "Sp.M - Ophthalmology Specialist",
+          "institution": "University of Indonesia",
+          "year": 2017
+        },
+        {
+          "degree": "MD - Doctor of Medicine",
+          "institution": "Airlangga University",
+          "year": 2012
+        }
+      ],
+      "rating": 4.8,
+      "schedules": [
+        {
+          "date": "2023-07-07",
+          "status": "available",
+          "time": "09:00 AM"
+        },
+        {
+          "date": "2023-07-07",
+          "status": "available",
+          "time": "02:00 PM"
+        }
+      ],
+      "specialization": "Ophthalmologist",
+      "sub_specialties": [
+        "Cataract Surgery",
+        "Glaucoma",
+        "LASIK",
+        "Retina"
+      ],
+      "total_reviews": 203
+    },
+    "doctor_jhon_003": {
+      "about": "Experienced general practitioner focusing on family medicine and preventive care. Known for a friendly and thorough approach.",
+      "availability_status": "available",
+      "consultation_fee": 150000,
+      "doctor_id": "doctor_jhon_003",
+      "experience_years": 15,
+      "hospital_id": "hospital_cengkareng_001",
+      "hospital_location": "Cengkareng, West Jakarta",
+      "hospital_name": "Cengkareng Hospital",
+      "languages": [
+        "Indonesian",
+        "English"
+      ],
+      "name": "dr. Jhon",
+      "profile_picture": "https://res.cloudinary.com/demo/image/upload/v1/doctors/dr_jhon",
+      "qualifications": [
+        {
+          "degree": "MD - Doctor of Medicine",
+          "institution": "Padjadjaran University",
+          "year": 2008
+        }
+      ],
+      "rating": 4.7,
+      "schedules": [
+        {
+          "date": "2023-07-07",
+          "status": "available",
+          "time": "08:00 AM"
+        },
+        {
+          "date": "2023-07-07",
+          "status": "booked",
+          "time": "09:00 AM"
+        },
+        {
+          "date": "2023-07-07",
+          "status": "available",
+          "time": "10:00 AM"
+        },
+        {
+          "date": "2023-07-07",
+          "status": "available",
+          "time": "11:00 AM"
+        }
+      ],
+      "specialization": "General Practitioner",
+      "sub_specialties": [
+        "Family Medicine",
+        "Preventive Care",
+        "Minor Surgery",
+        "Vaccination"
+      ],
+      "total_reviews": 312
+    },
+    "doctor_zubaidah_001": {
+      "about": "Experienced radiologist with over 12 years in diagnostic imaging. Specializes in early detection and precise diagnosis.",
+      "availability_status": "available",
+      "consultation_fee": 250000,
+      "doctor_id": "doctor_zubaidah_001",
+      "experience_years": 12,
+      "hospital_id": "hospital_cengkareng_001",
+      "hospital_location": "Cengkareng, West Jakarta",
+      "hospital_name": "Cengkareng Hospital",
+      "languages": [
+        "Indonesian",
+        "English"
+      ],
+      "name": "dr. Zubaidah",
+      "profile_picture": "https://res.cloudinary.com/demo/image/upload/v1/doctors/dr_zubaidah",
+      "qualifications": [
+        {
+          "degree": "Sp.Rad - Radiology Specialist",
+          "institution": "University of Indonesia",
+          "year": 2014
+        },
+        {
+          "degree": "MD - Doctor of Medicine",
+          "institution": "Gadjah Mada University",
+          "year": 2009
+        }
+      ],
+      "rating": 4.9,
+      "schedules": [
+        {
+          "date": "2023-07-07",
+          "status": "available",
+          "time": "09:00 AM"
+        },
+        {
+          "date": "2023-07-07",
+          "status": "available",
+          "time": "10:00 AM"
+        },
+        {
+          "date": "2023-07-07",
+          "status": "booked",
+          "time": "11:00 AM"
+        }
+      ],
+      "specialization": "Radiology Specialist",
+      "sub_specialties": [
+        "MRI",
+        "CT Scan",
+        "Ultrasound",
+        "X-Ray"
+      ],
+      "total_reviews": 156
+    }
+  },
+  "lab_tests": {
+    "cardiac_wellness": {
+      "available_for_clinic_visit": true,
+      "available_for_home_collection": false,
+      "category": "Cardiology",
+      "description": "Advanced ECG and Stress Monitoring for comprehensive heart health assessment.",
+      "fasting_hours": 0,
+      "fasting_required": false,
+      "markers": [
+        "ECG (Resting)",
+        "Treadmill Stress Test",
+        "Lipoprotein Analysis",
+        "Cardiac Enzymes",
+        "High Sensitivity CRP"
+      ],
+      "name": "Cardiac Wellness",
+      "popular": true,
+      "preparation_instructions": "Avoid caffeine and smoking 4 hours before the test. Wear comfortable clothing.",
+      "price": 299,
+      "test_id": "cardiac_wellness",
+      "turnaround_time": "48h"
+    },
+    "comprehensive_blood_work": {
+      "available_for_clinic_visit": true,
+      "available_for_home_collection": true,
+      "category": "Blood Tests",
+      "description": "Full lipid profiles, metabolic panels, and specialized endocrine screening.",
+      "fasting_hours": 10,
+      "fasting_required": true,
+      "markers": [
+        "Complete Blood Count",
+        "Comprehensive Metabolic Panel",
+        "Lipid Panel",
+        "Iron Panel",
+        "Thyroid Stimulating Hormone",
+        "HbA1c"
+      ],
+      "name": "Comprehensive Blood Work",
+      "popular": true,
+      "preparation_instructions": "Fast for 10-12 hours. Water is allowed. Avoid alcohol for 24 hours.",
+      "price": 149,
+      "test_id": "comprehensive_blood_work",
+      "turnaround_time": "36h"
+    },
+    "dna_genetic_screening": {
+      "available_for_clinic_visit": true,
+      "available_for_home_collection": true,
+      "category": "Genetics",
+      "description": "Genetic screening for ancestry and health risk markers to understand your predispositions.",
+      "fasting_hours": 0,
+      "fasting_required": false,
+      "markers": [
+        "Ancestry Analysis",
+        "Nutrigenomics",
+        "Pharmacogenomics",
+        "Disease Risk Markers",
+        "Carrier Status Screening"
+      ],
+      "name": "DNA Genetic Screening",
+      "popular": false,
+      "preparation_instructions": "No special preparation required. Results delivered digitally.",
+      "price": 499,
+      "test_id": "dna_genetic_screening",
+      "turnaround_time": "72h"
+    },
+    "executive_health_panel": {
+      "available_for_clinic_visit": true,
+      "available_for_home_collection": true,
+      "category": "Wellness Package",
+      "description": "A holistic overview of your health including 45 markers: Cardiac risk, Liver function, Kidney function, and Iron levels.",
+      "fasting_hours": 10,
+      "fasting_required": true,
+      "markers": [
+        "Cardiac Risk Profile",
+        "Liver Function Tests",
+        "Kidney Function Tests",
+        "Iron Studies",
+        "Lipid Profile",
+        "Complete Blood Count",
+        "Blood Glucose",
+        "Thyroid Profile"
+      ],
+      "name": "Executive Health Panel",
+      "popular": true,
+      "preparation_instructions": "Fast for at least 10 hours (water allowed). Avoid strenuous exercise 24h prior.",
+      "price": 189,
+      "test_id": "executive_health_panel",
+      "turnaround_time": "24h"
+    },
+    "imaging_radiology": {
+      "available_for_clinic_visit": true,
+      "available_for_home_collection": false,
+      "category": "Imaging",
+      "description": "X-Ray, MRI, and Advanced Sonography for accurate diagnostic imaging.",
+      "fasting_hours": 0,
+      "fasting_required": false,
+      "markers": [
+        "Digital X-Ray",
+        "MRI Scan",
+        "Ultrasound",
+        "CT Scan",
+        "Doppler Study"
+      ],
+      "name": "Imaging & Radiology",
+      "popular": false,
+      "preparation_instructions": "Bring previous reports if available. Inform about pregnancy before the scan.",
+      "price": 399,
+      "test_id": "imaging_radiology",
+      "turnaround_time": "24h"
+    },
+    "lipid_profile_basic": {
+      "available_for_clinic_visit": true,
+      "available_for_home_collection": true,
+      "category": "Blood Tests",
+      "description": "Basic screening for cholesterol and triglycerides to assess cardiovascular risk.",
+      "fasting_hours": 9,
+      "fasting_required": true,
+      "markers": [
+        "Total Cholesterol",
+        "HDL Cholesterol",
+        "LDL Cholesterol",
+        "Triglycerides",
+        "VLDL"
+      ],
+      "name": "Lipid Profile Basic",
+      "popular": true,
+      "preparation_instructions": "Fast for 9-12 hours. Water only.",
+      "price": 59,
+      "test_id": "lipid_profile_basic",
+      "turnaround_time": "12h"
+    },
+    "liver_function_test": {
+      "available_for_clinic_visit": true,
+      "available_for_home_collection": true,
+      "category": "Organ Function",
+      "description": "Comprehensive evaluation of liver health and function.",
+      "fasting_hours": 8,
+      "fasting_required": true,
+      "markers": [
+        "ALT (SGPT)",
+        "AST (SGOT)",
+        "ALP",
+        "Total Protein",
+        "Albumin",
+        "Globulin",
+        "Bilirubin (Total, Direct, Indirect)"
+      ],
+      "name": "Liver Function Test",
+      "popular": false,
+      "preparation_instructions": "Fast for 8 hours. Avoid alcohol for 48 hours before the test.",
+      "price": 79,
+      "test_id": "liver_function_test",
+      "turnaround_time": "24h"
+    },
+    "thyroid_profile": {
+      "available_for_clinic_visit": true,
+      "available_for_home_collection": true,
+      "category": "Hormone Tests",
+      "description": "Complete thyroid function assessment for metabolism and energy regulation.",
+      "fasting_hours": 0,
+      "fasting_required": false,
+      "markers": [
+        "T3 (Triiodothyronine)",
+        "T4 (Thyroxine)",
+        "TSH (Thyroid Stimulating Hormone)"
+      ],
+      "name": "Thyroid Profile",
+      "popular": true,
+      "preparation_instructions": "No fasting required. Take medications as usual.",
+      "price": 69,
+      "test_id": "thyroid_profile",
+      "turnaround_time": "24h"
+    },
+    "vitamin_d_b12_panel": {
+      "available_for_clinic_visit": true,
+      "available_for_home_collection": true,
+      "category": "Nutritional Assessment",
+      "description": "Essential micronutrient screening for energy levels, bone health, and immunity. Recommended every 6 months.",
+      "fasting_hours": 0,
+      "fasting_required": false,
+      "markers": [
+        "Vitamin D (25-Hydroxy)",
+        "Vitamin B12",
+        "Folate",
+        "Homocysteine"
+      ],
+      "name": "Vitamin D & B12 Panel",
+      "popular": true,
+      "preparation_instructions": "No fasting required. Avoid taking vitamin supplements 24 hours before the test.",
+      "price": 89,
+      "test_id": "vitamin_d_b12_panel",
+      "turnaround_time": "12h"
+    }
+  },
+  "test_bookings": {
+    "0c4bc33f-e552-4980-b82e-7de5d95f82c1": {
+      "appointment_type": "clinic_visit",
+      "booking_date": "2026-05-01",
+      "booking_id": "0c4bc33f-e552-4980-b82e-7de5d95f82c1",
+      "created_at": "2026-05-01T12:20:01Z",
+      "payment_status": "pending",
+      "preferred_date": "2026-05-13",
+      "preparation_instructions": "Avoid caffeine and smoking 4 hours before the test. Wear comfortable clothing.",
+      "status": "confirmed",
+      "test_id": "cardiac_wellness",
+      "test_name": "Cardiac Wellness",
+      "time_slot": "11:00 AM",
+      "total_amount": 299,
+      "user_id": "GDQgUekHr6Xn0L3HFfAFJjPoiW03",
+      "user_name": "taha atif"
+    },
+    "5edd4a41-9b19-4900-8443-59006f20a0f5": {
+      "appointment_type": "home_collection",
+      "booking_date": "2026-04-29",
+      "booking_id": "5edd4a41-9b19-4900-8443-59006f20a0f5",
+      "created_at": "2026-04-29T19:48:25Z",
+      "payment_status": "pending",
+      "preferred_date": "2026-05-13",
+      "preparation_instructions": "Fast for 10-12 hours. Water is allowed. Avoid alcohol for 24 hours.",
+      "status": "confirmed",
+      "test_id": "comprehensive_blood_work",
+      "test_name": "Comprehensive Blood Work",
+      "time_slot": "11:00 AM",
+      "total_amount": 149,
+      "user_id": "4MhLDcLFrFgnYwfN0iP7cCckGa42",
+      "user_name": "Irtaza ali"
+    },
+    "a25efe10-0133-4b77-b714-32aee05f190e": {
+      "appointment_type": "clinic_visit",
+      "booking_date": "2026-05-01",
+      "booking_id": "a25efe10-0133-4b77-b714-32aee05f190e",
+      "created_at": "2026-05-01T12:21:27Z",
+      "payment_status": "pending",
+      "preferred_date": "2026-05-12",
+      "preparation_instructions": "No fasting required. Avoid taking vitamin supplements 24 hours before the test.",
+      "status": "confirmed",
+      "test_id": "vitamin_d_b12_panel",
+      "test_name": "Vitamin D & B12 Panel",
+      "time_slot": "09:00 AM",
+      "total_amount": 89,
+      "user_id": "GDQgUekHr6Xn0L3HFfAFJjPoiW03",
+      "user_name": "taha atif"
+    },
+    "booking_001": {
+      "appointment_type": "clinic_visit",
+      "booking_date": "2026-04-29",
+      "booking_id": "booking_001",
+      "created_at": "2026-04-29T10:30:00Z",
+      "payment_status": "pending",
+      "preferred_date": "2026-05-05",
+      "preparation_instructions": "Fast for at least 10 hours (water allowed). Avoid strenuous exercise 24h prior.",
+      "status": "confirmed",
+      "test_id": "executive_health_panel",
+      "test_name": "Executive Health Panel",
+      "time_slot": "09:30 AM",
+      "total_amount": 189,
+      "user_id": "4MhLDcLFrFgnYwfN0iP7cCckGa42",
+      "user_name": "Irtaza ali"
+    }
+  },
+  "users": {
+    "4MhLDcLFrFgnYwfN0iP7cCckGa42": {
+      "dob": "28/4/1998",
+      "email": "irtaza@gmail.com",
+      "gender": "Male",
+      "maritalStatus": "Married",
+      "memberSince": "April",
+      "name": "Irtaza ali",
+      "phone": "1111111111111111111"
+    },
+    "GDQgUekHr6Xn0L3HFfAFJjPoiW03": {
+      "dob": "3/4/2025",
+      "email": "taha@gmail.com",
+      "gender": "Male",
+      "maritalStatus": "Married",
+      "memberSince": "29 April 2026",
+      "name": "taha atif",
+      "phone": "0317-4567889"
+    },
+    "NmWRPchH19PuwK8QK1U9qpPtAti1": {
+      "date_of_birth": "1995-03-15",
+      "email": "rahul@gmail.com",
+      "gender": "male",
+      "marital_status": "unmarried",
+      "member_since": {
+        "day": 27,
+        "month": "April",
+        "month_number": 4,
+        "year": 2026
+      },
+      "name": "Rahul Sharma"
+    },
+    "hYIunQe90OZdbb4w8BEMnGRSLWL2": {
+      "about": "Been serving for 15 years non proefessionally and 3 years professionally in this field.",
+      "availability_status": "available",
+      "consultation_fee": 90000,
+      "doctor_id": "hYIunQe90OZdbb4w8BEMnGRSLWL2",
+      "email": "waleed@gmail.com",
+      "experience_years": 3,
+      "hospital_location": "Lahore",
+      "hospital_name": "Fatima Jinnah Hospital",
+      "languages": [
+        "English"
+      ],
+      "name": "Waleed Malik",
+      "profile_picture": "",
+      "qualifications": [
+        {
+          "degree": "MBBS",
+          "institution": "Medical University",
+          "year": 2024
+        }
+      ],
+      "rating": 5,
+      "role": "Doctor",
+      "specialization": "Cardeologist",
+      "total_reviews": 0
+    }
+  }
+}

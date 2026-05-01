@@ -44,6 +44,12 @@ public class HomeFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
+        SessionManager sessionManager = new SessionManager(getActivity());
+        String cachedName = sessionManager.getName();
+        if (!cachedName.isEmpty()) {
+            tvUserName.setText(cachedName);
+        }
+
         setupTopSpecialists(view);
         setupClickListeners(view);
         fetchUserProfile();
@@ -60,7 +66,9 @@ public class HomeFragment extends Fragment {
         view.findViewById(R.id.btnDoctors).setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), SpecialistsActivity.class));
         });
-        view.findViewById(R.id.btnPrescription).setOnClickListener(v -> showToast("Prescription Service"));
+        view.findViewById(R.id.btnPrescription).setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), UserPrescriptionsActivity.class));
+        });
         view.findViewById(R.id.btnCheckup).setOnClickListener(v -> showToast("Check-up Service"));
         View btnLocation = view.findViewById(R.id.btnLocation);
         if (btnLocation != null) {
@@ -87,7 +95,9 @@ public class HomeFragment extends Fragment {
         rvTopSpecialists.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         topDoctors = new ArrayList<>();
         doctorAdapter = new DoctorAdapter(getActivity(), topDoctors, true, doctor -> {
-            Toast.makeText(getActivity(), "Doctor: " + doctor.getName(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getActivity(), AppointmentBookingActivity.class);
+            intent.putExtra("doctor", doctor);
+            startActivity(intent);
         });
         rvTopSpecialists.setAdapter(doctorAdapter);
     }
@@ -126,6 +136,7 @@ public class HomeFragment extends Fragment {
                         String name = snapshot.child("name").getValue(String.class);
                         if (name != null) {
                             tvUserName.setText(name);
+                            new SessionManager(getActivity()).setName(name);
                         }
                     }
                 }
