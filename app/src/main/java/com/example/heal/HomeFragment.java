@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +62,12 @@ public class HomeFragment extends Fragment {
         });
         view.findViewById(R.id.btnPrescription).setOnClickListener(v -> showToast("Prescription Service"));
         view.findViewById(R.id.btnCheckup).setOnClickListener(v -> showToast("Check-up Service"));
-        view.findViewById(R.id.btnLocation).setOnClickListener(v -> showToast("Location Service"));
+        View btnLocation = view.findViewById(R.id.btnLocation);
+        if (btnLocation != null) {
+            btnLocation.setOnClickListener(v -> {
+                startActivity(new Intent(getActivity(), FindCareActivity.class));
+            });
+        }
         view.findViewById(R.id.btnHospital).setOnClickListener(v -> showToast("Hospital Service"));
         view.findViewById(R.id.btnLabTests).setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), LabTestsActivity.class));

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8FAFA"> <!-- Light clean background -->
+
+    <!-- Top Bar -->
+    <LinearLayout
+        android:id="@+id/llTopBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_back"
+            app:tint="#004D40"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Digital Sanctuary"
+            android:textColor="#004D40"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginStart="16dp" />
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_profile_placeholder"
+            android:background="@drawable/bg_circle"
+            android:clipToOutline="true"/>
+    </LinearLayout>
+
+    <!-- Header Section -->
+    <LinearLayout
+        android:id="@+id/llHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintTop_toBottomOf="@id/llTopBar">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Find Care Nearby"
+            android:textColor="#1A1A1A"
+            android:textSize="28sp"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Locate specialized medical sanctuaries with real-time wait estimations and expert staff."
+            android:textColor="#757575"
+            android:textSize="12sp"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Search Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_search_bar"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="12dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_search"
+                app:tint="#9E9E9E"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:background="@null"
+                android:hint="Search hospital or specialty..."
+                android:textColorHint="#9E9E9E"
+                android:textSize="14sp"
+                android:inputType="text"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Map View Section (Bottom 35%) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvMapContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="4dp"
+        app:layout_constraintHeight_percent="0.35"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <org.osmdroid.views.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- Floating Searching Near overlay -->
+        <LinearLayout
+            android:id="@+id/llSearchingNear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/bg_card_white_rounded"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_location"
+                app:tint="#00695C"/>
+                
+            <TextView
+                android:id="@+id/tvSearchingNear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Locating you..."
+                android:textColor="#212121"
+                android:textSize="12sp"
+                android:fontFamily="sans-serif-medium"/>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Hospital List (RecyclerView) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHospitals"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:paddingHorizontal="16dp"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        app:layout_constraintTop_toBottomOf="@id/llHeader"
+        app:layout_constraintBottom_toTopOf="@id/cvMapContainer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
