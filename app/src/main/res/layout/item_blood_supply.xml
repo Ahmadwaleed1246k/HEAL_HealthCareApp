@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@color/white"
+    android:outlineProvider="bounds">
+    
+    <!-- Using a drawable for stroke as CardView stroke isn't always reliable on older APIs -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp"
+        android:background="@drawable/bg_card_white_rounded">
+
+        <TextView
+            android:id="@+id/tvBloodType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A+"
+            android:textColor="#212121"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif-black" />
+
+        <!-- Status Indicator Line -->
+        <View
+            android:id="@+id/vStatusLine"
+            android:layout_width="40dp"
+            android:layout_height="3dp"
+            android:layout_marginTop="8dp"
+            android:background="#00897B" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Sufficient"
+            android:textColor="#757575"
+            android:textSize="10sp"
+            android:fontFamily="sans-serif-medium"
+            android:textAllCaps="true" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_card_white_rounded"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp"
+    android:gravity="center_vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:cardCornerRadius="12dp"
+        app:cardBackgroundColor="#E0F2F1"
+        app:cardElevation="0dp">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_location"
+            app:tint="#00695C" />
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="16dp">
+
+        <TextView
+            android:id="@+id/tvCenterName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ether West\nSanctuary"
+            android:textColor="#004D40"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-bold"
+            android:lineSpacingExtra="2dp" />
+
+        <TextView
+            android:id="@+id/tvAddressDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="842 Health Blvd, Downtown • 2.4 miles"
+            android:textColor="@color/colorSecondary"
+            android:textSize="10sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+            
+            <TextView
+                android:id="@+id/tvStatusOpen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_blood_badge"
+                android:backgroundTint="#E8F5E9"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:text="OPEN\nNOW"
+                android:textColor="#2E7D32"
+                android:textSize="8sp"
+                android:fontFamily="sans-serif-bold"
+                android:gravity="center" />
+                
+            <TextView
+                android:id="@+id/tvFastTrack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_blood_badge"
+                android:backgroundTint="#EEEEEE"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:text="FAST TRACK\nAVAILABLE"
+                android:textColor="#616161"
+                android:textSize="8sp"
+                android:fontFamily="sans-serif-bold"
+                android:gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_home"
+        android:rotation="270"
+        app:tint="#BDBDBD" />
+</LinearLayout>

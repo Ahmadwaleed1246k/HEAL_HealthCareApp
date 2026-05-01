@@ -53,7 +53,9 @@ public class HomeFragment extends Fragment {
 
     private void setupClickListeners(View view) {
         view.findViewById(R.id.btnEmergency).setOnClickListener(v -> showToast("Emergency Service"));
-        view.findViewById(R.id.btnBlood).setOnClickListener(v -> showToast("Blood Donation Service"));
+        view.findViewById(R.id.btnBlood).setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), BloodDonationActivity.class));
+        });
         view.findViewById(R.id.btnDoctors).setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), SpecialistsActivity.class));
         });

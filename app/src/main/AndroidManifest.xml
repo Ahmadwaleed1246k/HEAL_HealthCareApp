@@ -23,6 +23,9 @@
             android:name=".SpecialistsActivity"
             android:exported="false" />
         <activity
+            android:name=".BloodDonationActivity"
+            android:exported="false" />
+        <activity
             android:name=".LabTestsActivity"
             android:exported="false" />
         <activity

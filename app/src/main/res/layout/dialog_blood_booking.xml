@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/bg_card_white_rounded">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirm Booking"
+        android:textColor="#004D40"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-bold"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvBookingSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Center: \nDate: \nTime: "
+        android:textColor="@color/colorSecondary"
+        android:textSize="14sp"
+        android:lineSpacingExtra="2dp"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Blood Type"
+        android:textColor="#212121"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginBottom="8dp"/>
+
+    <Spinner
+        android:id="@+id/spinnerBloodType"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_card_white_rounded"
+        android:paddingHorizontal="12dp"
+        android:layout_marginBottom="16dp"/>
+
+    <CheckBox
+        android:id="@+id/cbConsent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="I confirm I meet all eligibility requirements and consent to donate."
+        android:textColor="#212121"
+        android:textSize="12sp"
+        android:buttonTint="#00897B"
+        android:layout_marginBottom="24dp"/>
+
+    <TextView
+        android:id="@+id/btnFinalBook"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/gradient_teal"
+        android:gravity="center"
+        android:text="Confirm &amp; Book"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-bold"
+        android:textSize="14sp" />
+</LinearLayout>

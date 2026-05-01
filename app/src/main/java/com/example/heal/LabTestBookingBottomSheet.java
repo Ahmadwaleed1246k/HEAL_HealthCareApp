@@ -31,7 +31,8 @@ public class LabTestBookingBottomSheet extends BottomSheetDialogFragment {
     private LabTest labTest;
     private String appointmentType = "clinic_visit";
     private String timeSlot = "09:00 AM";
-    private String preferredDate = "2026-05-12";
+    private String preferredDate;
+    private String date1Value, date2Value, date3Value;
 
     public LabTestBookingBottomSheet(LabTest labTest) {
         this.labTest = labTest;
@@ -64,6 +65,30 @@ public class LabTestBookingBottomSheet extends BottomSheetDialogFragment {
         TextView btnTime9 = view.findViewById(R.id.btnTime9);
         TextView btnTime11 = view.findViewById(R.id.btnTime11);
 
+        // Initialize Dates
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        SimpleDateFormat dayFormat = new SimpleDateFormat("EEE", Locale.getDefault());
+        SimpleDateFormat numFormat = new SimpleDateFormat("dd", Locale.getDefault());
+        SimpleDateFormat valueFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        // Date 1 (Today)
+        date1Value = valueFormat.format(calendar.getTime());
+        tvDate1Day.setText(dayFormat.format(calendar.getTime()).toUpperCase());
+        tvDate1Num.setText(numFormat.format(calendar.getTime()));
+        preferredDate = date1Value;
+
+        // Date 2 (Tomorrow)
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
+        date2Value = valueFormat.format(calendar.getTime());
+        tvDate2Day.setText(dayFormat.format(calendar.getTime()).toUpperCase());
+        tvDate2Num.setText(numFormat.format(calendar.getTime()));
+
+        // Date 3 (Day after Tomorrow)
+        calendar.add(java.util.Calendar.DAY_OF_YEAR, 1);
+        date3Value = valueFormat.format(calendar.getTime());
+        tvDate3Day.setText(dayFormat.format(calendar.getTime()).toUpperCase());
+        tvDate3Num.setText(numFormat.format(calendar.getTime()));
+
         tvPrepInstructions.setText(labTest.getPreparation_instructions());
         btnConfirmAppointment.setText("Confirm Appointment + $" + String.format("%.2f", labTest.getPrice()));
 
@@ -88,7 +113,7 @@ public class LabTestBookingBottomSheet extends BottomSheetDialogFragment {
         });
         
         btnDate1.setOnClickListener(v -> {
-            preferredDate = "2026-05-12";
+            preferredDate = date1Value;
             btnDate1.setBackgroundResource(R.drawable.bg_tab_active);
             tvDate1Day.setTextColor(getResources().getColor(R.color.white));
             tvDate1Num.setTextColor(getResources().getColor(R.color.white));
@@ -103,7 +128,7 @@ public class LabTestBookingBottomSheet extends BottomSheetDialogFragment {
         });
         
         btnDate2.setOnClickListener(v -> {
-            preferredDate = "2026-05-13";
+            preferredDate = date2Value;
             btnDate2.setBackgroundResource(R.drawable.bg_tab_active);
             tvDate2Day.setTextColor(getResources().getColor(R.color.white));
             tvDate2Num.setTextColor(getResources().getColor(R.color.white));
@@ -118,7 +143,7 @@ public class LabTestBookingBottomSheet extends BottomSheetDialogFragment {
         });
         
         btnDate3.setOnClickListener(v -> {
-            preferredDate = "2026-05-14";
+            preferredDate = date3Value;
             btnDate3.setBackgroundResource(R.drawable.bg_tab_active);
             tvDate3Day.setTextColor(getResources().getColor(R.color.white));
             tvDate3Num.setTextColor(getResources().getColor(R.color.white));
