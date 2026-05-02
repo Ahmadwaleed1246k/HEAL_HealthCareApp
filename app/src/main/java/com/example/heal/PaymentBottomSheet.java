@@ -60,12 +60,12 @@ public class PaymentBottomSheet extends BottomSheetDialogFragment {
 
         btnPay.setOnClickListener(v -> {
             String acct = etAccount.getText().toString().trim();
-            if (acct.length() != 14) {
+            if (acct.length() != 16) {
                 tvError.setVisibility(View.VISIBLE);
-                tvError.setText("Account number must be exactly 14 digits.");
+                tvError.setText("Account number must be exactly 16 digits.");
                 return;
             }
-            if (!acct.matches("\\d{14}")) {
+            if (!acct.matches("\\d{16}")) {
                 tvError.setVisibility(View.VISIBLE);
                 tvError.setText("Only digits allowed.");
                 return;

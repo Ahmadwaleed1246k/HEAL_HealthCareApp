@@ -137,8 +137,8 @@ public class AppointmentBookingActivity extends AppCompatActivity {
         }
 
         String cardNumber = etCardNumber.getText().toString().trim();
-        if (cardNumber.length() != 14) {
-            etCardNumber.setError("Please enter a valid 14-digit card number");
+        if (cardNumber.length() != 16) {
+            etCardNumber.setError("Please enter a valid 16-digit card number");
             return;
         }
 
