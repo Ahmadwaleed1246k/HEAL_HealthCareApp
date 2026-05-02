@@ -55,7 +55,7 @@ public class DoctorAppointmentsFragment extends Fragment {
         rvAppointments.setLayoutManager(new LinearLayoutManager(getContext()));
         appointmentList = new ArrayList<>();
         
-        adapter = new AppointmentAdapter(getContext(), appointmentList, true, new AppointmentAdapter.OnAppointmentActionListener() {
+        adapter = new AppointmentAdapter(getContext(), appointmentList, true, false, new AppointmentAdapter.OnAppointmentActionListener() {
             @Override
             public void onAccept(Appointment appointment) {
                 updateAppointmentStatus(appointment, "accepted");
@@ -83,6 +83,11 @@ public class DoctorAppointmentsFragment extends Fragment {
                 intent.putExtra("patientId", appointment.getPatientId());
                 intent.putExtra("patientName", appointment.getPatientName());
                 startActivity(intent);
+            }
+
+            @Override
+            public void onItemClick(Appointment appointment) {
+                showDetailDialog(appointment);
             }
         });
         rvAppointments.setAdapter(adapter);
@@ -206,5 +211,28 @@ public class DoctorAppointmentsFragment extends Fragment {
         });
 
         picker.show(getChildFragmentManager(), "RESCHEDULE_PICKER");
+    }
+
+    private void showDetailDialog(Appointment appt) {
+        StringBuilder detail = new StringBuilder();
+        detail.append("Date: ").append(appt.getDate()).append("\n");
+        detail.append("Time: ").append(appt.getTime()).append("\n");
+        detail.append("Patient: ").append(appt.getPatientName()).append("\n");
+        detail.append("Status: ").append(appt.getStatus().toUpperCase()).append("\n");
+        if (appt.getType() != null && appt.getType().equals("room")) {
+            detail.append("Hospital: ").append(appt.getHospitalName()).append("\n");
+            detail.append("Room: ").append(appt.getRoomNumber()).append("\n");
+        } else {
+            detail.append("Consultation Fee: $").append(appt.getConsultationFee()).append("\n");
+        }
+        if (appt.getNotes() != null && !appt.getNotes().isEmpty()) {
+            detail.append("\nNotes:\n").append(appt.getNotes());
+        }
+
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(getContext())
+                .setTitle("Appointment Details")
+                .setMessage(detail.toString())
+                .setPositiveButton("Close", null)
+                .show();
     }
 }

@@ -46,7 +46,7 @@ public class DoctorPrescriptionsFragment extends Fragment {
         rvPrescriptions.setLayoutManager(new LinearLayoutManager(getContext()));
         appointmentList = new ArrayList<>();
         
-        adapter = new AppointmentAdapter(getContext(), appointmentList, true, new AppointmentAdapter.OnAppointmentActionListener() {
+        adapter = new AppointmentAdapter(getContext(), appointmentList, true, false, new AppointmentAdapter.OnAppointmentActionListener() {
             @Override public void onAccept(Appointment appointment) {}
             @Override public void onReject(Appointment appointment) {}
             @Override public void onReschedule(Appointment appointment) {}
@@ -57,6 +57,9 @@ public class DoctorPrescriptionsFragment extends Fragment {
                 intent.putExtra("patientId", appointment.getPatientId());
                 intent.putExtra("patientName", appointment.getPatientName());
                 startActivity(intent);
+            }
+            @Override public void onItemClick(Appointment appointment) {
+                showDetailDialog(appointment);
             }
         });
         rvPrescriptions.setAdapter(adapter);
@@ -97,5 +100,22 @@ public class DoctorPrescriptionsFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void showDetailDialog(Appointment appt) {
+        StringBuilder detail = new StringBuilder();
+        detail.append("Date: ").append(appt.getDate()).append("\n");
+        detail.append("Time: ").append(appt.getTime()).append("\n");
+        detail.append("Patient: ").append(appt.getPatientName()).append("\n");
+        detail.append("Status: ").append(appt.getStatus().toUpperCase()).append("\n");
+        if (appt.getNotes() != null && !appt.getNotes().isEmpty()) {
+            detail.append("\nNotes:\n").append(appt.getNotes());
+        }
+
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(getContext())
+                .setTitle("Appointment Details")
+                .setMessage(detail.toString())
+                .setPositiveButton("Close", null)
+                .show();
     }
 }

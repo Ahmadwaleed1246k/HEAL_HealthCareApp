@@ -35,6 +35,7 @@
         <activity android:name=".PrescriptionActivity" />
         <activity android:name=".UserPrescriptionsActivity" />
         <activity android:name=".UserLabBookingsActivity" />
+        <activity android:name=".UserMedicalHistoryActivity" />
         <activity android:name=".AiLabQuestionsActivity" android:exported="false"/>
         <activity android:name=".ResultDetailActivity" android:exported="false"/>
         <activity android:name=".HeartRateActivity" android:exported="false"/>

@@ -16,6 +16,7 @@ public class Appointment {
     private String hospitalName;
     private double consultationFee;
     private String cardNumber;
+    private boolean dismissed;
 
     public Appointment() {
         // Required for Firebase
@@ -75,4 +76,7 @@ public class Appointment {
     public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
     public String getHospitalName() { return hospitalName; }
     public void setHospitalName(String hospitalName) { this.hospitalName = hospitalName; }
+    
+    public boolean isDismissed() { return dismissed; }
+    public void setDismissed(boolean dismissed) { this.dismissed = dismissed; }
 }

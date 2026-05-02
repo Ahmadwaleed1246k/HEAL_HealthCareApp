@@ -18,8 +18,9 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
     private Context context;
     private List<Appointment> appointmentList;
-    private OnAppointmentActionListener listener;
     private boolean isDoctor;
+    private boolean isHistoryMode;
+    private OnAppointmentActionListener listener;
 
     public interface OnAppointmentActionListener {
         void onAccept(Appointment appointment);
@@ -27,12 +28,14 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         void onReschedule(Appointment appointment);
         void onCancel(Appointment appointment);
         void onPrescribe(Appointment appointment);
+        void onItemClick(Appointment appointment);
     }
 
-    public AppointmentAdapter(Context context, List<Appointment> appointmentList, boolean isDoctor, OnAppointmentActionListener listener) {
+    public AppointmentAdapter(Context context, List<Appointment> appointmentList, boolean isDoctor, boolean isHistoryMode, OnAppointmentActionListener listener) {
         this.context = context;
         this.appointmentList = appointmentList;
         this.isDoctor = isDoctor;
+        this.isHistoryMode = isHistoryMode;
         this.listener = listener;
     }
 
@@ -86,6 +89,11 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                 holder.tvStatus.setTextColor(android.graphics.Color.parseColor("#F57C00"));
                 holder.tvStatus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#FFF3E0")));
                 break;
+            case "prescribed":
+            case "completed":
+                holder.tvStatus.setTextColor(android.graphics.Color.parseColor("#1976D2"));
+                holder.tvStatus.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#E3F2FD")));
+                break;
         }
 
         if (appointment.getNotes() != null && !appointment.getNotes().isEmpty()) {
@@ -95,7 +103,9 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             holder.tvNotes.setVisibility(View.GONE);
         }
 
-        if (isDoctor) {
+        if (isHistoryMode) {
+            holder.llActions.setVisibility(View.GONE);
+        } else if (isDoctor) {
             holder.btnCancel.setVisibility(View.GONE);
             if (appointment.getStatus().equalsIgnoreCase("pending") || appointment.getStatus().equalsIgnoreCase("rescheduled")) {
                 holder.llActions.setVisibility(View.VISIBLE);
@@ -123,15 +133,18 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             if (status.equals("accepted") || status.equals("pending") || status.equals("rescheduled") || status.equals("confirmed")) {
                 holder.btnCancel.setVisibility(View.VISIBLE);
                 holder.btnCancel.setText("Cancel");
-                holder.btnCancel.setTextColor(android.graphics.Color.RED);
+                holder.btnCancel.setTextColor(android.graphics.Color.parseColor("#D32F2F"));
+                holder.btnCancel.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#FFEBEE")));
                 holder.btnCancel.setOnClickListener(v -> listener.onCancel(appointment));
-            } else if (status.equals("cancelled_by_doctor")) {
+            } else if (status.equals("cancelled_by_doctor") || status.equals("prescribed") || status.equals("completed") || status.equals("rejected") || status.equals("cancelled")) {
                 holder.btnCancel.setVisibility(View.VISIBLE);
                 holder.btnCancel.setText("Dismiss");
-                holder.btnCancel.setTextColor(android.graphics.Color.RED);
-                holder.btnCancel.setOnClickListener(v -> listener.onCancel(appointment));
+                holder.btnCancel.setTextColor(android.graphics.Color.parseColor("#F57C00"));
+                holder.btnCancel.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#FFF3E0")));
+                holder.btnCancel.setOnClickListener(v -> listener.onCancel(appointment)); // onCancel will handle dismissal in ScheduleFragment
             } else {
                 holder.btnCancel.setVisibility(View.GONE);
+                holder.llActions.setVisibility(View.GONE);
             }
         }
 
@@ -139,6 +152,10 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         holder.btnReject.setOnClickListener(v -> listener.onReject(appointment));
         holder.btnReschedule.setOnClickListener(v -> listener.onReschedule(appointment));
         holder.btnPrescribe.setOnClickListener(v -> listener.onPrescribe(appointment));
+        
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onItemClick(appointment);
+        });
     }
 
     @Override

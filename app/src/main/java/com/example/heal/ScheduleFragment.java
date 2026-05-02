@@ -54,7 +54,7 @@ public class ScheduleFragment extends Fragment {
         appointmentList = new ArrayList<>();
         
         // Patients can't accept/reject/reschedule from here in this version
-        adapter = new AppointmentAdapter(getContext(), appointmentList, false, new AppointmentAdapter.OnAppointmentActionListener() {
+        adapter = new AppointmentAdapter(getContext(), appointmentList, false, false, new AppointmentAdapter.OnAppointmentActionListener() {
             @Override public void onAccept(Appointment appointment) {}
             @Override public void onReject(Appointment appointment) {}
             @Override public void onReschedule(Appointment appointment) {}
@@ -62,6 +62,9 @@ public class ScheduleFragment extends Fragment {
                 cancelItem(appointment);
             }
             @Override public void onPrescribe(Appointment appointment) {}
+            @Override public void onItemClick(Appointment appointment) {
+                showDetailDialog(appointment);
+            }
         });
         rvSchedule.setAdapter(adapter);
 
@@ -72,9 +75,27 @@ public class ScheduleFragment extends Fragment {
     }
 
     private void cancelItem(Appointment item) {
+        String userId = FirebaseAuth.getInstance().getUid();
+        if (userId == null) return;
+
         String node = item.getType().equals("room") ? "room_bookings" : "appointments";
-        FirebaseDatabase.getInstance().getReference(node).child(item.getAppointmentId()).removeValue()
-            .addOnSuccessListener(aVoid -> android.widget.Toast.makeText(getContext(), item.getType().equals("room") ? "Booking cancelled" : "Appointment cancelled", android.widget.Toast.LENGTH_SHORT).show());
+        String status = item.getStatus().toLowerCase();
+
+        if (status.equals("cancelled_by_doctor") || status.equals("prescribed") || status.equals("completed") || status.equals("rejected") || status.equals("cancelled")) {
+            // Move to medical_history node
+            DatabaseReference historyRef = FirebaseDatabase.getInstance().getReference("medical_history")
+                    .child(userId).child("appointments").child(item.getAppointmentId());
+
+            historyRef.setValue(item).addOnSuccessListener(aVoid -> {
+                // Remove from original node
+                FirebaseDatabase.getInstance().getReference(node).child(item.getAppointmentId()).removeValue()
+                        .addOnSuccessListener(aVoid2 -> android.widget.Toast.makeText(getContext(), "Moved to Medical History", android.widget.Toast.LENGTH_SHORT).show());
+            });
+        } else {
+            // Real Cancel (Not archived, just removed)
+            FirebaseDatabase.getInstance().getReference(node).child(item.getAppointmentId()).removeValue()
+                    .addOnSuccessListener(aVoid -> android.widget.Toast.makeText(getContext(), item.getType().equals("room") ? "Booking cancelled" : "Appointment cancelled", android.widget.Toast.LENGTH_SHORT).show());
+        }
     }
 
     private void fetchSchedule() {
@@ -124,7 +145,10 @@ public class ScheduleFragment extends Fragment {
                         app.setTime("Room: " + rb.getRoomNumber() + " (" + rb.getRoomType() + ")");
                         app.setStatus(rb.getStatus());
                         app.setType("room");
-                        appointmentList.add(app);
+                        
+                        if (rb != null) {
+                            appointmentList.add(app);
+                        }
                     }
                 }
                 updateUI();
@@ -145,5 +169,27 @@ public class ScheduleFragment extends Fragment {
         }
         // Sort by date could be added here
         adapter.notifyDataSetChanged();
+    }
+
+    private void showDetailDialog(Appointment appt) {
+        StringBuilder detail = new StringBuilder();
+        detail.append("Date: ").append(appt.getDate()).append("\n");
+        detail.append("Time: ").append(appt.getTime()).append("\n");
+        if (appt.getType() != null && appt.getType().equals("room")) {
+            detail.append("Hospital: ").append(appt.getHospitalName()).append("\n");
+            detail.append("Room: ").append(appt.getRoomNumber()).append("\n");
+        } else {
+            detail.append("Doctor: ").append(appt.getDoctorName()).append("\n");
+        }
+        detail.append("Status: ").append(appt.getStatus().toUpperCase()).append("\n");
+        if (appt.getNotes() != null && !appt.getNotes().isEmpty()) {
+            detail.append("\nNotes:\n").append(appt.getNotes());
+        }
+
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(getContext())
+                .setTitle("Appointment Details")
+                .setMessage(detail.toString())
+                .setPositiveButton("Close", null)
+                .show();
     }
 }

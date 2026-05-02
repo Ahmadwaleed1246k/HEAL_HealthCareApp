@@ -12,6 +12,7 @@ public class Prescription {
     private String frequency;
     private String instructions;
     private String date;
+    private boolean dismissed;
 
     public Prescription() {}
 
@@ -52,4 +53,7 @@ public class Prescription {
     public void setInstructions(String instructions) { this.instructions = instructions; }
     public String getDate() { return date; }
     public void setDate(String date) { this.date = date; }
+    
+    public boolean isDismissed() { return dismissed; }
+    public void setDismissed(boolean dismissed) { this.dismissed = dismissed; }
 }

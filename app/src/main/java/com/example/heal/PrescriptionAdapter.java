@@ -13,10 +13,19 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
 
     private Context context;
     private List<Prescription> prescriptionList;
+    private boolean isHistoryMode;
+    private OnPrescriptionActionListener listener;
 
-    public PrescriptionAdapter(Context context, List<Prescription> prescriptionList) {
+    public interface OnPrescriptionActionListener {
+        void onDismiss(Prescription prescription);
+        void onItemClick(Prescription prescription);
+    }
+
+    public PrescriptionAdapter(Context context, List<Prescription> prescriptionList, boolean isHistoryMode, OnPrescriptionActionListener listener) {
         this.context = context;
         this.prescriptionList = prescriptionList;
+        this.isHistoryMode = isHistoryMode;
+        this.listener = listener;
     }
 
     @NonNull
@@ -34,6 +43,21 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
         holder.tvDoctorName.setText(prescription.getDoctorName());
         holder.tvInstructions.setText(prescription.getInstructions());
         holder.tvDate.setText(prescription.getDate());
+        
+        if (isHistoryMode) {
+            holder.btnDismiss.setVisibility(View.GONE);
+        } else if (listener != null) {
+            holder.btnDismiss.setVisibility(View.VISIBLE);
+            holder.btnDismiss.setTextColor(android.graphics.Color.parseColor("#F57C00"));
+            holder.btnDismiss.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#FFF3E0")));
+            holder.btnDismiss.setOnClickListener(v -> listener.onDismiss(prescription));
+        } else {
+            holder.btnDismiss.setVisibility(View.GONE);
+        }
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onItemClick(prescription);
+        });
     }
 
     @Override
@@ -43,6 +67,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
 
     public static class PrescriptionViewHolder extends RecyclerView.ViewHolder {
         TextView tvMedicineName, tvDosageFreq, tvDoctorName, tvInstructions, tvDate;
+        androidx.appcompat.widget.AppCompatButton btnDismiss;
 
         public PrescriptionViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -51,6 +76,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
             tvDoctorName = itemView.findViewById(R.id.tvDoctorName);
             tvInstructions = itemView.findViewById(R.id.tvPrescriptionInstructions);
             tvDate = itemView.findViewById(R.id.tvPrescriptionDate);
+            btnDismiss = itemView.findViewById(R.id.btnDismiss);
         }
     }
 }
