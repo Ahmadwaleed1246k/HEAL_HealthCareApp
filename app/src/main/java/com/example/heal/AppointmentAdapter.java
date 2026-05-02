@@ -46,7 +46,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     public void onBindViewHolder(@NonNull AppointmentViewHolder holder, int position) {
         Appointment appointment = appointmentList.get(position);
         
-        if (isDoctorView) {
+        if (isDoctor) {
             holder.tvPatientName.setText(appointment.getPatientName());
         } else {
             holder.tvPatientName.setText(appointment.getDoctorName());
