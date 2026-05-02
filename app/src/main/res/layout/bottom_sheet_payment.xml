@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="24dp">
+
+    <!-- Handle -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:background="#DDDDDD"/>
+
+    <!-- Title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unlock AI Result"
+        android:textSize="22sp"
+        android:fontFamily="sans-serif-black"
+        android:textColor="#1A1A1A"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Pay to access your AI-generated health analysis."
+        android:textSize="14sp"
+        android:textColor="#888888"/>
+
+    <!-- Test + Price Card -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#F7FAF9"
+        android:padding="16dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TEST"
+                android:textSize="10sp"
+                android:textColor="#888"
+                android:fontFamily="sans-serif-bold"/>
+
+            <TextView
+                android:id="@+id/tvPayTestName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Test Name"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-bold"
+                android:textColor="#1A1A1A"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="end">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AMOUNT DUE"
+                android:textSize="10sp"
+                android:textColor="#888"
+                android:fontFamily="sans-serif-bold"/>
+
+            <TextView
+                android:id="@+id/tvPayAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="$0"
+                android:textSize="22sp"
+                android:fontFamily="sans-serif-black"
+                android:textColor="#0E6858"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Account number input -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="14-Digit Account Number"
+        android:textSize="13sp"
+        android:textColor="#444"
+        android:fontFamily="sans-serif-medium"/>
+
+    <EditText
+        android:id="@+id/etAccountNumber"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="8dp"
+        android:background="#F5F5F5"
+        android:hint="Enter 14-digit account number"
+        android:inputType="number"
+        android:maxLength="14"
+        android:padding="14dp"
+        android:textSize="16sp"
+        android:textColor="#1A1A1A"
+        android:fontFamily="sans-serif"/>
+
+    <TextView
+        android:id="@+id/tvAccountError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Account number must be exactly 14 digits."
+        android:textSize="12sp"
+        android:textColor="#D32F2F"
+        android:visibility="gone"/>
+
+    <!-- Pay button -->
+    <TextView
+        android:id="@+id/btnPay"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_tab_active"
+        android:gravity="center"
+        android:text="Pay &amp; View Results"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:fontFamily="sans-serif-medium"/>
+
+    <TextView
+        android:id="@+id/btnCancelPayment"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:text="Cancel"
+        android:textColor="#888"
+        android:textSize="14sp"/>
+
+</LinearLayout>
