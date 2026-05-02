@@ -51,6 +51,18 @@
             android:name=".LabTestsActivity"
             android:exported="false" />
         <activity
+            android:name=".ChatDepartmentsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatDoctorsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatInterfaceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DoctorReplyActivity"
+            android:exported="false" />
+        <activity
             android:name=".HomeActivity"
             android:exported="false" />
         <activity

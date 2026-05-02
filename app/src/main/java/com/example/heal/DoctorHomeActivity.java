@@ -26,7 +26,8 @@ public class DoctorHomeActivity extends AppCompatActivity {
             
             if (itemId == R.id.nav_appointments) {
                 fragment = new DoctorAppointmentsFragment();
-
+            } else if (itemId == R.id.nav_chat) {
+                fragment = new DoctorChatFragment();
             } else if (itemId == R.id.nav_settings) {
                 fragment = new SettingsFragment();
             }

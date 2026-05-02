@@ -24,7 +24,8 @@ public class HomeActivity extends AppCompatActivity {
             } else if (id == R.id.nav_schedule) {
                 selectedFragment = new ScheduleFragment();
             } else if (id == R.id.nav_chat) {
-                selectedFragment = new PlaceholderFragment("Chat");
+                startActivity(new android.content.Intent(HomeActivity.this, ChatDepartmentsActivity.class));
+                return false;
             } else if (id == R.id.nav_settings) {
                 selectedFragment = new SettingsFragment();
             }

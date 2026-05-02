@@ -83,6 +83,10 @@ public class HomeFragment extends Fragment {
             startActivity(new Intent(getActivity(), LabTestsActivity.class));
         });
         
+        view.findViewById(R.id.btnChat).setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), ChatDepartmentsActivity.class));
+        });
+        
         view.findViewById(R.id.tvViewAllSpecialists).setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), SpecialistsActivity.class));
         });
