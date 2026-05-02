@@ -88,6 +88,11 @@ public class FindCareActivity extends AppCompatActivity {
         
         llSearchingNear = findViewById(R.id.llSearchingNear);
         tvSearchingNear = findViewById(R.id.tvSearchingNear);
+        
+        findViewById(R.id.btnRefreshLocation).setOnClickListener(v -> {
+            llSearchingNear.setVisibility(View.VISIBLE);
+            getUserLocation();
+        });
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         httpClient = new OkHttpClient();
@@ -117,59 +122,59 @@ public class FindCareActivity extends AppCompatActivity {
     }
 
     private void getUserLocation() {
-        try {
-            fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
-                // If on emulator or no location, default to Lahore, Pakistan
-                double lat = 31.5204;
-                double lng = 74.3587;
-                
-                if (location != null) {
-                    // Use real location if we want, but for demo let's use the actual location 
-                    // ONLY if it's not the default emulator Mountain View location
-                    if (Math.abs(location.getLatitude() - 37.422) > 0.1) {
-                        lat = location.getLatitude();
-                        lng = location.getLongitude();
-                    }
-                }
-                
-                double finalLat = lat;
-                double finalLng = lng;
-                
-                tvSearchingNear.setText("Searching nearby hospitals...");
-                
-                setupMap(finalLat, finalLng);
-                fetchHospitals(finalLat, finalLng);
-            }).addOnFailureListener(e -> {
-                // Fallback to Lahore, Pakistan
-                double lat = 31.5204;
-                double lng = 74.3587;
-                setupMap(lat, lng);
-                fetchHospitals(lat, lng);
-            });
-        } catch (SecurityException e) {
-            e.printStackTrace();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
         }
+
+        tvSearchingNear.setText("Acquiring location...");
+        
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+            double lat;
+            double lng;
+            
+            if (location != null) {
+                lat = location.getLatitude();
+                lng = location.getLongitude();
+                Log.d(TAG, "Using real location: " + lat + ", " + lng);
+            } else {
+                // Fallback to Lahore only if absolutely necessary
+                lat = 31.5204;
+                lng = 74.3587;
+                Log.d(TAG, "Location null, using Lahore fallback");
+                Toast.makeText(this, "Could not get current location. Defaulting to Lahore.", Toast.LENGTH_SHORT).show();
+            }
+            
+            tvSearchingNear.setText("Searching hospitals nearby...");
+            setupMap(lat, lng);
+            fetchHospitals(lat, lng);
+        }).addOnFailureListener(e -> {
+            double lat = 31.5204;
+            double lng = 74.3587;
+            setupMap(lat, lng);
+            fetchHospitals(lat, lng);
+            Toast.makeText(this, "Location error. Defaulting to Lahore.", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void setupMap(double lat, double lng) {
         GeoPoint startPoint = new GeoPoint(lat, lng);
-        mapView.getController().setZoom(14.0);
+        mapView.getController().setZoom(13.0); // Slightly zoomed out to see more
         mapView.getController().setCenter(startPoint);
 
         // Add "You are here" marker
+        mapView.getOverlays().clear(); // Clear old markers
         Marker userMarker = new Marker(mapView);
         userMarker.setPosition(startPoint);
         userMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        userMarker.setTitle("You are here");
+        userMarker.setTitle("Current Location");
         mapView.getOverlays().add(userMarker);
     }
 
     private void fetchHospitals(double userLat, double userLng) {
-        // Query overpass API for hospitals within 8000 meters. 
-        // Use node, way, and relation, and 'out center' so ways have a lat/lon.
-        String query = "[out:json];(node[\"amenity\"=\"hospital\"](around:8000," + userLat + "," + userLng + ");" +
-                       "way[\"amenity\"=\"hospital\"](around:8000," + userLat + "," + userLng + ");" +
-                       "relation[\"amenity\"=\"hospital\"](around:8000," + userLat + "," + userLng + "););out center;";
+        // Increased radius to 20000 meters (20km) for better coverage in all cities
+        String query = "[out:json];(node[\"amenity\"=\"hospital\"](around:20000," + userLat + "," + userLng + ");" +
+                       "way[\"amenity\"=\"hospital\"](around:20000," + userLat + "," + userLng + ");" +
+                       "relation[\"amenity\"=\"hospital\"](around:20000," + userLat + "," + userLng + "););out center;";
                        
         okhttp3.HttpUrl url = okhttp3.HttpUrl.parse("https://overpass-api.de/api/interpreter").newBuilder()
                 .addQueryParameter("data", query)

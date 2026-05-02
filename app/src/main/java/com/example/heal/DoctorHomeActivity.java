@@ -26,8 +26,7 @@ public class DoctorHomeActivity extends AppCompatActivity {
             
             if (itemId == R.id.nav_appointments) {
                 fragment = new DoctorAppointmentsFragment();
-            } else if (itemId == R.id.nav_lab_tests) {
-                fragment = new PlaceholderFragment("Lab Tests");
+
             } else if (itemId == R.id.nav_settings) {
                 fragment = new SettingsFragment();
             }
