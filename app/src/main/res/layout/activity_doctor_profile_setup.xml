@@ -56,13 +56,12 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- Specialization -->
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="Specialization (e.g. Cardiologist)"
+                android:hint="Specialization"
                 app:boxCornerRadiusBottomEnd="12dp"
                 app:boxCornerRadiusBottomStart="12dp"
                 app:boxCornerRadiusTopEnd="12dp"
@@ -71,11 +70,11 @@
                 app:startIconDrawable="@drawable/ic_doctor"
                 app:startIconTint="@color/colorPrimary">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
                     android:id="@+id/etSpecialization"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text" />
+                    android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Experience -->

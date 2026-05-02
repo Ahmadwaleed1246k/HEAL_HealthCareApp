@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -23,11 +25,20 @@ import java.util.List;
 
 public class DoctorProfileSetupActivity extends AppCompatActivity {
 
-    private TextInputEditText etSpecialization, etExperience, etHospitalName, etHospitalLocation, etFee, etAbout, etLanguages, etQualifications;
+    private AutoCompleteTextView etSpecialization;
+    private TextInputEditText etExperience, etHospitalName, etHospitalLocation, etFee, etAbout, etLanguages, etQualifications;
     private Button btnCompleteSetup, btnAddSlot;
     private com.google.android.material.chip.ChipGroup cgTimeSlots;
     private ProgressBar progressBar;
     private List<String> selectedTimeSlots = new ArrayList<>();
+    
+    private final String[] departments = {
+            "Cardiologist", "Dermatologist", "Gynecologist", "Pediatrician",
+            "Psychiatrist", "Neurologist", "Orthopedic Surgeon", "ENT Specialist",
+            "Ophthalmologist", "Urologist", "Gastroenterologist", "Endocrinologist",
+            "Pulmonologist", "Nephrologist", "Oncologist", "Rheumatologist",
+            "General Physician", "Dentist", "Physical Therapist", "Nutritionist"
+    };
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -41,6 +52,9 @@ public class DoctorProfileSetupActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         etSpecialization = findViewById(R.id.etSpecialization);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, departments);
+        etSpecialization.setAdapter(adapter);
+
         etExperience = findViewById(R.id.etExperience);
         etHospitalName = findViewById(R.id.etHospitalName);
         etHospitalLocation = findViewById(R.id.etHospitalLocation);
