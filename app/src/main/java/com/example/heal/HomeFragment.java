@@ -69,7 +69,9 @@ public class HomeFragment extends Fragment {
         view.findViewById(R.id.btnPrescription).setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), UserPrescriptionsActivity.class));
         });
-        view.findViewById(R.id.btnCheckup).setOnClickListener(v -> showToast("Check-up Service"));
+        view.findViewById(R.id.btnCheckup).setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), HeartRateActivity.class));
+        });
         View btnLocation = view.findViewById(R.id.btnLocation);
         if (btnLocation != null) {
             btnLocation.setOnClickListener(v -> {
@@ -81,6 +83,10 @@ public class HomeFragment extends Fragment {
         });
         view.findViewById(R.id.btnLabTests).setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), LabTestsActivity.class));
+        });
+        
+        view.findViewById(R.id.btnChat).setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), ChatDepartmentsActivity.class));
         });
         
         view.findViewById(R.id.tvViewAllSpecialists).setOnClickListener(v -> {

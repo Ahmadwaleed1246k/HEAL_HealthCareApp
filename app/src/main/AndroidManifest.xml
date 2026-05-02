@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -36,6 +37,7 @@
         <activity android:name=".UserLabBookingsActivity" />
         <activity android:name=".AiLabQuestionsActivity" android:exported="false"/>
         <activity android:name=".ResultDetailActivity" android:exported="false"/>
+        <activity android:name=".HeartRateActivity" android:exported="false"/>
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />
@@ -53,6 +55,18 @@
             android:exported="false" />
         <activity
             android:name=".LabTestsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatDepartmentsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatDoctorsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChatInterfaceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DoctorReplyActivity"
             android:exported="false" />
         <activity
             android:name=".HomeActivity"
