@@ -3,23 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
     app:cardCornerRadius="16dp"
-    app:cardElevation="0dp"
-    app:cardBackgroundColor="@color/white">
+    app:cardElevation="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Hospital Image -->
         <ImageView
             android:id="@+id/ivHospitalImage"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="180dp"
             android:scaleType="centerCrop"
-            android:background="#E0E0E0" />
+            android:src="@drawable/ic_hospital" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,176 +26,76 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/tvHospitalName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@id/tvDistance"
-                    android:layout_marginEnd="8dp"
-                    android:text="St. Juniper Wellness Center"
-                    android:textColor="#004D40"
-                    android:textSize="18sp"
-                    android:fontFamily="sans-serif-bold"/>
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Shaukat Khanum"
+                    android:textColor="@color/colorOnSurface"
+                    android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/tvDistance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:background="@drawable/bg_blood_badge"
-                    android:backgroundTint="#CFD8DC"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp"
-                    android:text="1.2\nmiles"
-                    android:gravity="center"
-                    android:textColor="#37474F"
-                    android:textSize="10sp"/>
-            </RelativeLayout>
-
-            <!-- Address -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:gravity="center_vertical">
-                
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:src="@drawable/ic_location"
-                    app:tint="#757575"/>
-                    
-                <TextView
-                    android:id="@+id/tvAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="450 Medical Plaza, North District"
-                    android:textColor="#757575"
-                    android:textSize="12sp"/>
-            </LinearLayout>
-
-            <!-- Specialty Tags -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="12dp">
-                
-                <TextView
-                    android:id="@+id/tvTag1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_blood_badge"
-                    android:backgroundTint="#EEEEEE"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp"
-                    android:text="CARDIOLOGY"
-                    android:textColor="#616161"
-                    android:textSize="8sp"
-                    android:fontFamily="sans-serif-bold"/>
-
-                <TextView
-                    android:id="@+id/tvTag2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/bg_blood_badge"
-                    android:backgroundTint="#EEEEEE"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp"
-                    android:text="NEUROLOGY"
-                    android:textColor="#616161"
-                    android:textSize="8sp"
-                    android:fontFamily="sans-serif-bold"/>
-                    
-                <TextView
-                    android:id="@+id/tvTag3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/bg_blood_badge"
-                    android:backgroundTint="#EEEEEE"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp"
-                    android:text="PEDIATRICS"
-                    android:textColor="#616161"
-                    android:textSize="8sp"
-                    android:fontFamily="sans-serif-bold"/>
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#EEEEEE"
-                android:layout_marginVertical="12dp"/>
-
-            <!-- Bottom Row: Wait time, Rating, Book Button -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <!-- Wait Time -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="WAIT TIME"
-                        android:textColor="#9E9E9E"
-                        android:textSize="8sp"
-                        android:textAllCaps="true"
-                        android:fontFamily="sans-serif-bold"/>
-                    <TextView
-                        android:id="@+id/tvWaitTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="~12 min"
-                        android:textColor="#212121"
-                        android:textSize="14sp"
-                        android:fontFamily="sans-serif-bold"/>
-                </LinearLayout>
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <!-- Rating -->
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginStart="24dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="RATING"
-                        android:textColor="#9E9E9E"
-                        android:textSize="8sp"
-                        android:textAllCaps="true"
-                        android:fontFamily="sans-serif-bold"/>
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_star"
+                        app:tint="@color/rating_gold" />
+
                     <TextView
                         android:id="@+id/tvRating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="★ 4.9"
-                        android:textColor="#00695C"
-                        android:textSize="14sp"
-                        android:fontFamily="sans-serif-bold"/>
+                        android:layout_marginStart="4dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="4.9"
+                        android:textColor="@color/colorOnSurface"
+                        android:textSize="14sp" />
                 </LinearLayout>
-                
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
-
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Johar Town, Lahore"
+                android:textColor="@color/colorSecondary"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="Best cancer research hospital in the country."
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/btnBookRoom"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Book a Room"
+                android:textColor="@color/colorPrimary"
+                app:cornerRadius="12dp" />
+
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

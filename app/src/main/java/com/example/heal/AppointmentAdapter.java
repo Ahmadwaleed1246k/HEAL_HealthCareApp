@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -48,8 +49,15 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         
         if (isDoctor) {
             holder.tvPatientName.setText(appointment.getPatientName());
+            holder.ivIcon.setImageResource(R.drawable.ic_schedule);
         } else {
-            holder.tvPatientName.setText(appointment.getDoctorName());
+            if (appointment.getType().equals("room")) {
+                holder.tvPatientName.setText(appointment.getHospitalName());
+                holder.ivIcon.setImageResource(R.drawable.ic_hospital);
+            } else {
+                holder.tvPatientName.setText(appointment.getDoctorName());
+                holder.ivIcon.setImageResource(R.drawable.ic_schedule);
+            }
         }
         holder.tvDate.setText(appointment.getDate());
         holder.tvTime.setText(appointment.getTime());
@@ -112,7 +120,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             holder.btnPrescribe.setVisibility(View.GONE);
             holder.llActions.setVisibility(View.VISIBLE);
             String status = appointment.getStatus().toLowerCase();
-            if (status.equals("accepted") || status.equals("pending") || status.equals("rescheduled")) {
+            if (status.equals("accepted") || status.equals("pending") || status.equals("rescheduled") || status.equals("confirmed")) {
                 holder.btnCancel.setVisibility(View.VISIBLE);
                 holder.btnCancel.setText("Cancel");
                 holder.btnCancel.setTextColor(android.graphics.Color.RED);
@@ -142,6 +150,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         TextView tvPatientName, tvDate, tvTime, tvStatus, tvNotes;
         Button btnAccept, btnReject, btnReschedule, btnCancel, btnPrescribe;
         LinearLayout llActions;
+        ImageView ivIcon;
 
         public AppointmentViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -156,6 +165,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             btnCancel = itemView.findViewById(R.id.btnCancel);
             btnPrescribe = itemView.findViewById(R.id.btnPrescribe);
             llActions = itemView.findViewById(R.id.llActions);
+            ivIcon = itemView.findViewById(R.id.ivIcon);
         }
     }
 }

@@ -405,7 +405,7 @@ public class FindCareActivity extends AppCompatActivity {
                 int waitTime = 5 + random.nextInt(40);
                 double rating = 4.0 + (random.nextDouble() * 0.9);
 
-                parsedList.add(new Hospital(name, lat, lon, address, distanceMiles, specialties, waitTime, rating));
+                parsedList.add(new Hospital(name, lat, lon, address, distanceMiles, java.util.Arrays.asList(specialties), waitTime, rating));
             }
 
             Collections.sort(parsedList, (h1, h2) -> Double.compare(h1.getDistanceMiles(), h2.getDistanceMiles()));

@@ -76,7 +76,9 @@ public class HomeFragment extends Fragment {
                 startActivity(new Intent(getActivity(), FindCareActivity.class));
             });
         }
-        view.findViewById(R.id.btnHospital).setOnClickListener(v -> showToast("Hospital Service"));
+        view.findViewById(R.id.btnHospital).setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), HospitalListActivity.class));
+        });
         view.findViewById(R.id.btnLabTests).setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), LabTestsActivity.class));
         });

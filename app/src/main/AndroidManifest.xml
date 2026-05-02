@@ -20,6 +20,12 @@
             android:name=".DoctorHomeActivity"
             android:exported="false" />
         <activity
+            android:name=".HospitalListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RoomBookingActivity"
+            android:exported="false" />
+        <activity
             android:name=".DoctorProfileSetupActivity"
             android:exported="false" />
         <activity

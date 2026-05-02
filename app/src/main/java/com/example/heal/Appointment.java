@@ -11,6 +11,9 @@ public class Appointment {
     private String status; // pending, accepted, rejected, rescheduled
     private String notes;
     private String timestamp;
+    private String type; // "doctor" or "room"
+    private String roomNumber;
+    private String hospitalName;
     private double consultationFee;
     private String cardNumber;
 
@@ -65,4 +68,11 @@ public class Appointment {
 
     public String getTimestamp() { return timestamp; }
     public void setTimestamp(String timestamp) { this.timestamp = timestamp; }
+
+    public String getType() { return type != null ? type : "doctor"; }
+    public void setType(String type) { this.type = type; }
+    public String getRoomNumber() { return roomNumber; }
+    public void setRoomNumber(String roomNumber) { this.roomNumber = roomNumber; }
+    public String getHospitalName() { return hospitalName; }
+    public void setHospitalName(String hospitalName) { this.hospitalName = hospitalName; }
 }

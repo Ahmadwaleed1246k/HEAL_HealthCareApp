@@ -59,7 +59,7 @@ public class ScheduleFragment extends Fragment {
             @Override public void onReject(Appointment appointment) {}
             @Override public void onReschedule(Appointment appointment) {}
             @Override public void onCancel(Appointment appointment) {
-                cancelAppointment(appointment);
+                cancelItem(appointment);
             }
             @Override public void onPrescribe(Appointment appointment) {}
         });
@@ -71,9 +71,10 @@ public class ScheduleFragment extends Fragment {
         return view;
     }
 
-    private void cancelAppointment(Appointment appointment) {
-        mDatabase.child(appointment.getAppointmentId()).removeValue()
-            .addOnSuccessListener(aVoid -> android.widget.Toast.makeText(getContext(), "Appointment cancelled and removed", android.widget.Toast.LENGTH_SHORT).show());
+    private void cancelItem(Appointment item) {
+        String node = item.getType().equals("room") ? "room_bookings" : "appointments";
+        FirebaseDatabase.getInstance().getReference(node).child(item.getAppointmentId()).removeValue()
+            .addOnSuccessListener(aVoid -> android.widget.Toast.makeText(getContext(), item.getType().equals("room") ? "Booking cancelled" : "Appointment cancelled", android.widget.Toast.LENGTH_SHORT).show());
     }
 
     private void fetchSchedule() {
@@ -81,30 +82,68 @@ public class ScheduleFragment extends Fragment {
         if (userId == null) return;
 
         progressBar.setVisibility(View.VISIBLE);
-        mDatabase.orderByChild("patientId").equalTo(userId).addValueEventListener(new ValueEventListener() {
+        
+        // Fetch Doctor Appointments
+        FirebaseDatabase.getInstance().getReference("appointments")
+            .orderByChild("patientId").equalTo(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // Clear and re-populate unified list
                 appointmentList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Appointment appointment = dataSnapshot.getValue(Appointment.class);
                     if (appointment != null) {
+                        appointment.setType("doctor");
                         appointmentList.add(appointment);
                     }
                 }
-                progressBar.setVisibility(View.GONE);
-                if (appointmentList.isEmpty()) {
-                    tvEmpty.setVisibility(View.VISIBLE);
-                    tvEmpty.setText("No appointments scheduled.");
-                } else {
-                    tvEmpty.setVisibility(View.GONE);
-                }
-                adapter.notifyDataSetChanged();
+                
+                // Fetch Room Bookings
+                fetchRoomBookings(userId);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                progressBar.setVisibility(View.GONE);
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
+    }
+
+    private void fetchRoomBookings(String userId) {
+        FirebaseDatabase.getInstance().getReference("room_bookings")
+            .orderByChild("patientId").equalTo(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    RoomBooking rb = dataSnapshot.getValue(RoomBooking.class);
+                    if (rb != null) {
+                        Appointment app = new Appointment();
+                        app.setAppointmentId(rb.getBookingId());
+                        app.setHospitalName(rb.getHospitalName());
+                        app.setDoctorName(rb.getHospitalName()); // Reuse doctorName field for UI
+                        app.setRoomNumber(rb.getRoomNumber());
+                        app.setDate(rb.getDate());
+                        app.setTime("Room: " + rb.getRoomNumber() + " (" + rb.getRoomType() + ")");
+                        app.setStatus(rb.getStatus());
+                        app.setType("room");
+                        appointmentList.add(app);
+                    }
+                }
+                updateUI();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
+    private void updateUI() {
+        progressBar.setVisibility(View.GONE);
+        if (appointmentList.isEmpty()) {
+            tvEmpty.setVisibility(View.VISIBLE);
+            tvEmpty.setText("No appointments or bookings scheduled.");
+        } else {
+            tvEmpty.setVisibility(View.GONE);
+        }
+        // Sort by date could be added here
+        adapter.notifyDataSetChanged();
     }
 }
