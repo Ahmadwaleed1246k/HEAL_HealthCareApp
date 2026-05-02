@@ -69,7 +69,9 @@ public class HomeFragment extends Fragment {
         view.findViewById(R.id.btnPrescription).setOnClickListener(v -> {
             startActivity(new Intent(getActivity(), UserPrescriptionsActivity.class));
         });
-        view.findViewById(R.id.btnCheckup).setOnClickListener(v -> showToast("Check-up Service"));
+        view.findViewById(R.id.btnCheckup).setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), HeartRateActivity.class));
+        });
         View btnLocation = view.findViewById(R.id.btnLocation);
         if (btnLocation != null) {
             btnLocation.setOnClickListener(v -> {
