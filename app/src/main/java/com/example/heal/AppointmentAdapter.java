@@ -46,7 +46,11 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     public void onBindViewHolder(@NonNull AppointmentViewHolder holder, int position) {
         Appointment appointment = appointmentList.get(position);
         
-        holder.tvPatientName.setText(appointment.getPatientName());
+        if (isDoctorView) {
+            holder.tvPatientName.setText(appointment.getPatientName());
+        } else {
+            holder.tvPatientName.setText(appointment.getDoctorName());
+        }
         holder.tvDate.setText(appointment.getDate());
         holder.tvTime.setText(appointment.getTime());
         holder.tvStatus.setText(appointment.getStatus().toUpperCase());
@@ -111,10 +115,12 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             if (status.equals("accepted") || status.equals("pending") || status.equals("rescheduled")) {
                 holder.btnCancel.setVisibility(View.VISIBLE);
                 holder.btnCancel.setText("Cancel");
+                holder.btnCancel.setTextColor(android.graphics.Color.RED);
                 holder.btnCancel.setOnClickListener(v -> listener.onCancel(appointment));
             } else if (status.equals("cancelled_by_doctor")) {
                 holder.btnCancel.setVisibility(View.VISIBLE);
                 holder.btnCancel.setText("Dismiss");
+                holder.btnCancel.setTextColor(android.graphics.Color.RED);
                 holder.btnCancel.setOnClickListener(v -> listener.onCancel(appointment));
             } else {
                 holder.btnCancel.setVisibility(View.GONE);

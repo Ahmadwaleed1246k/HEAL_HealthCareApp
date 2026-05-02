@@ -41,6 +41,14 @@ public class ScheduleFragment extends Fragment {
         rvSchedule = view.findViewById(R.id.rvAppointments);
         progressBar = view.findViewById(R.id.progressBar);
         tvEmpty = view.findViewById(R.id.tvEmpty);
+        view.findViewById(R.id.statsCard).setVisibility(View.GONE);
+
+        TextView tvName = view.findViewById(R.id.tvDoctorName);
+        SessionManager sessionManager = new SessionManager(getActivity());
+        String cachedName = sessionManager.getName();
+        if (!cachedName.isEmpty()) {
+            tvName.setText(cachedName);
+        }
 
         rvSchedule.setLayoutManager(new LinearLayoutManager(getContext()));
         appointmentList = new ArrayList<>();
