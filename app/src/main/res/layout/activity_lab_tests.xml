@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/app_background_color">
 
-    <!-- Header Section -->
+    <!-- ═══════════════════════ HEADER ═══════════════════════ -->
     <LinearLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
@@ -18,14 +18,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            
+
             <ImageView
                 android:id="@+id/btnBack"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_home" 
-                android:rotation="90"/> <!-- Use a back arrow if available, else rotate home or similar for now -->
+                android:src="@drawable/ic_home"
+                android:rotation="90"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="Digital Sanctuary"
                 android:textColor="@color/colorOnSurface"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/profileCard"
@@ -46,13 +46,12 @@
                 android:layout_centerVertical="true"
                 app:cardCornerRadius="18dp"
                 app:cardElevation="0dp">
-
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_person"
-                    app:tint="@color/colorPrimary" />
+                    app:tint="@color/colorPrimary"/>
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
 
@@ -74,9 +73,9 @@
             android:fontFamily="sans-serif-black"
             android:text="Lab Test Bookings"
             android:textColor="@color/colorOnSurface"
-            android:textSize="28sp" />
+            android:textSize="28sp"/>
 
-        <!-- Tabs -->
+        <!-- ── TABS ── -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,7 +93,7 @@
                 android:text="My Results"
                 android:textColor="@color/colorSecondary"
                 android:fontFamily="sans-serif-medium"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/tabBookNewTest"
@@ -104,14 +103,14 @@
                 android:layout_marginStart="8dp"
                 android:background="@drawable/bg_tab_active"
                 android:gravity="center"
-                android:text="Book New Test"
+                android:text="Book Lab Test with AI ✦"
                 android:textColor="@color/white"
                 android:fontFamily="sans-serif-medium"
-                android:textSize="14sp" />
+                android:textSize="13sp"/>
         </LinearLayout>
-
     </LinearLayout>
 
+    <!-- ═══════════════════ SCROLLABLE BODY ═══════════════════ -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -125,53 +124,112 @@
             android:orientation="vertical"
             android:paddingBottom="24dp">
 
-            <!-- Categories RecyclerView -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTestCategories"
+            <!-- ══ BROWSE CONTENT (Book Lab Test with AI tab) ══ -->
+            <LinearLayout
+                android:id="@+id/llBrowseContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                android:clipToPadding="false"
-                tools:listitem="@layout/item_lab_test_category" />
+                android:orientation="vertical"
+                android:visibility="visible">
 
-            <!-- Popular Test Packages Header -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTestCategories"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-bold"
-                    android:text="Popular Test Packages"
-                    android:textColor="@color/colorOnSurface"
-                    android:textSize="18sp" />
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:paddingTop="8dp"
+                    android:clipToPadding="false"
+                    tools:listitem="@layout/item_lab_test_category"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="View All →"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="14sp" />
-            </RelativeLayout>
+                    android:layout_marginTop="24dp"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:text="Popular Test Packages"
+                        android:textColor="@color/colorOnSurface"
+                        android:textSize="18sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="View All →"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp"/>
+                </RelativeLayout>
 
-            <!-- Packages RecyclerView -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvPopularPackages"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPopularPackages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:clipToPadding="false"
+                    tools:listitem="@layout/item_lab_test_package"/>
+            </LinearLayout>
+
+            <!-- ══ RESULTS CONTENT (My Results tab) ══ -->
+            <LinearLayout
+                android:id="@+id/llResultsContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:clipToPadding="false"
-                tools:listitem="@layout/item_lab_test_package" />
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:padding="20dp">
+
+                <!-- Empty state -->
+                <LinearLayout
+                    android:id="@+id/llResultsEmpty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:paddingTop="48dp"
+                    android:paddingBottom="48dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🧪"
+                        android:textSize="52sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="No bookings yet"
+                        android:textSize="18sp"
+                        android:fontFamily="sans-serif-bold"
+                        android:textColor="#1A1A1A"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Book a lab test with AI to see your results here."
+                        android:textSize="14sp"
+                        android:textColor="#888"
+                        android:gravity="center"/>
+                </LinearLayout>
+
+                <!-- Results list -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvMyResults"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_my_result"/>
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

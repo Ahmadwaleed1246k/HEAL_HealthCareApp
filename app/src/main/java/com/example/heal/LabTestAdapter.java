@@ -75,7 +75,8 @@ public class LabTestAdapter extends RecyclerView.Adapter<LabTestAdapter.ViewHold
         holder.tvCategoryDesc.setTextColor(textColor);
         holder.ivCategoryIcon.setImageTintList(ColorStateList.valueOf(textColor));
 
-        holder.itemView.setOnClickListener(v -> listener.onTestClick(test));
+        holder.cardCategory.setOnClickListener(v -> listener.onTestClick(test));
+        holder.btnExplore.setOnClickListener(v -> listener.onTestClick(test));
     }
 
     @Override
@@ -85,6 +86,7 @@ public class LabTestAdapter extends RecyclerView.Adapter<LabTestAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvCategoryName, tvCategoryDesc;
+        TextView btnExplore;
         ImageView ivCategoryIcon;
         MaterialCardView cardCategory;
 
@@ -93,7 +95,8 @@ public class LabTestAdapter extends RecyclerView.Adapter<LabTestAdapter.ViewHold
             tvCategoryName = itemView.findViewById(R.id.tvCategoryName);
             tvCategoryDesc = itemView.findViewById(R.id.tvCategoryDesc);
             ivCategoryIcon = itemView.findViewById(R.id.ivCategoryIcon);
-            cardCategory = itemView.findViewById(R.id.cardCategory);
+            cardCategory   = itemView.findViewById(R.id.cardCategory);
+            btnExplore     = itemView.findViewById(R.id.btnExploreTests);
         }
     }
 }

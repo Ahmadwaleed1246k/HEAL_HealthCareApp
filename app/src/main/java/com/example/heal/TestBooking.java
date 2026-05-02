@@ -15,6 +15,11 @@ public class TestBooking {
     private String payment_status;
     private String created_at;
     private String preparation_instructions;
+    // AI fields
+    private String ai_result;
+    private boolean ai_result_ready;
+    private String user_answers;
+    private String account_number;
 
     public TestBooking() {}
 
@@ -59,4 +64,16 @@ public class TestBooking {
 
     public String getPreparation_instructions() { return preparation_instructions; }
     public void setPreparation_instructions(String preparation_instructions) { this.preparation_instructions = preparation_instructions; }
+
+    public String getAi_result() { return ai_result; }
+    public void setAi_result(String ai_result) { this.ai_result = ai_result; }
+
+    public boolean isAi_result_ready() { return ai_result_ready; }
+    public void setAi_result_ready(boolean ai_result_ready) { this.ai_result_ready = ai_result_ready; }
+
+    public String getUser_answers() { return user_answers; }
+    public void setUser_answers(String user_answers) { this.user_answers = user_answers; }
+
+    public String getAccount_number() { return account_number; }
+    public void setAccount_number(String account_number) { this.account_number = account_number; }
 }
