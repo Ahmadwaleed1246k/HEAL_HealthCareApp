@@ -75,7 +75,9 @@
             android:layout_marginTop="4dp"
             android:text="Take after meals. Complete the course."
             android:textColor="@color/colorSecondary"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:maxLines="2"
+            android:ellipsize="end" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnDismiss"

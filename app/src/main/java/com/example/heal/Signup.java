@@ -81,49 +81,18 @@ public class Signup extends AppCompatActivity {
             return;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
-        btnSignup.setVisibility(View.GONE);
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    progressBar.setVisibility(View.GONE);
-                    btnSignup.setVisibility(View.VISIBLE);
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if (user != null) {
-                            saveUserToDatabase(user.getUid(), name, email, role);
-                        }
-                    } else {
-                        Toast.makeText(Signup.this, "Authentication failed: " + task.getException().getMessage(),
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-    }
-
-    private void saveUserToDatabase(String uid, String name, String email, String role) {
-        HashMap<String, Object> userData = new HashMap<>();
-        userData.put("name", name);
-        userData.put("email", email);
-        userData.put("role", role);
-
-        mDatabase.child("users").child(uid).setValue(userData)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(Signup.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
-                    
-                    SessionManager sessionManager = new SessionManager(Signup.this);
-                    sessionManager.setLogin(true);
-                    sessionManager.setRole(role);
-                    sessionManager.setName(name);
-                    
-                    if (role.equals("Doctor")) {
-                        startActivity(new Intent(Signup.this, DoctorProfileSetupActivity.class));
-                    } else {
-                        startActivity(new Intent(Signup.this, ProfileSetupActivity.class));
-                    }
-                    finish();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(Signup.this, "Error saving profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+        Intent intent;
+        if (role.equals("Doctor")) {
+            intent = new Intent(Signup.this, DoctorProfileSetupActivity.class);
+        } else {
+            intent = new Intent(Signup.this, ProfileSetupActivity.class);
+        }
+        
+        intent.putExtra("email", email);
+        intent.putExtra("password", password);
+        intent.putExtra("name", name);
+        intent.putExtra("role", role);
+        startActivity(intent);
+        finish();
     }
 }

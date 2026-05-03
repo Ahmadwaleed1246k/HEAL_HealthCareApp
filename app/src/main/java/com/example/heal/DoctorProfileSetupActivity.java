@@ -67,8 +67,6 @@ public class DoctorProfileSetupActivity extends AppCompatActivity {
         cgTimeSlots = findViewById(R.id.cgTimeSlots);
         progressBar = findViewById(R.id.progressBar);
 
-        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
-
         btnAddSlot.setOnClickListener(v -> showTimePicker());
         btnCompleteSetup.setOnClickListener(v -> saveDoctorProfile());
     }

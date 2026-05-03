@@ -59,10 +59,8 @@ public class RoomBookingActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> finish());
+        ImageView btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
 
         rvDates = findViewById(R.id.rvDates);
         cgRooms = findViewById(R.id.cgRooms);

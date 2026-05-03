@@ -23,7 +23,7 @@ import java.util.Locale;
 
 public class ChatInterfaceActivity extends AppCompatActivity {
 
-    private TextView tvDoctorName, tvSpecialization, tvDoctorReply;
+    private TextView tvDoctorName, tvDoctorReply;
     private EditText etSymptoms, etDescription;
     private View btnSendChat;
     private LinearLayout layoutReply;
@@ -41,7 +41,6 @@ public class ChatInterfaceActivity extends AppCompatActivity {
         patientName = new SessionManager(this).getName();
 
         tvDoctorName = findViewById(R.id.tvDoctorName);
-        tvSpecialization = findViewById(R.id.tvSpecialization);
         tvDoctorReply = findViewById(R.id.tvDoctorReply);
         etSymptoms = findViewById(R.id.etSymptoms);
         etDescription = findViewById(R.id.etDescription);
@@ -49,7 +48,6 @@ public class ChatInterfaceActivity extends AppCompatActivity {
         layoutReply = findViewById(R.id.layoutReply);
 
         tvDoctorName.setText(doctor.getName());
-        tvSpecialization.setText(doctor.getSpecialization());
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
