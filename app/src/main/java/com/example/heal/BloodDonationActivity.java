@@ -35,7 +35,6 @@ public class BloodDonationActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     private GridLayout glSupplyIndex;
-    private LinearLayout llNearbyCenters;
     private GridLayout glTimeSlots;
     private TextView tvSelectedDate;
     
@@ -59,7 +58,6 @@ public class BloodDonationActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
 
         glSupplyIndex = findViewById(R.id.glSupplyIndex);
-        llNearbyCenters = findViewById(R.id.llNearbyCenters);
         glTimeSlots = findViewById(R.id.glTimeSlots);
         tvSelectedDate = findViewById(R.id.tvSelectedDate);
 
@@ -80,7 +78,6 @@ public class BloodDonationActivity extends AppCompatActivity {
         });
 
         fetchBloodInventory();
-        fetchDonationCenters();
         fetchDonationSlots();
     }
 
@@ -141,62 +138,6 @@ public class BloodDonationActivity extends AppCompatActivity {
         glSupplyIndex.addView(view);
     }
 
-    private void fetchDonationCenters() {
-        mDatabase.child("donation_centers").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                llNearbyCenters.removeAllViews();
-                for (DataSnapshot centerSnap : snapshot.getChildren()) {
-                    String centerId = centerSnap.child("center_id").getValue(String.class);
-                    String name = centerSnap.child("name").getValue(String.class);
-                    String address = centerSnap.child("address").getValue(String.class);
-                    Double distance = centerSnap.child("distance_miles").getValue(Double.class);
-                    Boolean fastTrack = centerSnap.child("fast_track_available").getValue(Boolean.class);
-                    
-                    if (centerId == null) centerId = centerSnap.getKey();
-                    
-                    String addressDistance = address;
-                    if (distance != null) {
-                        addressDistance += " • " + distance + " miles";
-                    }
-                    
-                    addCenterCard(centerId, name, addressDistance, fastTrack != null && fastTrack);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });
-    }
-
-    private void addCenterCard(String centerId, String name, String addressDistance, boolean isFastTrack) {
-        View view = LayoutInflater.from(this).inflate(R.layout.item_donation_center, llNearbyCenters, false);
-        
-        TextView tvCenterName = view.findViewById(R.id.tvCenterName);
-        TextView tvAddressDistance = view.findViewById(R.id.tvAddressDistance);
-        TextView tvFastTrack = view.findViewById(R.id.tvFastTrack);
-        
-        tvCenterName.setText(name);
-        tvAddressDistance.setText(addressDistance);
-        
-        if (isFastTrack) {
-            tvFastTrack.setVisibility(View.VISIBLE);
-        } else {
-            tvFastTrack.setVisibility(View.GONE);
-        }
-        
-        view.setOnClickListener(v -> {
-            if (selectedCenterView != null) {
-                selectedCenterView.setBackgroundResource(R.drawable.bg_card_white_rounded);
-            }
-            selectedCenterView = view;
-            selectedCenterId = centerId;
-            selectedCenterName = name;
-            view.setBackgroundResource(R.drawable.bg_card_selected);
-        });
-        
-        llNearbyCenters.addView(view);
-    }
 
     private void fetchDonationSlots() {
         mDatabase.child("donation_slots").child("slot_001").addListenerForSingleValueEvent(new ValueEventListener() {

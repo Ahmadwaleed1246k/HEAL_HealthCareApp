@@ -48,10 +48,6 @@ public class EmergencyActivity extends AppCompatActivity {
         
         // Polio / Vaccination
         helplineList.add(new Helpline("Polio Helpline (WhatsApp)", "03467776546", "Information and support for polio vaccination."));
-        
-        // Chinese Citizens in Pakistan
-        helplineList.add(new Helpline("Chinese Embassy (Islamabad)", "+923156060000", "Consular protection for Chinese citizens in Islamabad."));
-        helplineList.add(new Helpline("Chinese Consulate (Karachi)", "+923112311297", "Consular protection for Chinese citizens in Karachi."));
-        helplineList.add(new Helpline("Chinese Consulate (Lahore)", "+923154130168", "Consular protection for Chinese citizens in Lahore."));
+
     }
 }

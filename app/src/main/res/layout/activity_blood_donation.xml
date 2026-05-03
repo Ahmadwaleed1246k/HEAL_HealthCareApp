@@ -170,40 +170,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Nearby Centers -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="24dp"
-            android:layout_marginTop="32dp"
-            android:gravity="bottom">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Nearby Centers"
-                android:textColor="#212121"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-bold" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Show Map View"
-                android:textColor="#00897B"
-                android:textSize="10sp"
-                android:fontFamily="sans-serif-bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llNearbyCenters"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="16dp"
-            android:layout_marginTop="16dp">
-            <!-- Centers populated dynamically -->
-        </LinearLayout>
 
         <!-- Reserve Your Slot -->
         <TextView
@@ -291,82 +257,6 @@
             android:fontFamily="sans-serif-bold"
             android:textSize="14sp" />
 
-        <!-- Footer Card -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="40dp"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="2dp">
-            
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/gradient_teal"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:padding="40dp">
-                
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/ic_hospital"
-                    app:tint="#A5D6A7" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="WELLNESS\nSAFEWORK"
-                    android:textColor="#A5D6A7"
-                    android:textSize="10sp"
-                    android:gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:letterSpacing="0.1"
-                    android:fontFamily="sans-serif-bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="24dp"
-            android:text="PHILOSOPHY"
-            android:textColor="#00897B"
-            android:textSize="10sp"
-            android:fontFamily="sans-serif-bold"
-            android:letterSpacing="0.1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="8dp"
-            android:text="A Sanctuary for\nCollective\nWellbeing."
-            android:textColor="#212121"
-            android:textSize="28sp"
-            android:fontFamily="sans-serif-bold"
-            android:lineSpacingExtra="2dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="16dp"
-            android:text="&quot;Blood donation is the ultimate expression of human connectivity. In every drop, there is a story of resilience, and in every donor, a silent hero.&quot;"
-            android:textColor="@color/colorSecondary"
-            android:textSize="14sp"
-            android:textStyle="italic" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginTop="16dp"
-            android:text="At Ether Clinical, we view donation not as a medical procedure, but as a ritual of restoration. By donating, you replenish the community's health reserves, ensuring that during the most vulnerable moments, no life is left waiting.\n\nBeyond the altruistic impact, donors often experience a renewed sense of purpose and a subtle metabolic reset. It is a win-win for the ecosystem of life."
-            android:textColor="@color/colorSecondary"
-            android:textSize="12sp"
-            android:lineSpacingExtra="4dp" />
 
     </LinearLayout>
 </ScrollView>
