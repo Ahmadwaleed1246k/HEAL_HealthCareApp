@@ -35,6 +35,7 @@ public class BloodDonationActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     private GridLayout glSupplyIndex;
+    private LinearLayout llNearbyCenters;
     private GridLayout glTimeSlots;
     private TextView tvSelectedDate;
     
@@ -58,6 +59,7 @@ public class BloodDonationActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
 
         glSupplyIndex = findViewById(R.id.glSupplyIndex);
+        llNearbyCenters = findViewById(R.id.llNearbyCenters);
         glTimeSlots = findViewById(R.id.glTimeSlots);
         tvSelectedDate = findViewById(R.id.tvSelectedDate);
 
@@ -78,7 +80,15 @@ public class BloodDonationActivity extends AppCompatActivity {
         });
 
         fetchBloodInventory();
+        setupNearbyCenters();
         fetchDonationSlots();
+    }
+
+    private void setupNearbyCenters() {
+        llNearbyCenters.removeAllViews();
+        addCenterCard("indus_hosp", "Indus Hospital Blood Bank", "Korangi, Karachi • 1.2 miles", true);
+        addCenterCard("chughtai_lab", "Chughtai Lab Blood Bank", "DHA Phase 2, Karachi • 3.5 miles", false);
+        addCenterCard("fatimid_found", "Fatimid Foundation", "Soldier Bazaar, Karachi • 5.0 miles", true);
     }
 
     private void fetchBloodInventory() {
@@ -136,6 +146,35 @@ public class BloodDonationActivity extends AppCompatActivity {
         view.setLayoutParams(params);
         
         glSupplyIndex.addView(view);
+    }
+
+    private void addCenterCard(String centerId, String name, String addressDistance, boolean isFastTrack) {
+        View view = LayoutInflater.from(this).inflate(R.layout.item_donation_center, llNearbyCenters, false);
+        
+        TextView tvCenterName = view.findViewById(R.id.tvCenterName);
+        TextView tvAddressDistance = view.findViewById(R.id.tvAddressDistance);
+        TextView tvFastTrack = view.findViewById(R.id.tvFastTrack);
+        
+        tvCenterName.setText(name);
+        tvAddressDistance.setText(addressDistance);
+        
+        if (isFastTrack) {
+            tvFastTrack.setVisibility(View.VISIBLE);
+        } else {
+            tvFastTrack.setVisibility(View.GONE);
+        }
+        
+        view.setOnClickListener(v -> {
+            if (selectedCenterView != null) {
+                selectedCenterView.setBackgroundResource(R.drawable.bg_card_white_rounded);
+            }
+            selectedCenterView = view;
+            selectedCenterId = centerId;
+            selectedCenterName = name;
+            view.setBackgroundResource(R.drawable.bg_card_selected);
+        });
+        
+        llNearbyCenters.addView(view);
     }
 
 
