@@ -56,11 +56,12 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
     public static final String EXTRA_TEST_MARKERS = "test_markers";
     public static final String EXTRA_PREP_INSTRUCTIONS = "prep_instructions";
 
-    private static final String GROQ_API_KEY = "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";
-    private static final String GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
+    private static final String GEMINI_API_KEY = "AIzaSyD1vais9mfNi0_P4SCEKDWkNLWeaoat9Og";
+    private static final String GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=" + GEMINI_API_KEY;
 
     private LinearLayout llQuestionsContainer;
     private TextView tvTestName, tvCategory, tvPrice, btnConfirmBooking;
+    private android.app.ProgressDialog progressDialog;
 
     // Each question: label → chosen answer (radio) or typed text (edit)
     private final List<QuestionView> questionViews = new ArrayList<>();
@@ -358,8 +359,18 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
 
                 db.child("test_bookings").child(bookingId).setValue(booking)
                     .addOnSuccessListener(unused -> {
-                        // Booking saved — now call Groq in background
-                        callGroqApi(bookingId, answers);
+                        // Booking saved — now show payment sheet
+                        PaymentBottomSheet paymentSheet = new PaymentBottomSheet(booking, paidId -> {
+                            // Payment successful — now call Gemini in background
+                            runOnUiThread(() -> {
+                                progressDialog = new android.app.ProgressDialog(AiLabQuestionsActivity.this);
+                                progressDialog.setMessage("AI is analyzing your health context...");
+                                progressDialog.setCancelable(false);
+                                progressDialog.show();
+                            });
+                            callGeminiApi(paidId, answers);
+                        });
+                        paymentSheet.show(getSupportFragmentManager(), "payment");
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(AiLabQuestionsActivity.this,
@@ -376,7 +387,7 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
         });
     }
 
-    private void callGroqApi(String bookingId, String userAnswers) {
+    private void callGeminiApi(String bookingId, String userAnswers) {
         runOnUiThread(() -> btnConfirmBooking.setText("✦ Getting AI Analysis..."));
 
         String prompt = "You are a medical lab assistant AI. A patient has booked the following lab test:\n\n"
@@ -392,20 +403,21 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
                 + "Keep the response clear, structured, and in plain language a patient can understand.";
 
         try {
-            JSONObject message = new JSONObject();
-            message.put("role", "user");
-            message.put("content", prompt);
+            // Gemini Request Format
+            JSONObject part = new JSONObject();
+            part.put("text", prompt);
 
-            JSONArray messages = new JSONArray();
-            messages.put(message);
+            JSONArray parts = new JSONArray();
+            parts.put(part);
+
+            JSONObject content = new JSONObject();
+            content.put("parts", parts);
+
+            JSONArray contents = new JSONArray();
+            contents.put(content);
 
             JSONObject body = new JSONObject();
-            body.put("model", "llama-3.1-8b-instant"); // Updated model name
-            body.put("messages", messages);
-            body.put("max_tokens", 1024);
-            body.put("temperature", 0.7);
-            body.put("top_p", 1);
-            body.put("stream", false);
+            body.put("contents", contents);
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(30, TimeUnit.SECONDS)
@@ -413,9 +425,7 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
                     .build();
 
             Request request = new Request.Builder()
-                    .url(GROQ_URL)
-                    .addHeader("Authorization", "Bearer " + GROQ_API_KEY)
-                    .addHeader("Content-Type", "application/json")
+                    .url(GEMINI_URL)
                     .post(RequestBody.create(body.toString(),
                             MediaType.parse("application/json; charset=utf-8")))
                     .build();
@@ -434,10 +444,14 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
                         try {
                             String raw = response.body().string();
                             JSONObject json = new JSONObject(raw);
-                            aiText = json.getJSONArray("choices")
+                            
+                            // Gemini Response Parsing
+                            aiText = json.getJSONArray("candidates")
                                     .getJSONObject(0)
-                                    .getJSONObject("message")
-                                    .getString("content");
+                                    .getJSONObject("content")
+                                    .getJSONArray("parts")
+                                    .getJSONObject(0)
+                                    .getString("text");
                         } catch (Exception e) {
                             android.util.Log.e("AiLabQuestions", "Parse error", e);
                             aiText = "Error parsing AI response. The service might be temporarily unavailable.";
@@ -446,14 +460,23 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
                         String errorBody = response.body() != null ? response.body().string() : "No error body";
                         android.util.Log.e("AiLabQuestions", "API Error: " + response.code() + " - " + errorBody);
                         
-                        if (response.code() == 401) {
-                            aiText = "API Key Error: Unauthorized. Please check if your Groq API key is valid.";
+                        if (response.code() == 404) {
+                            aiText = "Model Not Found (Error 404). Please ensure the Gemini 1.5 Flash model is available in your region.";
+                        } else if (response.code() == 400) {
+                            aiText = "Invalid Request: " + errorBody;
+                        } else if (response.code() == 403 || response.code() == 401) {
+                            aiText = "API Key Error: Unauthorized. Please check your Google Studio API key.";
                         } else if (response.code() == 429) {
                             aiText = "AI service is busy (Rate limit exceeded). Please try again in a few minutes.";
                         } else {
-                            aiText = "AI analysis failed (Error " + response.code() + "). Please try again later.";
+                            aiText = "AI analysis failed (Error " + response.code() + ").";
                         }
                     }
+                    runOnUiThread(() -> {
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                    });
                     saveAiResult(bookingId, aiText);
                 }
             });
@@ -473,8 +496,16 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
             .addOnCompleteListener(task -> runOnUiThread(() -> {
                 if (task.isSuccessful()) {
                     Toast.makeText(this,
-                            "Booking confirmed! AI analysis is ready in My Results.",
+                            "Booking confirmed! Opening analysis report...",
                             Toast.LENGTH_LONG).show();
+                            
+                    // Immediately show the result detail
+                    Intent intent = new Intent(this, ResultDetailActivity.class);
+                    intent.putExtra(ResultDetailActivity.EXTRA_BOOKING_ID, bookingId);
+                    intent.putExtra(ResultDetailActivity.EXTRA_TEST_NAME, testName);
+                    intent.putExtra(ResultDetailActivity.EXTRA_BOOKING_DATE, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+                    intent.putExtra(ResultDetailActivity.EXTRA_AI_RESULT, aiText);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(this,
                             "Booking confirmed, but AI result update failed.",

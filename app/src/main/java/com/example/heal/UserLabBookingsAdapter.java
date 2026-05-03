@@ -74,6 +74,40 @@ public class UserLabBookingsAdapter extends RecyclerView.Adapter<UserLabBookings
         // Preparation
         String prep = booking.getPreparation_instructions();
         holder.tvPreparation.setText(prep != null && !prep.isEmpty() ? prep : "No special preparation required.");
+
+        // View Report Button logic
+        if (booking.isAi_result_ready()) {
+            holder.btnViewReport.setVisibility(View.VISIBLE);
+            holder.btnViewReport.setOnClickListener(v -> {
+                android.content.Intent intent = new android.content.Intent(context, ResultDetailActivity.class);
+                intent.putExtra(ResultDetailActivity.EXTRA_BOOKING_ID, booking.getBooking_id());
+                intent.putExtra(ResultDetailActivity.EXTRA_TEST_NAME, booking.getTest_name());
+                intent.putExtra(ResultDetailActivity.EXTRA_BOOKING_DATE, booking.getBooking_date());
+                intent.putExtra(ResultDetailActivity.EXTRA_AI_RESULT, booking.getAi_result());
+                context.startActivity(intent);
+            });
+        } else {
+            holder.btnViewReport.setVisibility(View.GONE);
+        }
+
+        // Dismiss Button logic
+        holder.btnDismiss.setOnClickListener(v -> {
+            String bookingId = booking.getBooking_id();
+            if (bookingId != null) {
+                com.google.firebase.database.FirebaseDatabase.getInstance()
+                        .getReference("test_bookings")
+                        .child(bookingId)
+                        .removeValue()
+                        .addOnSuccessListener(unused -> {
+                            int currentPos = holder.getAdapterPosition();
+                            if (currentPos != RecyclerView.NO_POSITION) {
+                                bookings.remove(currentPos);
+                                notifyItemRemoved(currentPos);
+                                android.widget.Toast.makeText(context, "Record dismissed successfully", android.widget.Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
     }
 
     @Override
@@ -88,6 +122,7 @@ public class UserLabBookingsAdapter extends RecyclerView.Adapter<UserLabBookings
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvTestName, tvStatus, tvPreferredDate, tvTimeSlot, tvType, tvAmount, tvPreparation;
+        TextView btnDismiss, btnViewReport;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,6 +133,8 @@ public class UserLabBookingsAdapter extends RecyclerView.Adapter<UserLabBookings
             tvType = itemView.findViewById(R.id.tvBookingType);
             tvAmount = itemView.findViewById(R.id.tvBookingAmount);
             tvPreparation = itemView.findViewById(R.id.tvBookingPreparation);
+            btnDismiss = itemView.findViewById(R.id.btnDismiss);
+            btnViewReport = itemView.findViewById(R.id.btnViewReport);
         }
     }
 }

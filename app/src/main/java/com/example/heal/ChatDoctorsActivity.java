@@ -2,6 +2,7 @@ package com.example.heal;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ public class ChatDoctorsActivity extends AppCompatActivity {
     private List<Doctor> doctorsList;
     private DatabaseReference mDatabase;
     private String department;
+    private TextView tvEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class ChatDoctorsActivity extends AppCompatActivity {
         tvToolbarTitle.setText(department + " Doctors");
 
         rvDoctors = findViewById(R.id.rvDoctors);
+        tvEmpty = findViewById(R.id.tvEmpty);
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
         rvDoctors.setLayoutManager(new LinearLayoutManager(this));
@@ -64,6 +67,7 @@ public class ChatDoctorsActivity extends AppCompatActivity {
                     }
                 }
                 adapter.notifyDataSetChanged();
+                tvEmpty.setVisibility(doctorsList.isEmpty() ? View.VISIBLE : View.GONE);
             }
 
             @Override

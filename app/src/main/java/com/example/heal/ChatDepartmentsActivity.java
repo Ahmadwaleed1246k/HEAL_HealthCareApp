@@ -49,24 +49,18 @@ public class ChatDepartmentsActivity extends AppCompatActivity {
     }
 
     private void fetchDepartments() {
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Set<String> depts = new HashSet<>();
-                for (DataSnapshot doctorSnapshot : snapshot.getChildren()) {
-                    String specialization = doctorSnapshot.child("specialization").getValue(String.class);
-                    if (specialization != null && !specialization.isEmpty()) {
-                        depts.add(specialization);
-                    }
-                }
-                departmentsList.clear();
-                departmentsList.addAll(depts);
-                adapter.notifyDataSetChanged();
-            }
+        String[] allDepartments = {
+                "Cardiologist", "Dermatologist", "Gynecologist", "Pediatrician",
+                "Psychiatrist", "Neurologist", "Orthopedic Surgeon", "ENT Specialist",
+                "Ophthalmologist", "Urologist", "Gastroenterologist", "Endocrinologist",
+                "Pulmonologist", "Nephrologist", "Oncologist", "Rheumatologist",
+                "General Physician", "Dentist", "Physical Therapist", "Nutritionist"
+        };
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
+        departmentsList.clear();
+        for (String dept : allDepartments) {
+            departmentsList.add(dept);
+        }
+        adapter.notifyDataSetChanged();
     }
 }

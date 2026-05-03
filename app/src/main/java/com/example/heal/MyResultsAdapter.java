@@ -75,13 +75,31 @@ public class MyResultsAdapter extends RecyclerView.Adapter<MyResultsAdapter.View
             }
             listener.onClick(b);
         });
+
+        h.btnDismiss.setOnClickListener(v -> {
+            String bookingId = b.getBooking_id();
+            if (bookingId != null) {
+                com.google.firebase.database.FirebaseDatabase.getInstance()
+                        .getReference("test_bookings")
+                        .child(bookingId)
+                        .removeValue()
+                        .addOnSuccessListener(unused -> {
+                            int currentPos = h.getAdapterPosition();
+                            if (currentPos != RecyclerView.NO_POSITION) {
+                                bookings.remove(currentPos);
+                                notifyItemRemoved(currentPos);
+                                android.widget.Toast.makeText(context, "Result dismissed", android.widget.Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
     }
 
     @Override
     public int getItemCount() { return bookings.size(); }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTestName, tvBookingDate, tvAmount, tvPaymentStatus, btnViewResult;
+        TextView tvTestName, tvBookingDate, tvAmount, tvPaymentStatus, btnViewResult, btnDismiss;
 
         ViewHolder(@NonNull View item) {
             super(item);
@@ -90,6 +108,7 @@ public class MyResultsAdapter extends RecyclerView.Adapter<MyResultsAdapter.View
             tvAmount        = item.findViewById(R.id.tvResultAmount);
             tvPaymentStatus = item.findViewById(R.id.tvPaymentStatus);
             btnViewResult   = item.findViewById(R.id.btnViewResult);
+            btnDismiss      = item.findViewById(R.id.btnDismiss);
         }
     }
 }

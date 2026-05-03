@@ -128,5 +128,19 @@
             android:textColor="@color/white"
             android:background="#0E6858"/>
 
+        <TextView
+            android:id="@+id/btnDismiss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="Dismiss Record"
+            android:textColor="#D32F2F"
+            android:textSize="12sp"
+            android:fontFamily="sans-serif-medium"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>
