@@ -93,6 +93,5 @@ public class Signup extends AppCompatActivity {
         intent.putExtra("name", name);
         intent.putExtra("role", role);
         startActivity(intent);
-        finish();
     }
 }

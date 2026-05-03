@@ -21,6 +21,12 @@
             android:name=".EmergencyActivity"
             android:exported="false" />
         <activity
+            android:name=".HelpSupportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PrivacyPolicyActivity"
+            android:exported="false" />
+        <activity
             android:name=".DoctorHomeActivity"
             android:exported="false" />
         <activity

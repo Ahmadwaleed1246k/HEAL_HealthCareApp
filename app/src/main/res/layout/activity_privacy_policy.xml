@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <!-- Top Bar -->
+    <LinearLayout
+        android:id="@+id/llTopBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_back"
+            app:tint="@color/colorPrimary"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <TextView
+            android:id="@+id/tvToolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Privacy Policy"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginStart="16dp" />
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Privacy Policy for HEAL"
+                android:textColor="@color/colorOnSurface"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-black"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last updated: May 2026"
+                android:textColor="@color/colorSecondary"
+                android:textSize="12sp"
+                android:layout_marginBottom="24dp"/>
+
+            <TextView
+                android:id="@+id/tvPrivacyContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorOnSurface"
+                android:textSize="14sp"
+                android:lineSpacingExtra="6dp"
+                android:text="Your privacy is important to us. It is HEAL's policy to respect your privacy regarding any information we may collect from you through our app.\n\n1. Information we collect\nWe only ask for personal information when we truly need it to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent. We also let you know why we’re collecting it and how it will be used.\n\n2. Use of Information\nWe use your personal data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy.\n\n3. Data Retention\nWe only retain collected information for as long as necessary to provide you with your requested service. What data we store, we’ll protect within commercially acceptable means to prevent loss and theft, as well as unauthorized access, disclosure, copying, use or modification.\n\n4. Third-party Access\nWe do not share any personally identifying information publicly or with third-parties, except when required to by law.\n\n5. User Rights\nYou are free to refuse our request for your personal information, with the understanding that we may be unable to provide you with some of your desired services.\n\n6. Consent\nYour continued use of our app will be regarded as acceptance of our practices around privacy and personal information. If you have any questions about how we handle user data and personal information, feel free to contact us."/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="48dp"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

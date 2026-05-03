@@ -173,7 +173,9 @@ public class ProfileSetupActivity extends AppCompatActivity {
                                             sessionManager.setRole(role);
                                             sessionManager.setName(name);
 
-                                            startActivity(new Intent(ProfileSetupActivity.this, HomeActivity.class));
+                                            Intent homeIntent = new Intent(ProfileSetupActivity.this, HomeActivity.class);
+                                            homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(homeIntent);
                                             finish();
                                         } else {
                                             Toast.makeText(ProfileSetupActivity.this, "Update failed: " + dbTask.getException().getMessage(), Toast.LENGTH_SHORT).show();

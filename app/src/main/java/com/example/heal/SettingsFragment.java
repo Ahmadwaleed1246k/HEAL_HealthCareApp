@@ -29,7 +29,7 @@ public class SettingsFragment extends Fragment {
 
     // Existing views
     private TextView tvName, tvEmail, tvPhone, tvDob, tvMemberSince, tvHealthRecordsTitle;
-    private androidx.cardview.widget.CardView cvHealthRecords;
+    private androidx.cardview.widget.CardView cvHealthRecords, cvHelpSupport, cvPrivacyPolicy;
     private Button btnLogout;
     private LinearLayout llLabResults, llMedicalHistory, llPrescriptions;
 
@@ -92,6 +92,14 @@ public class SettingsFragment extends Fragment {
         llPrescriptions = view.findViewById(R.id.llPrescriptions);
         llPrescriptions.setOnClickListener(v -> startActivity(
                 new Intent(getActivity(), UserPrescriptionsActivity.class)));
+
+        cvHelpSupport = view.findViewById(R.id.cvHelpSupport);
+        cvHelpSupport.setOnClickListener(v -> startActivity(
+                new Intent(getActivity(), HelpSupportActivity.class)));
+
+        cvPrivacyPolicy = view.findViewById(R.id.cvPrivacyPolicy);
+        cvPrivacyPolicy.setOnClickListener(v -> startActivity(
+                new Intent(getActivity(), PrivacyPolicyActivity.class)));
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();

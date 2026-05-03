@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/app_background_color">
+
+    <!-- Top Bar -->
+    <LinearLayout
+        android:id="@+id/llTopBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_back"
+            app:tint="@color/colorPrimary"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <TextView
+            android:id="@+id/tvToolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Help &amp; Support"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginStart="16dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="How can we help you?"
+                android:textColor="@color/colorOnSurface"
+                android:textSize="22sp"
+                android:fontFamily="sans-serif-black"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fill out the form below and our team will get back to you as soon as possible."
+                android:textColor="@color/colorSecondary"
+                android:textSize="14sp"
+                android:layout_marginBottom="32dp"/>
+
+            <!-- Subject -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subject"
+                android:textColor="@color/colorSecondary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/etSubject"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/search_bar_bg"
+                android:backgroundTint="@color/white"
+                android:hint="Briefly describe your issue"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textSize="16sp"
+                android:layout_marginBottom="24dp"
+                android:inputType="textCapSentences"/>
+
+            <!-- Message -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Message"
+                android:textColor="@color/colorSecondary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/etMessage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@drawable/search_bar_bg"
+                android:backgroundTint="@color/white"
+                android:hint="Type your query here..."
+                android:padding="16dp"
+                android:textSize="16sp"
+                android:gravity="top"
+                android:layout_marginBottom="32dp"
+                android:inputType="textMultiLine|textCapSentences"/>
+
+            <Button
+                android:id="@+id/btnSendMessage"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Send Message"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/colorPrimary"
+                app:cornerRadius="12dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Alternatively, you can email us directly at:\naw0412626644@gmail.com"
+                android:textColor="@color/colorSecondary"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

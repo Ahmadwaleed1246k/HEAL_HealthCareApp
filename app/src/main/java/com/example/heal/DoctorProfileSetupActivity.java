@@ -243,7 +243,9 @@ public class DoctorProfileSetupActivity extends AppCompatActivity {
                         sessionManager.setRole("Doctor");
 
                         if (!getIntent().getBooleanExtra("isEditing", false)) {
-                            startActivity(new Intent(DoctorProfileSetupActivity.this, DoctorHomeActivity.class));
+                            Intent homeIntent = new Intent(DoctorProfileSetupActivity.this, DoctorHomeActivity.class);
+                            homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(homeIntent);
                         }
                         finish();
                     } else {
