@@ -50,6 +50,9 @@
                 android:layout_height="48dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="0dp">
 
@@ -58,8 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_person"
-                    app:tint="@color/colorPrimary" />
+                    android:src="@drawable/ic_person" />
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
         <androidx.cardview.widget.CardView
