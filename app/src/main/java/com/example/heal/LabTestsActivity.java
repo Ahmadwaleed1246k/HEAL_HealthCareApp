@@ -164,6 +164,8 @@ public class LabTestsActivity extends AppCompatActivity {
     //  Firebase – my results tab
     // ─────────────────────────────────────────────
 
+    private com.google.firebase.database.ValueEventListener myResultsListener;
+
     private void fetchMyResults() {
         String uid = FirebaseAuth.getInstance().getUid();
         if (uid == null) {
@@ -172,29 +174,45 @@ public class LabTestsActivity extends AppCompatActivity {
             return;
         }
 
+        // Remove old listener if exists
+        if (myResultsListener != null) {
+            mDatabase.child("test_bookings").removeEventListener(myResultsListener);
+        }
+
+        myResultsListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                myBookingsList.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    TestBooking b = ds.getValue(TestBooking.class);
+                    if (b != null) myBookingsList.add(b);
+                }
+                myResultsAdapter.notifyDataSetChanged();
+                if (myBookingsList.isEmpty()) {
+                    llResultsEmpty.setVisibility(View.VISIBLE);
+                    rvMyResults.setVisibility(View.GONE);
+                } else {
+                    llResultsEmpty.setVisibility(View.GONE);
+                    rvMyResults.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                llResultsEmpty.setVisibility(View.VISIBLE);
+            }
+        };
+
         mDatabase.child("test_bookings").orderByChild("user_id").equalTo(uid)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        myBookingsList.clear();
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            TestBooking b = ds.getValue(TestBooking.class);
-                            if (b != null) myBookingsList.add(b);
-                        }
-                        myResultsAdapter.notifyDataSetChanged();
-                        if (myBookingsList.isEmpty()) {
-                            llResultsEmpty.setVisibility(View.VISIBLE);
-                            rvMyResults.setVisibility(View.GONE);
-                        } else {
-                            llResultsEmpty.setVisibility(View.GONE);
-                            rvMyResults.setVisibility(View.VISIBLE);
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        llResultsEmpty.setVisibility(View.VISIBLE);
-                    }
-                });
+                .addValueEventListener(myResultsListener);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (myResultsListener != null) {
+            mDatabase.child("test_bookings").removeEventListener(myResultsListener);
+        }
     }
 
     // ─────────────────────────────────────────────

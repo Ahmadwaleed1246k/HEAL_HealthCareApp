@@ -400,9 +400,12 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
             messages.put(message);
 
             JSONObject body = new JSONObject();
-            body.put("model", "llama3-8b-8192");
+            body.put("model", "llama-3.1-8b-instant"); // Updated model name
             body.put("messages", messages);
             body.put("max_tokens", 1024);
+            body.put("temperature", 0.7);
+            body.put("top_p", 1);
+            body.put("stream", false);
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(30, TimeUnit.SECONDS)
@@ -420,12 +423,13 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                    saveAiResult(bookingId, "AI analysis could not be retrieved. Please try again later. Error: " + e.getMessage());
+                    android.util.Log.e("AiLabQuestions", "API call failed", e);
+                    saveAiResult(bookingId, "Network error: " + e.getMessage() + ". Please check your internet connection.");
                 }
 
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    String aiText = "AI analysis unavailable.";
+                    String aiText;
                     if (response.isSuccessful() && response.body() != null) {
                         try {
                             String raw = response.body().string();
@@ -435,7 +439,19 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
                                     .getJSONObject("message")
                                     .getString("content");
                         } catch (Exception e) {
-                            aiText = "Could not parse AI response.";
+                            android.util.Log.e("AiLabQuestions", "Parse error", e);
+                            aiText = "Error parsing AI response. The service might be temporarily unavailable.";
+                        }
+                    } else {
+                        String errorBody = response.body() != null ? response.body().string() : "No error body";
+                        android.util.Log.e("AiLabQuestions", "API Error: " + response.code() + " - " + errorBody);
+                        
+                        if (response.code() == 401) {
+                            aiText = "API Key Error: Unauthorized. Please check if your Groq API key is valid.";
+                        } else if (response.code() == 429) {
+                            aiText = "AI service is busy (Rate limit exceeded). Please try again in a few minutes.";
+                        } else {
+                            aiText = "AI analysis failed (Error " + response.code() + "). Please try again later.";
                         }
                     }
                     saveAiResult(bookingId, aiText);
@@ -448,12 +464,22 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
 
     private void saveAiResult(String bookingId, String aiText) {
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        db.child("test_bookings").child(bookingId).child("ai_result").setValue(aiText);
-        db.child("test_bookings").child(bookingId).child("ai_result_ready").setValue(true)
+        
+        java.util.Map<String, Object> updates = new java.util.HashMap<>();
+        updates.put("ai_result", aiText);
+        updates.put("ai_result_ready", true);
+
+        db.child("test_bookings").child(bookingId).updateChildren(updates)
             .addOnCompleteListener(task -> runOnUiThread(() -> {
-                Toast.makeText(this,
-                        "Booking confirmed! AI analysis is ready in My Results.",
-                        Toast.LENGTH_LONG).show();
+                if (task.isSuccessful()) {
+                    Toast.makeText(this,
+                            "Booking confirmed! AI analysis is ready in My Results.",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this,
+                            "Booking confirmed, but AI result update failed.",
+                            Toast.LENGTH_LONG).show();
+                }
                 setResult(RESULT_OK);
                 finish();
             }));
