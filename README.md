@@ -154,5 +154,4 @@ Licensed under the Apache License, Version 2.0
 ## 📧 SUPPORT
 
 * Email: [aw0412626644@gmail.com](mailto:aw0412626644@gmail.com)
-* GitHub: Open an issue in the repository
 
