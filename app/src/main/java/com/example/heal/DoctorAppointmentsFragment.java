@@ -153,7 +153,10 @@ public class DoctorAppointmentsFragment extends Fragment {
                         totalBookings++;
                         
                         String status = appointment.getStatus();
-                        if ("accepted".equalsIgnoreCase(status) || "prescribed".equalsIgnoreCase(status)) {
+                        if ("accepted".equalsIgnoreCase(status) || 
+                            "prescribed".equalsIgnoreCase(status) || 
+                            "completed".equalsIgnoreCase(status) ||
+                            "confirmed".equalsIgnoreCase(status)) {
                             totalRevenue += appointment.getConsultationFee();
                         }
                     }
