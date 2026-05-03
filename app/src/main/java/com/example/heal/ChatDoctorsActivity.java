@@ -32,8 +32,8 @@ public class ChatDoctorsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat_doctors);
 
         department = getIntent().getStringExtra("department");
-        TextView tvTitle = findViewById(R.id.tvTitle);
-        tvTitle.setText(department + " Doctors");
+        TextView tvToolbarTitle = findViewById(R.id.tvToolbarTitle);
+        tvToolbarTitle.setText(department + " Doctors");
 
         rvDoctors = findViewById(R.id.rvDoctors);
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());

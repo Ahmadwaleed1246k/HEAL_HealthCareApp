@@ -1,49 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#F7FAF9">
 
-    <!-- Header -->
+    <!-- Standardized Top Bar -->
+    <LinearLayout
+        android:id="@+id/llTopBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_back"
+            app:tint="@color/colorPrimary"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <TextView
+            android:id="@+id/tvToolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AI Result"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginStart="16dp" />
+    </LinearLayout>
+
+    <!-- Sub-header area with Test Name -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#0E6858"
-        android:padding="24dp"
-        android:paddingBottom="28dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/btnBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_back"
-                android:tint="@color/white"
-                android:background="#33FFFFFF"
-                android:padding="8dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="AI Result"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:fontFamily="sans-serif-medium"/>
-        </RelativeLayout>
+        android:background="@color/white"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="24dp">
 
         <TextView
             android:id="@+id/tvResultTestName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:textColor="@color/white"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/colorOnSurface"
             android:textSize="24sp"
             android:fontFamily="sans-serif-black"
             android:text="Test Name"/>
@@ -59,7 +68,7 @@
                 android:id="@+id/tvResultDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#AAFFFFFF"
+                android:textColor="@color/colorSecondary"
                 android:textSize="13sp"
                 android:text="Date"/>
 
@@ -72,10 +81,10 @@
                 android:paddingTop="3dp"
                 android:paddingBottom="3dp"
                 android:text="✓ PAID"
-                android:textColor="#0E6858"
+                android:textColor="@color/white"
                 android:textSize="11sp"
                 android:fontFamily="sans-serif-bold"
-                android:background="#FFFFFFFF"/>
+                android:background="@color/colorPrimary"/>
         </LinearLayout>
     </LinearLayout>
 

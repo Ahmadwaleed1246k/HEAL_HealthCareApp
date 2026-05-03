@@ -97,43 +97,62 @@ public class UserMedicalHistoryActivity extends AppCompatActivity {
     }
 
     private void showAppointmentDetail(Appointment appt) {
+        android.app.Dialog dialog = new android.app.Dialog(this);
+        dialog.setContentView(R.layout.dialog_medical_detail);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        TextView tvTitle = dialog.findViewById(R.id.tvDetailTitle);
+        TextView tvSubtitle = dialog.findViewById(R.id.tvDetailSubtitle);
+        TextView tvContent = dialog.findViewById(R.id.tvDetailContent);
+        com.google.android.material.button.MaterialButton btnClose = dialog.findViewById(R.id.btnDetailClose);
+
+        tvTitle.setText("Appointment Detail");
+        tvSubtitle.setText(appt.getDate() + " at " + appt.getTime());
+
         StringBuilder detail = new StringBuilder();
-        detail.append("Date: ").append(appt.getDate()).append("\n");
-        detail.append("Time: ").append(appt.getTime()).append("\n");
         if (appt.getType() != null && appt.getType().equals("room")) {
-            detail.append("Hospital: ").append(appt.getHospitalName()).append("\n");
-            detail.append("Room: ").append(appt.getRoomNumber()).append("\n");
+            detail.append("Hospital: ").append(appt.getHospitalName()).append("\n\n");
+            detail.append("Room: ").append(appt.getRoomNumber()).append("\n\n");
         } else {
-            detail.append("Doctor: ").append(appt.getDoctorName()).append("\n");
+            detail.append("Doctor: ").append(appt.getDoctorName()).append("\n\n");
         }
-        detail.append("Status: ").append(appt.getStatus().toUpperCase()).append("\n");
+        detail.append("Status: ").append(appt.getStatus().toUpperCase()).append("\n\n");
         if (appt.getNotes() != null && !appt.getNotes().isEmpty()) {
-            detail.append("\nNotes:\n").append(appt.getNotes());
+            detail.append("Notes:\n").append(appt.getNotes());
         }
 
-        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
-                .setTitle("Appointment Detail")
-                .setMessage(detail.toString())
-                .setPositiveButton("Close", null)
-                .show();
+        tvContent.setText(detail.toString());
+        btnClose.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
     }
 
     private void showPrescriptionDetail(Prescription pres) {
+        android.app.Dialog dialog = new android.app.Dialog(this);
+        dialog.setContentView(R.layout.dialog_medical_detail);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.getWindow().setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        TextView tvTitle = dialog.findViewById(R.id.tvDetailTitle);
+        TextView tvSubtitle = dialog.findViewById(R.id.tvDetailSubtitle);
+        TextView tvContent = dialog.findViewById(R.id.tvDetailContent);
+        com.google.android.material.button.MaterialButton btnClose = dialog.findViewById(R.id.btnDetailClose);
+
+        tvTitle.setText("Prescription Detail");
+        tvSubtitle.setText("Date: " + pres.getDate());
+
         StringBuilder detail = new StringBuilder();
-        detail.append("Medicine: ").append(pres.getMedicineName()).append("\n");
-        detail.append("Dosage: ").append(pres.getDosage()).append("\n");
-        detail.append("Frequency: ").append(pres.getFrequency()).append("\n");
-        detail.append("Doctor: ").append(pres.getDoctorName()).append("\n");
-        detail.append("Date: ").append(pres.getDate()).append("\n");
+        detail.append("Medicine: ").append(pres.getMedicineName()).append("\n\n");
+        detail.append("Dosage: ").append(pres.getDosage()).append("\n\n");
+        detail.append("Frequency: ").append(pres.getFrequency()).append("\n\n");
+        detail.append("Doctor: ").append(pres.getDoctorName()).append("\n\n");
         if (pres.getInstructions() != null && !pres.getInstructions().isEmpty()) {
-            detail.append("\nInstructions:\n").append(pres.getInstructions());
+            detail.append("Instructions:\n").append(pres.getInstructions());
         }
 
-        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
-                .setTitle("Prescription Detail")
-                .setMessage(detail.toString())
-                .setPositiveButton("Close", null)
-                .show();
+        tvContent.setText(detail.toString());
+        btnClose.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
     }
 
     private void showAppointments() {
@@ -151,33 +170,21 @@ public class UserMedicalHistoryActivity extends AppCompatActivity {
     }
 
     private void updateTabStyles(boolean isAppointments) {
-        String primaryColor = "#0E6858";
+        int primaryColor = android.graphics.Color.parseColor("#0E6858");
+        int white = android.graphics.Color.WHITE;
+
         if (isAppointments) {
-            // Appointments selected: Filled style
-            btnAppointments.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor(primaryColor)));
-            btnAppointments.setTextColor(android.graphics.Color.WHITE);
-            btnAppointments.setStrokeWidth(0);
-            btnAppointments.setElevation(dpToPx(4));
+            btnAppointments.setBackgroundTintList(android.content.res.ColorStateList.valueOf(primaryColor));
+            btnAppointments.setTextColor(white);
 
-            // Prescriptions unselected: Outlined style
-            btnPrescriptions.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.WHITE));
-            btnPrescriptions.setTextColor(android.graphics.Color.parseColor(primaryColor));
-            btnPrescriptions.setStrokeColor(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor(primaryColor)));
-            btnPrescriptions.setStrokeWidth(dpToPx(1));
-            btnPrescriptions.setElevation(0);
+            btnPrescriptions.setBackgroundTintList(android.content.res.ColorStateList.valueOf(white));
+            btnPrescriptions.setTextColor(primaryColor);
         } else {
-            // Appointments unselected: Outlined style
-            btnAppointments.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.WHITE));
-            btnAppointments.setTextColor(android.graphics.Color.parseColor(primaryColor));
-            btnAppointments.setStrokeColor(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor(primaryColor)));
-            btnAppointments.setStrokeWidth(dpToPx(1));
-            btnAppointments.setElevation(0);
+            btnAppointments.setBackgroundTintList(android.content.res.ColorStateList.valueOf(white));
+            btnAppointments.setTextColor(primaryColor);
 
-            // Prescriptions selected: Filled style
-            btnPrescriptions.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor(primaryColor)));
-            btnPrescriptions.setTextColor(android.graphics.Color.WHITE);
-            btnPrescriptions.setStrokeWidth(0);
-            btnPrescriptions.setElevation(dpToPx(4));
+            btnPrescriptions.setBackgroundTintList(android.content.res.ColorStateList.valueOf(primaryColor));
+            btnPrescriptions.setTextColor(white);
         }
     }
 

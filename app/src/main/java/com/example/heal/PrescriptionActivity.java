@@ -27,10 +27,8 @@ public class PrescriptionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prescription_add);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> finish());
+        // Standardized Top Bar Back Button
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
         appointmentId = getIntent().getStringExtra("appointmentId");
         patientId = getIntent().getStringExtra("patientId");
