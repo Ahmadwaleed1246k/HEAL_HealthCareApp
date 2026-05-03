@@ -1,148 +1,158 @@
-🏥 HEAL - Smart Healthcare Management System
+# 🏥 HEAL – Smart Healthcare Management System
 
-A comprehensive healthcare management mobile application that bridges patients with doctors, enables online appointments, lab test bookings, blood donation services, and medical record management.
+A comprehensive healthcare management mobile application that connects patients with doctors, enables online appointments, lab test bookings, blood donation services, and complete medical record management.
 
-================================================================================
-FEATURES
-================================================================================
+---
 
-PATIENT FEATURES:
-- User Authentication - Secure signup/login with email/password
-- Doctor Search & Filter - Find doctors by specialization
-- Appointment Booking - Schedule appointments with preferred time slots
-- Online Payments - Secure payment gateway for consultation fees
-- Prescription Management - View and manage digital prescriptions
-- Lab Test Booking - Book diagnostic tests with AI-powered recommendations
-- Medical History - Complete record of past appointments and prescriptions
-- Heart Rate Monitor - Real-time PPG-based heart rate measurement using camera
-- Blood Donation - Find nearby donation centers and schedule donations
-- Hospital Locator - Find nearby hospitals with real-time GPS location
-- Emergency Helplines - Quick access to medical emergency contacts
-- Room Booking - Book hospital rooms with advance payment
+## 🚀 FEATURES
 
-DOCTOR FEATURES:
-- Professional Profile Setup - Complete profile with specialization, experience
-- Appointment Management - Accept/reject/reschedule patient appointments
-- Digital Prescriptions - Issue electronic prescriptions to patients
-- Revenue Dashboard - Track total appointments and earnings
-- Availability Management - Set and update available time slots
+### 👤 Patient Features
 
-AI-POWERED FEATURES:
-- Smart Lab Test Recommendations - AI-driven test suggestions
-- Automated Result Analysis - AI-generated interpretation of lab results
+* **User Authentication** – Secure signup/login with email & password
+* **Doctor Search & Filter** – Find doctors by specialization
+* **Appointment Booking** – Schedule appointments with preferred time slots
+* **Online Payments** – Secure payment for consultation fees
+* **Prescription Management** – View and manage digital prescriptions
+* **Lab Test Booking** – Book diagnostic tests with AI-powered recommendations
+* **Medical History** – Complete record of past appointments and prescriptions
+* **Heart Rate Monitor** – Real-time PPG-based heart rate using camera
+* **Blood Donation** – Find nearby donation centers & schedule donations
+* **Hospital Locator** – Locate nearby hospitals using GPS
+* **Emergency Helplines** – Quick access to emergency contacts
+* **Room Booking** – Book hospital rooms with advance payment
 
-================================================================================
-TECH STACK
-================================================================================
+---
 
-Frontend: Android (Java), Material Design
-Backend: Firebase Authentication, Firebase Realtime Database
-APIs: OpenStreetMap, Camera2 API, Glide, OkHttp, Gson
-Architecture: MVC with fragments
+### 👨‍⚕️ Doctor Features
 
-================================================================================
-DATABASE STRUCTURE
-================================================================================
+* **Profile Setup** – Add specialization, experience, and details
+* **Appointment Management** – Accept/reject/reschedule appointments
+* **Digital Prescriptions** – Issue electronic prescriptions
+* **Revenue Dashboard** – Track earnings and appointments
+* **Availability Management** – Manage time slots
 
+---
+
+### 🤖 AI-Powered Features
+
+* **Smart Lab Test Recommendations** – AI-based suggestions
+* **Automated Result Analysis** – AI-generated interpretations
+
+---
+
+## 🛠️ TECH STACK
+
+* **Frontend:** Android (Java), Material Design
+* **Backend:** Firebase Authentication, Firebase Realtime Database
+* **APIs:** OpenStreetMap, Camera2 API, Glide, OkHttp, Gson
+* **Architecture:** MVC with Fragments
+
+---
+
+## 🗄️ DATABASE STRUCTURE
+
+```
 Firebase Realtime Database
-├── users/{userId} - User profiles
-├── doctors/{doctorId} - Doctor profiles
-├── appointments/{apptId} - Appointment records
-├── prescriptions/{prescId} - Digital prescriptions
-├── lab_tests/{testId} - Lab test catalog
-├── test_bookings/{bookingId} - Lab test bookings
-├── blood_donation/ - Blood donation data
-├── hospitals/{hospitalId} - Hospital information
-├── room_bookings/{bookingId} - Room bookings
-├── medical_history/ - Archived records
-└── ratings/{ratingId} - Doctor ratings
+├── users/{userId}
+├── doctors/{doctorId}
+├── appointments/{apptId}
+├── prescriptions/{prescId}
+├── lab_tests/{testId}
+├── test_bookings/{bookingId}
+├── blood_donation/
+├── hospitals/{hospitalId}
+├── room_bookings/{bookingId}
+├── medical_history/
+└── ratings/{ratingId}
+```
 
-================================================================================
-INSTALLATION
-================================================================================
+---
+
+## ⚙️ INSTALLATION
 
 1. Clone the repository:
+
+   ```
    git clone https://github.com/yourusername/heal-healthcare-app.git
+   ```
 
 2. Open in Android Studio
 
 3. Configure Firebase:
-   - Create project on Firebase Console
-   - Add Android app with package name: com.example.heal
-   - Download google-services.json to app/ directory
-   - Enable Email/Password Authentication
-   - Enable Realtime Database
 
-4. Build and Run
+   * Create a Firebase project
+   * Add Android app (`com.example.heal`)
+   * Download `google-services.json` into `/app`
+   * Enable Email/Password Authentication
+   * Enable Realtime Database
 
-================================================================================
-REQUIRED PERMISSIONS
-================================================================================
+4. Build & Run
 
-- INTERNET
-- CAMERA (for heart rate monitoring)
-- ACCESS_FINE_LOCATION (for hospital locator)
-- ACCESS_COARSE_LOCATION
+---
 
-================================================================================
-KEY DEPENDENCIES
-================================================================================
+## 🔐 REQUIRED PERMISSIONS
 
-Firebase Auth: 22.3.0
-Firebase Database: 20.3.0
-Material Design: 1.11.0
-RecyclerView: 1.3.2
-Glide: 4.16.0
-OSMDroid: 6.1.18
-OkHttp: 4.12.0
-Gson: 2.10.1
-Camera2: 1.3.0
+* INTERNET
+* CAMERA (for heart rate monitoring)
+* ACCESS_FINE_LOCATION
+* ACCESS_COARSE_LOCATION
 
-================================================================================
-WORKFLOWS
-================================================================================
+---
 
-PATIENT JOURNEY:
-Sign up → Complete profile → Browse doctors → Book appointment → Pay fee → Receive prescription → Rate doctor
+## 📦 KEY DEPENDENCIES
 
-DOCTOR JOURNEY:
-Register → Complete profile → Set time slots → Manage appointments → Issue prescriptions → View earnings
+* Firebase Auth: 22.3.0
+* Firebase Database: 20.3.0
+* Material Design: 1.11.0
+* RecyclerView: 1.3.2
+* Glide: 4.16.0
+* OSMDroid: 6.1.18
+* OkHttp: 4.12.0
+* Gson: 2.10.1
+* Camera2: 1.3.0
 
-APPOINTMENT LIFECYCLE:
-Patient Request → Doctor Accepts/Rejects → Consultation → Prescription → Medical History
+---
 
-================================================================================
-APK GENERATION
-================================================================================
+## 🔄 WORKFLOWS
 
-Debug APK:
-./gradlew assembleDebug
+### Patient Journey
 
-Release APK:
-./gradlew assembleRelease
+Sign up → Complete profile → Browse doctors → Book appointment → Pay → Receive prescription → Rate doctor
 
-================================================================================
-LICENSE
-================================================================================
+### Doctor Journey
 
-Copyright 2024 HEAL Healthcare
+Register → Complete profile → Set availability → Manage appointments → Issue prescriptions → View earnings
+
+### Appointment Lifecycle
+
+Request → Accept/Reject → Consultation → Prescription → Medical History
+
+---
+
+## 📱 APK GENERATION
+
+* Debug APK:
+
+  ```
+  ./gradlew assembleDebug
+  ```
+
+* Release APK:
+
+  ```
+  ./gradlew assembleRelease
+  ```
+
+---
+
+## 📜 LICENSE
 
 Licensed under the Apache License, Version 2.0
 
-================================================================================
-SUPPORT
-================================================================================
+---
 
-Email: aw0412626644@gmail.com
-GitHub Issues: Create an issue in the repository
+## 📧 SUPPORT
 
-================================================================================
-TEAM
-================================================================================
+* Email: [aw0412626644@gmail.com](mailto:aw0412626644@gmail.com)
+* GitHub: Open an issue in the repository
 
-Murtaza - Lead Developer
-Contributor - UI/UX Design & Database
-
-================================================================================
-
-Made with ❤️ for better healthcare
