@@ -98,10 +98,9 @@ public class DoctorAppointmentsFragment extends Fragment {
         fetchDoctorProfile();
 
         profileCard.setOnClickListener(v -> {
-            // Navigate to Settings tab
-            if (getActivity() instanceof DoctorHomeActivity) {
-                ((com.google.android.material.bottomnavigation.BottomNavigationView) getActivity().findViewById(R.id.doctorBottomNavigation)).setSelectedItemId(R.id.nav_settings);
-            }
+            android.content.Intent intent = new android.content.Intent(getActivity(), DoctorProfileSetupActivity.class);
+            intent.putExtra("isEditing", true);
+            startActivity(intent);
         });
 
         return view;

@@ -137,32 +137,52 @@ public class ProfileSetupActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
         String memberSince = sdf.format(Calendar.getInstance().getTime());
 
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            String uid = user.getUid();
-            HashMap<String, Object> profileData = new HashMap<>();
-            profileData.put("maritalStatus", maritalStatus);
-            profileData.put("gender", gender);
-            profileData.put("phone", phone);
-            profileData.put("dob", dob);
-            profileData.put("memberSince", memberSince);
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("name");
+        String email = intent.getStringExtra("email");
+        String password = intent.getStringExtra("password");
+        String role = intent.getStringExtra("role");
 
-            mDatabase.child("users").child(uid).updateChildren(profileData)
-                    .addOnCompleteListener(task -> {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            String uid = user.getUid();
+                            HashMap<String, Object> profileData = new HashMap<>();
+                            profileData.put("name", name);
+                            profileData.put("email", email);
+                            profileData.put("role", role);
+                            profileData.put("maritalStatus", maritalStatus);
+                            profileData.put("gender", gender);
+                            profileData.put("phone", phone);
+                            profileData.put("dob", dob);
+                            profileData.put("memberSince", memberSince);
+
+                            mDatabase.child("users").child(uid).setValue(profileData)
+                                    .addOnCompleteListener(dbTask -> {
+                                        progressBar.setVisibility(View.GONE);
+                                        btnCompleteSetup.setVisibility(View.VISIBLE);
+                                        if (dbTask.isSuccessful()) {
+                                            Toast.makeText(ProfileSetupActivity.this, "Registration & Profile updated successfully!", Toast.LENGTH_SHORT).show();
+                                            
+                                            SessionManager sessionManager = new SessionManager(ProfileSetupActivity.this);
+                                            sessionManager.setLogin(true);
+                                            sessionManager.setRole(role);
+                                            sessionManager.setName(name);
+
+                                            startActivity(new Intent(ProfileSetupActivity.this, HomeActivity.class));
+                                            finish();
+                                        } else {
+                                            Toast.makeText(ProfileSetupActivity.this, "Update failed: " + dbTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                    } else {
                         progressBar.setVisibility(View.GONE);
                         btnCompleteSetup.setVisibility(View.VISIBLE);
-                        if (task.isSuccessful()) {
-                            Toast.makeText(ProfileSetupActivity.this, "Profile updated successfully!", Toast.LENGTH_SHORT).show();
-                            
-                            SessionManager sessionManager = new SessionManager(ProfileSetupActivity.this);
-                            sessionManager.setLogin(true);
-
-                            startActivity(new Intent(ProfileSetupActivity.this, HomeActivity.class));
-                            finish();
-                        } else {
-                            Toast.makeText(ProfileSetupActivity.this, "Update failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
+                        Toast.makeText(ProfileSetupActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
     }
 }

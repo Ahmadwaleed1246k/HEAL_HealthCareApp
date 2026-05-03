@@ -15,8 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +44,7 @@ public class DoctorProfileSetupActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private boolean isEditing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +70,74 @@ public class DoctorProfileSetupActivity extends AppCompatActivity {
         cgTimeSlots = findViewById(R.id.cgTimeSlots);
         progressBar = findViewById(R.id.progressBar);
 
+        isEditing = getIntent().getBooleanExtra("isEditing", false);
+        if (isEditing) {
+            TextView tvHeaderTitle = findViewById(R.id.tvHeaderTitle);
+            TextView tvHeaderSubtitle = findViewById(R.id.tvHeaderSubtitle);
+            if (tvHeaderTitle != null) tvHeaderTitle.setText("Edit Profile");
+            if (tvHeaderSubtitle != null) tvHeaderSubtitle.setText("Update your professional details");
+            btnCompleteSetup.setText("UPDATE PROFILE");
+            
+            loadDoctorProfile();
+        }
+
         btnAddSlot.setOnClickListener(v -> showTimePicker());
         btnCompleteSetup.setOnClickListener(v -> saveDoctorProfile());
+    }
+
+    private void loadDoctorProfile() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            progressBar.setVisibility(View.VISIBLE);
+            mDatabase.child("doctors").child(user.getUid()).get().addOnCompleteListener(task -> {
+                progressBar.setVisibility(View.GONE);
+                if (task.isSuccessful() && task.getResult().exists()) {
+                    DataSnapshot snapshot = task.getResult();
+                    if (snapshot.hasChild("specialization")) {
+                        etSpecialization.setText(snapshot.child("specialization").getValue(String.class));
+                    }
+                    if (snapshot.hasChild("experience_years")) {
+                        Object exp = snapshot.child("experience_years").getValue();
+                        etExperience.setText(String.valueOf(exp));
+                    }
+                    if (snapshot.hasChild("hospital_name")) {
+                        etHospitalName.setText(snapshot.child("hospital_name").getValue(String.class));
+                    }
+                    if (snapshot.hasChild("hospital_location")) {
+                        etHospitalLocation.setText(snapshot.child("hospital_location").getValue(String.class));
+                    }
+                    if (snapshot.hasChild("consultation_fee")) {
+                        Object fee = snapshot.child("consultation_fee").getValue();
+                        etFee.setText(String.valueOf(fee));
+                    }
+                    if (snapshot.hasChild("about")) {
+                        etAbout.setText(snapshot.child("about").getValue(String.class));
+                    }
+                    if (snapshot.hasChild("languages")) {
+                        List<String> langs = (List<String>) snapshot.child("languages").getValue();
+                        if (langs != null) {
+                            etLanguages.setText(android.text.TextUtils.join(", ", langs));
+                        }
+                    }
+                    if (snapshot.hasChild("qualifications")) {
+                        List<HashMap<String, Object>> quals = (List<HashMap<String, Object>>) snapshot.child("qualifications").getValue();
+                        if (quals != null && !quals.isEmpty() && quals.get(0).containsKey("degree")) {
+                            etQualifications.setText(String.valueOf(quals.get(0).get("degree")));
+                        }
+                    }
+                    if (snapshot.hasChild("timings") && snapshot.child("timings").hasChild("available_slots")) {
+                        List<String> slots = (List<String>) snapshot.child("timings").child("available_slots").getValue();
+                        if (slots != null) {
+                            for (String slot : slots) {
+                                if (!selectedTimeSlots.contains(slot)) {
+                                    addTimeChip(slot);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
     }
 
     private void showTimePicker() {
@@ -127,27 +196,47 @@ public class DoctorProfileSetupActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         btnCompleteSetup.setVisibility(View.GONE);
 
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            String uid = user.getUid();
-            String name = user.getDisplayName(); // Usually set during signup
-            if (name == null || name.isEmpty()) {
-                // Fetch name from users node if not in FirebaseUser
+        if (isEditing) {
+            FirebaseUser user = mAuth.getCurrentUser();
+            if (user != null) {
+                String uid = user.getUid();
                 mDatabase.child("users").child(uid).child("name").get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        String fetchedName = String.valueOf(task.getResult().getValue());
-                        completeSaving(uid, fetchedName, specialization, experience, hospitalName, hospitalLocation, fee, about, languagesStr, qualificationsStr);
-                    } else {
-                        completeSaving(uid, "Dr. User", specialization, experience, hospitalName, hospitalLocation, fee, about, languagesStr, qualificationsStr);
+                    String name = "Dr. User";
+                    if (task.isSuccessful() && task.getResult().exists()) {
+                        name = String.valueOf(task.getResult().getValue());
                     }
+                    completeSaving(uid, name, null, null, specialization, experience, hospitalName, hospitalLocation, fee, about, languagesStr, qualificationsStr);
                 });
             } else {
-                completeSaving(uid, name, specialization, experience, hospitalName, hospitalLocation, fee, about, languagesStr, qualificationsStr);
+                progressBar.setVisibility(View.GONE);
+                btnCompleteSetup.setVisibility(View.VISIBLE);
+                Toast.makeText(this, "Not authenticated", Toast.LENGTH_SHORT).show();
             }
+        } else {
+            Intent intent = getIntent();
+            String name = intent.getStringExtra("name");
+            String email = intent.getStringExtra("email");
+            String password = intent.getStringExtra("password");
+            String role = intent.getStringExtra("role");
+
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                String uid = user.getUid();
+                                completeSaving(uid, name, email, role, specialization, experience, hospitalName, hospitalLocation, fee, about, languagesStr, qualificationsStr);
+                            }
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                            btnCompleteSetup.setVisibility(View.VISIBLE);
+                            Toast.makeText(DoctorProfileSetupActivity.this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
         }
     }
 
-    private void completeSaving(String uid, String name, String specialization, String experience, String hospitalName, String hospitalLocation, String fee, String about, String languagesStr, String qualificationsStr) {
+    private void completeSaving(String uid, String name, String email, String role, String specialization, String experience, String hospitalName, String hospitalLocation, String fee, String about, String languagesStr, String qualificationsStr) {
         
         List<String> languages = Arrays.asList(languagesStr.split("\\s*,\\s*"));
         
@@ -161,6 +250,8 @@ public class DoctorProfileSetupActivity extends AppCompatActivity {
         HashMap<String, Object> doctorData = new HashMap<>();
         doctorData.put("doctor_id", uid);
         doctorData.put("name", name);
+        if (email != null) doctorData.put("email", email);
+        if (role != null) doctorData.put("role", role);
         doctorData.put("specialization", specialization);
         doctorData.put("experience_years", Integer.parseInt(experience));
         doctorData.put("hospital_name", hospitalName);
@@ -182,19 +273,24 @@ public class DoctorProfileSetupActivity extends AppCompatActivity {
         mDatabase.child("users").child(uid).updateChildren(doctorData);
         
         // Update doctors node for public listing
-        mDatabase.child("doctors").child(uid).setValue(doctorData)
+        mDatabase.child("doctors").child(uid).updateChildren(doctorData)
                 .addOnCompleteListener(task -> {
                     progressBar.setVisibility(View.GONE);
                     btnCompleteSetup.setVisibility(View.VISIBLE);
                     if (task.isSuccessful()) {
-                        Toast.makeText(DoctorProfileSetupActivity.this, "Profile Setup Complete!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DoctorProfileSetupActivity.this, isEditing ? "Profile Updated!" : "Profile Setup Complete!", Toast.LENGTH_SHORT).show();
                         
                         SessionManager sessionManager = new SessionManager(DoctorProfileSetupActivity.this);
                         sessionManager.setLogin(true);
                         sessionManager.setRole("Doctor");
+                        if (name != null) sessionManager.setName(name);
 
-                        startActivity(new Intent(DoctorProfileSetupActivity.this, DoctorHomeActivity.class));
-                        finish();
+                        if (isEditing) {
+                            finish();
+                        } else {
+                            startActivity(new Intent(DoctorProfileSetupActivity.this, DoctorHomeActivity.class));
+                            finish();
+                        }
                     } else {
                         Toast.makeText(DoctorProfileSetupActivity.this, "Setup failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
