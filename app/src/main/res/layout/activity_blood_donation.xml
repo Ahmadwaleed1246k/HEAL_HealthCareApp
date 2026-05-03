@@ -24,7 +24,7 @@
                 android:id="@+id/btnBack"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_home"
+                android:src="@drawable/ic_back"
                 app:tint="@color/colorSecondary" />
 
             <TextView

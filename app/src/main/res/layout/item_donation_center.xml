@@ -89,7 +89,7 @@
     <ImageView
         android:layout_width="16dp"
         android:layout_height="16dp"
-        android:src="@drawable/ic_home"
-        android:rotation="270"
+        android:src="@drawable/ic_back"
+        android:rotation="180"
         app:tint="#BDBDBD" />
 </LinearLayout>

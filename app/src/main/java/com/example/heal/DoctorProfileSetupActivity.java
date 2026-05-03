@@ -69,6 +69,55 @@ public class DoctorProfileSetupActivity extends AppCompatActivity {
 
         btnAddSlot.setOnClickListener(v -> showTimePicker());
         btnCompleteSetup.setOnClickListener(v -> saveDoctorProfile());
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+
+        if (getIntent().getBooleanExtra("isEditing", false)) {
+            btnCompleteSetup.setText("Update Profile");
+            fetchDoctorData();
+        }
+    }
+
+    private void fetchDoctorData() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            progressBar.setVisibility(View.VISIBLE);
+            mDatabase.child("doctors").child(user.getUid()).get().addOnCompleteListener(task -> {
+                progressBar.setVisibility(View.GONE);
+                if (task.isSuccessful() && task.getResult().exists()) {
+                    com.google.firebase.database.DataSnapshot snapshot = task.getResult();
+                    etSpecialization.setText(snapshot.child("specialization").getValue(String.class), false);
+                    etExperience.setText(String.valueOf(snapshot.child("experience_years").getValue(Long.class)));
+                    etHospitalName.setText(snapshot.child("hospital_name").getValue(String.class));
+                    etHospitalLocation.setText(snapshot.child("hospital_location").getValue(String.class));
+                    etFee.setText(String.valueOf(snapshot.child("consultation_fee").getValue(Long.class)));
+                    etAbout.setText(snapshot.child("about").getValue(String.class));
+                    
+                    // Pre-fill languages
+                    List<String> languages = (List<String>) snapshot.child("languages").getValue();
+                    if (languages != null) {
+                        etLanguages.setText(android.text.TextUtils.join(", ", languages));
+                    }
+
+                    // Pre-fill qualifications (simplified for now)
+                    com.google.firebase.database.DataSnapshot quals = snapshot.child("qualifications");
+                    if (quals.exists() && quals.getChildrenCount() > 0) {
+                        com.google.firebase.database.DataSnapshot firstQual = quals.getChildren().iterator().next();
+                        etQualifications.setText(firstQual.child("degree").getValue(String.class));
+                    }
+
+                    // Pre-fill time slots
+                    com.google.firebase.database.DataSnapshot slots = snapshot.child("timings").child("available_slots");
+                    if (slots.exists()) {
+                        for (com.google.firebase.database.DataSnapshot slot : slots.getChildren()) {
+                            String time = slot.getValue(String.class);
+                            if (time != null) {
+                                addTimeChip(time);
+                            }
+                        }
+                    }
+                }
+            });
+        }
     }
 
     private void showTimePicker() {
@@ -187,13 +236,15 @@ public class DoctorProfileSetupActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     btnCompleteSetup.setVisibility(View.VISIBLE);
                     if (task.isSuccessful()) {
-                        Toast.makeText(DoctorProfileSetupActivity.this, "Profile Setup Complete!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DoctorProfileSetupActivity.this, "Profile Updated Successfully!", Toast.LENGTH_SHORT).show();
                         
                         SessionManager sessionManager = new SessionManager(DoctorProfileSetupActivity.this);
                         sessionManager.setLogin(true);
                         sessionManager.setRole("Doctor");
 
-                        startActivity(new Intent(DoctorProfileSetupActivity.this, DoctorHomeActivity.class));
+                        if (!getIntent().getBooleanExtra("isEditing", false)) {
+                            startActivity(new Intent(DoctorProfileSetupActivity.this, DoctorHomeActivity.class));
+                        }
                         finish();
                     } else {
                         Toast.makeText(DoctorProfileSetupActivity.this, "Setup failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
