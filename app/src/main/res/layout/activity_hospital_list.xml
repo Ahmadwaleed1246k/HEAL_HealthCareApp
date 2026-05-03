@@ -5,19 +5,35 @@
     android:layout_height="match_parent"
     android:background="@color/app_background_color">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
+        android:id="@+id/llTopBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:elevation="0dp">
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="@color/white">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="Hospitals in Lahore"
-            app:titleTextColor="@color/colorOnSurface" />
-    </com.google.android.material.appbar.AppBarLayout>
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_back"
+            app:tint="@color/colorPrimary"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <TextView
+            android:id="@+id/tvToolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hospitals"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginStart="16dp" />
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

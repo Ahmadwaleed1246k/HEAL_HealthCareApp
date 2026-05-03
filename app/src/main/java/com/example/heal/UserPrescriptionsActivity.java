@@ -2,6 +2,7 @@ package com.example.heal;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -32,10 +33,8 @@ public class UserPrescriptionsActivity extends AppCompatActivity implements Pres
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_prescriptions);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> finish());
+        ImageView btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
 
         rvPrescriptions = findViewById(R.id.rvUserPrescriptions);
         progressBar = findViewById(R.id.progressBar);

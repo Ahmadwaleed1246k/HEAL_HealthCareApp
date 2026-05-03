@@ -53,12 +53,9 @@ public class LabTestsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lab_tests);
 
-        // Back & profile
+        // Back
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
-
-        androidx.cardview.widget.CardView profileCard = findViewById(R.id.profileCard);
-        profileCard.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
 
         // Tabs
         tabMyResults  = findViewById(R.id.tabMyResults);

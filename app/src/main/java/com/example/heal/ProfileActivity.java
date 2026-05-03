@@ -55,6 +55,8 @@ public class ProfileActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSaveProfile);
         progressBar = findViewById(R.id.profileProgressBar);
 
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+
         setupDropdowns();
         setupPhoneFormatting();
         fetchUserData();

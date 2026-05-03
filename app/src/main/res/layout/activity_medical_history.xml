@@ -6,15 +6,36 @@
     android:orientation="vertical"
     android:background="#F5F7FA">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <!-- Standardized Top Bar -->
+    <LinearLayout
+        android:id="@+id/llTopBar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
-        app:title="Medical History"
-        app:titleTextColor="#2C3E50"
-        app:navigationIcon="?attr/homeAsUpIndicator"
-        android:elevation="4dp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_back"
+            app:tint="@color/colorPrimary"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <TextView
+            android:id="@+id/tvToolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medical History"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginStart="16dp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -7,47 +7,43 @@
     android:background="#FAFAFA"
     tools:context=".ProfileActivity">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/headerCard"
+    <!-- Standardized Top Bar -->
+    <LinearLayout
+        android:id="@+id/llTopBar"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="8dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="@color/white"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/gradient_teal"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:padding="32dp">
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_back"
+            app:tint="@color/colorPrimary"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:text="Edit Profile"
-                android:textColor="#FFFFFF"
-                android:textSize="32sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="Update your information below"
-                android:textColor="#E0F2F1"
-                android:textSize="16sp" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/tvToolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginStart="16dp" />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerCard">
+        app:layout_constraintTop_toBottomOf="@id/llTopBar">
 
         <LinearLayout
             android:layout_width="match_parent"

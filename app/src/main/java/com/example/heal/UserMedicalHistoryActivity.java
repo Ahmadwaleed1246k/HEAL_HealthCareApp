@@ -42,12 +42,7 @@ public class UserMedicalHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medical_history);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-        toolbar.setNavigationOnClickListener(v -> finish());
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
         btnAppointments = findViewById(R.id.btnTabAppointments);
         btnPrescriptions = findViewById(R.id.btnTabPrescriptions);
