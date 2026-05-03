@@ -56,8 +56,8 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
     public static final String EXTRA_TEST_MARKERS = "test_markers";
     public static final String EXTRA_PREP_INSTRUCTIONS = "prep_instructions";
 
-    private static final String GEMINI_API_KEY = "AIzaSyD1vais9mfNi0_P4SCEKDWkNLWeaoat9Og";
-    private static final String GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=" + GEMINI_API_KEY;
+    private static final String OPENROUTER_API_KEY = "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";
+    private static final String OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 
     private LinearLayout llQuestionsContainer;
     private TextView tvTestName, tvCategory, tvPrice, btnConfirmBooking;
@@ -388,7 +388,15 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
     }
 
     private void callGeminiApi(String bookingId, String userAnswers) {
-        runOnUiThread(() -> btnConfirmBooking.setText("✦ Getting AI Analysis..."));
+        runOnUiThread(() -> {
+            if (progressDialog != null && progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+            progressDialog = new android.app.ProgressDialog(AiLabQuestionsActivity.this);
+            progressDialog.setMessage("AI is analyzing your health context...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        });
 
         String prompt = "You are a medical lab assistant AI. A patient has booked the following lab test:\n\n"
                 + "Test: " + testName + "\n"
@@ -403,21 +411,16 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
                 + "Keep the response clear, structured, and in plain language a patient can understand.";
 
         try {
-            // Gemini Request Format
-            JSONObject part = new JSONObject();
-            part.put("text", prompt);
+            JSONObject message = new JSONObject();
+            message.put("role", "user");
+            message.put("content", prompt);
 
-            JSONArray parts = new JSONArray();
-            parts.put(part);
-
-            JSONObject content = new JSONObject();
-            content.put("parts", parts);
-
-            JSONArray contents = new JSONArray();
-            contents.put(content);
+            JSONArray messages = new JSONArray();
+            messages.put(message);
 
             JSONObject body = new JSONObject();
-            body.put("contents", contents);
+            body.put("model", "google/gemini-2.0-flash-lite-001");
+            body.put("messages", messages);
 
             OkHttpClient client = new OkHttpClient.Builder()
                     .connectTimeout(30, TimeUnit.SECONDS)
@@ -425,7 +428,11 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
                     .build();
 
             Request request = new Request.Builder()
-                    .url(GEMINI_URL)
+                    .url(OPENROUTER_URL)
+                    .addHeader("Authorization", "Bearer " + OPENROUTER_API_KEY)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("HTTP-Referer", "https://heal-app.com")
+                    .addHeader("X-Title", "Heal Healthcare App")
                     .post(RequestBody.create(body.toString(),
                             MediaType.parse("application/json; charset=utf-8")))
                     .build();
@@ -434,7 +441,12 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
                     android.util.Log.e("AiLabQuestions", "API call failed", e);
-                    saveAiResult(bookingId, "Network error: " + e.getMessage() + ". Please check your internet connection.");
+                    runOnUiThread(() -> {
+                        if (progressDialog != null && progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                    });
+                    saveAiResult(bookingId, "Network error: " + e.getMessage());
                 }
 
                 @Override
@@ -445,13 +457,10 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
                             String raw = response.body().string();
                             JSONObject json = new JSONObject(raw);
                             
-                            // Gemini Response Parsing
-                            aiText = json.getJSONArray("candidates")
+                            aiText = json.getJSONArray("choices")
                                     .getJSONObject(0)
-                                    .getJSONObject("content")
-                                    .getJSONArray("parts")
-                                    .getJSONObject(0)
-                                    .getString("text");
+                                    .getJSONObject("message")
+                                    .getString("content");
                         } catch (Exception e) {
                             android.util.Log.e("AiLabQuestions", "Parse error", e);
                             aiText = "Error parsing AI response. The service might be temporarily unavailable.";
@@ -459,19 +468,9 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
                     } else {
                         String errorBody = response.body() != null ? response.body().string() : "No error body";
                         android.util.Log.e("AiLabQuestions", "API Error: " + response.code() + " - " + errorBody);
-                        
-                        if (response.code() == 404) {
-                            aiText = "Model Not Found (Error 404). Please ensure the Gemini 1.5 Flash model is available in your region.";
-                        } else if (response.code() == 400) {
-                            aiText = "Invalid Request: " + errorBody;
-                        } else if (response.code() == 403 || response.code() == 401) {
-                            aiText = "API Key Error: Unauthorized. Please check your Google Studio API key.";
-                        } else if (response.code() == 429) {
-                            aiText = "AI service is busy (Rate limit exceeded). Please try again in a few minutes.";
-                        } else {
-                            aiText = "AI analysis failed (Error " + response.code() + ").";
-                        }
+                        aiText = "AI analysis failed (Error " + response.code() + ").";
                     }
+                    
                     runOnUiThread(() -> {
                         if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();
