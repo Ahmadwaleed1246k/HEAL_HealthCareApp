@@ -49,6 +49,8 @@ public class Signup extends AppCompatActivity {
                 registerUser();
             }
         });
+
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
     }
 
     private void registerUser() {

@@ -56,6 +56,8 @@ public class ProfileSetupActivity extends AppCompatActivity {
 
         etDob.setOnClickListener(v -> showDatePicker());
         btnCompleteSetup.setOnClickListener(v -> saveProfileInfo());
+
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
     }
 
     private void setupDropdowns() {

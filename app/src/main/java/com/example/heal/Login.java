@@ -62,6 +62,8 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
+
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
     }
 
     private void loginUser() {
