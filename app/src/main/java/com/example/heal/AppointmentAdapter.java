@@ -29,6 +29,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         void onCancel(Appointment appointment);
         void onPrescribe(Appointment appointment);
         void onItemClick(Appointment appointment);
+        void onDismiss(Appointment appointment);
     }
 
     public AppointmentAdapter(Context context, List<Appointment> appointmentList, boolean isDoctor, boolean isHistoryMode, OnAppointmentActionListener listener) {
@@ -120,7 +121,19 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                 holder.btnReschedule.setVisibility(View.GONE);
                 holder.btnPrescribe.setVisibility(View.VISIBLE);
             } else {
-                holder.llActions.setVisibility(View.GONE);
+                // Terminal statuses (prescribed, rejected, etc.)
+                holder.llActions.setVisibility(View.VISIBLE);
+                holder.btnAccept.setVisibility(View.GONE);
+                holder.btnReject.setVisibility(View.GONE);
+                holder.btnReschedule.setVisibility(View.GONE);
+                holder.btnPrescribe.setVisibility(View.GONE);
+                holder.btnCancel.setVisibility(View.VISIBLE);
+                holder.btnCancel.setText("Dismiss");
+                holder.btnCancel.setTextColor(android.graphics.Color.parseColor("#F57C00"));
+                holder.btnCancel.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#FFF3E0")));
+                holder.btnCancel.setOnClickListener(v -> {
+                    if (listener != null) listener.onDismiss(appointment);
+                });
             }
         } else {
             // Patient view

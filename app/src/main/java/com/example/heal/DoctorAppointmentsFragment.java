@@ -89,6 +89,12 @@ public class DoctorAppointmentsFragment extends Fragment {
             public void onItemClick(Appointment appointment) {
                 showDetailDialog(appointment);
             }
+
+            @Override
+            public void onDismiss(Appointment appointment) {
+                mDatabase.child(appointment.getAppointmentId()).child("dismissedByDoctor").setValue(true)
+                    .addOnSuccessListener(aVoid -> Toast.makeText(getContext(), "Appointment dismissed", Toast.LENGTH_SHORT).show());
+            }
         });
         rvAppointments.setAdapter(adapter);
 
@@ -148,7 +154,7 @@ public class DoctorAppointmentsFragment extends Fragment {
                 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Appointment appointment = dataSnapshot.getValue(Appointment.class);
-                    if (appointment != null) {
+                    if (appointment != null && !appointment.isDismissedByDoctor()) {
                         appointmentList.add(appointment);
                         totalBookings++;
                         

@@ -61,6 +61,10 @@ public class DoctorPrescriptionsFragment extends Fragment {
             @Override public void onItemClick(Appointment appointment) {
                 showDetailDialog(appointment);
             }
+            @Override public void onDismiss(Appointment appointment) {
+                mDatabase.child(appointment.getAppointmentId()).child("dismissedByDoctor").setValue(true)
+                    .addOnSuccessListener(aVoid -> android.widget.Toast.makeText(getContext(), "Appointment dismissed", android.widget.Toast.LENGTH_SHORT).show());
+            }
         });
         rvPrescriptions.setAdapter(adapter);
 
