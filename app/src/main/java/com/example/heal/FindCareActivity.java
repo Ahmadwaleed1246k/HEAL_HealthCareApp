@@ -71,7 +71,7 @@ public class FindCareActivity extends AppCompatActivity {
 
     private MapView mapView;
     private RecyclerView rvHospitals;
-    private HospitalAdapter adapter;
+    private HospitalLocationAdapter adapter;
     private List<Hospital> hospitalList;
     private OkHttpClient httpClient;
 
@@ -112,20 +112,13 @@ public class FindCareActivity extends AppCompatActivity {
         rvHospitals = findViewById(R.id.rvHospitals);
         rvHospitals.setLayoutManager(new LinearLayoutManager(this));
         hospitalList = new ArrayList<>();
-        adapter = new HospitalAdapter(this, hospitalList, new HospitalAdapter.OnHospitalClickListener() {
+        adapter = new HospitalLocationAdapter(this, hospitalList, new HospitalLocationAdapter.OnHospitalClickListener() {
             @Override
             public void onHospitalClick(Hospital hospital) {
                 // Focus map on this hospital
                 GeoPoint point = new GeoPoint(hospital.getLatitude(), hospital.getLongitude());
                 mapView.getController().animateTo(point);
                 mapView.getController().setZoom(15.0);
-            }
-
-            @Override
-            public void onBookRoomClick(Hospital hospital) {
-                Intent intent = new Intent(FindCareActivity.this, RoomBookingActivity.class);
-                intent.putExtra("hospital", hospital);
-                startActivity(intent);
             }
         });
         rvHospitals.setAdapter(adapter);
