@@ -3,6 +3,7 @@ package com.example.heal;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -111,7 +112,22 @@ public class FindCareActivity extends AppCompatActivity {
         rvHospitals = findViewById(R.id.rvHospitals);
         rvHospitals.setLayoutManager(new LinearLayoutManager(this));
         hospitalList = new ArrayList<>();
-        adapter = new HospitalAdapter(hospitalList);
+        adapter = new HospitalAdapter(this, hospitalList, new HospitalAdapter.OnHospitalClickListener() {
+            @Override
+            public void onHospitalClick(Hospital hospital) {
+                // Focus map on this hospital
+                GeoPoint point = new GeoPoint(hospital.getLatitude(), hospital.getLongitude());
+                mapView.getController().animateTo(point);
+                mapView.getController().setZoom(15.0);
+            }
+
+            @Override
+            public void onBookRoomClick(Hospital hospital) {
+                Intent intent = new Intent(FindCareActivity.this, RoomBookingActivity.class);
+                intent.putExtra("hospital", hospital);
+                startActivity(intent);
+            }
+        });
         rvHospitals.setAdapter(adapter);
 
         llSearchingNear = findViewById(R.id.llSearchingNear);
@@ -131,9 +147,6 @@ public class FindCareActivity extends AppCompatActivity {
         checkLocationPermission();
     }
 
-    // ─────────────────────────────────────────────
-    //  Permission handling
-    // ─────────────────────────────────────────────
 
     private void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -159,9 +172,6 @@ public class FindCareActivity extends AppCompatActivity {
         }
     }
 
-    // ─────────────────────────────────────────────
-    //  Core location logic — direct GPS, no cache
-    // ─────────────────────────────────────────────
 
     private void startLocationFetch() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -214,7 +224,6 @@ public class FindCareActivity extends AppCompatActivity {
                     });
                     return; // keep the listener active — wait for a proper fix
                 }
-                // ─────────────────────────────────────────────────────────────
 
                 locationFixed = true;
                 stopLocationUpdates(); // unregister immediately
@@ -239,7 +248,6 @@ public class FindCareActivity extends AppCompatActivity {
             }
         };
 
-        // Request from GPS first (most accurate, true satellite fix)
         if (gpsEnabled) {
             Log.d(TAG, "Requesting location from GPS_PROVIDER");
             locationManager.requestLocationUpdates(
@@ -251,9 +259,6 @@ public class FindCareActivity extends AppCompatActivity {
             );
         }
 
-        // Also request from NETWORK_PROVIDER in parallel — it typically responds faster.
-        // Both will call the same listener; the guard `locationFixed` ensures only the
-        // first result is used.
         if (networkEnabled) {
             Log.d(TAG, "Requesting location from NETWORK_PROVIDER");
             locationManager.requestLocationUpdates(
@@ -315,7 +320,10 @@ public class FindCareActivity extends AppCompatActivity {
                        "way[\"amenity\"=\"hospital\"](around:20000," + userLat + "," + userLng + ");" +
                        "relation[\"amenity\"=\"hospital\"](around:20000," + userLat + "," + userLng + "););out center;";
 
-        okhttp3.HttpUrl url = okhttp3.HttpUrl.parse("https://overpass-api.de/api/interpreter").newBuilder()
+        okhttp3.HttpUrl baseUrl = okhttp3.HttpUrl.parse("https://overpass-api.de/api/interpreter");
+        if (baseUrl == null) return;
+        
+        okhttp3.HttpUrl url = baseUrl.newBuilder()
                 .addQueryParameter("data", query)
                 .build();
 
@@ -400,15 +408,26 @@ public class FindCareActivity extends AppCompatActivity {
                 }
 
                 double distanceMiles = calculateDistanceInMiles(userLat, userLng, lat, lon);
-
                 String[] specialties = possibleSpecialties[random.nextInt(possibleSpecialties.length)];
                 int waitTime = 5 + random.nextInt(40);
                 double rating = 4.0 + (random.nextDouble() * 0.9);
 
-                parsedList.add(new Hospital(name, lat, lon, address, distanceMiles, java.util.Arrays.asList(specialties), waitTime, rating));
+                Hospital h = new Hospital(name, lat, lon, address, distanceMiles, java.util.Arrays.asList(specialties), waitTime, rating);
+                h.setHospitalId("osm_" + Math.abs(name.hashCode()));
+                h.setDescription("Nearby medical facility specializing in " + specialties[0] + ".");
+                h.setImageUrl("https://images.unsplash.com/photo-1586773860418-d319a221f52c?auto=format&fit=crop&q=80&w=500");
+
+                // Add mock rooms so they can be booked
+                java.util.Map<String, Room> mockRooms = new java.util.HashMap<>();
+                mockRooms.put("r1", new Room("r1", "101", "General Ward", 50.0, true));
+                mockRooms.put("r2", new Room("r2", "205", "Private Suite", 150.0, true));
+                mockRooms.put("r3", new Room("r3", "ICU-1", "ICU", 300.0, true));
+                h.setRooms(mockRooms);
+
+                parsedList.add(h);
             }
 
-            Collections.sort(parsedList, (h1, h2) -> Double.compare(h1.getDistanceMiles(), h2.getDistanceMiles()));
+            parsedList.sort(java.util.Comparator.comparingDouble(Hospital::getDistanceMiles));
 
             if (parsedList.size() > 5) {
                 parsedList = parsedList.subList(0, 5);
@@ -453,9 +472,6 @@ public class FindCareActivity extends AppCompatActivity {
         return results[0] * 0.000621371;
     }
 
-    // ─────────────────────────────────────────────
-    //  Lifecycle
-    // ─────────────────────────────────────────────
 
     @Override
     protected void onResume() {
@@ -467,7 +483,7 @@ public class FindCareActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         mapView.onPause();
-        stopLocationUpdates(); // release GPS when app goes to background
+        stopLocationUpdates();
         cancelTimeout();
     }
 

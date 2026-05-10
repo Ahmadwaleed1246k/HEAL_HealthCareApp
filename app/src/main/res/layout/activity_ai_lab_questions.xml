@@ -113,18 +113,23 @@
         android:layout_gravity="bottom"
         android:background="@color/white"
         android:elevation="8dp"
-        android:padding="20dp">
+        android:padding="16dp"
+        android:gravity="center">
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnConfirmBooking"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@drawable/bg_tab_active"
-            android:gravity="center"
-            android:text="✦  Confirm Booking &amp; Get AI Analysis"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:text="✦  Confirm &amp; Get AI Analysis"
             android:textColor="@color/white"
-            android:textSize="16sp"
-            android:fontFamily="sans-serif-medium"/>
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-bold"
+            app:cornerRadius="24dp"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/colorPrimary"
+            style="@style/Widget.Material3.Button"/>
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

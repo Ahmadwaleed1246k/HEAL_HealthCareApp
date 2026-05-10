@@ -114,10 +114,10 @@ public class ChatInterfaceActivity extends AppCompatActivity {
 
         if (doctor == null) return;
 
-        // Require payment before sending
+        // Require payment before sending - hardcoded to $5
         ChatPaymentBottomSheet paymentSheet = new ChatPaymentBottomSheet(
                 doctor.getName(),
-                doctor.getConsultation_fee(),
+                5.0,
                 cardNumber -> finalizeSendConsultation(symptoms, description)
         );
         paymentSheet.show(getSupportFragmentManager(), "chat_payment");
@@ -131,7 +131,7 @@ public class ChatInterfaceActivity extends AppCompatActivity {
         message.setSymptoms(symptoms);
         message.setDescription(description);
         message.setPaymentStatus("paid");
-        message.setAmount(doctor.getConsultation_fee());
+        message.setAmount(5.0);
         message.setTimestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
 
         mDatabase.setValue(message).addOnCompleteListener(task -> {

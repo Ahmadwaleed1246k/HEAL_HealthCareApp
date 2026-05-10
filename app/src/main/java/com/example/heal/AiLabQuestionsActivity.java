@@ -56,7 +56,7 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
     public static final String EXTRA_TEST_MARKERS = "test_markers";
     public static final String EXTRA_PREP_INSTRUCTIONS = "prep_instructions";
 
-    private static final String OPENROUTER_API_KEY = "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";
+    private static final String OPENROUTER_API_KEY = "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";
     private static final String OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 
     private LinearLayout llQuestionsContainer;
@@ -325,10 +325,6 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
         return card;
     }
 
-    // ─────────────────────────────────────────────
-    //  Validation & booking
-    // ─────────────────────────────────────────────
-
     private boolean allAnswered() {
         for (QuestionView qv : questionViews) {
             if (qv.editText != null) {
@@ -433,23 +429,23 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
             progressDialog.show();
         });
 
-        String prompt = "You are a Senior Medical Consultant and Lab Specialist. A patient named " + userFullName + " has booked a lab test: " + testName + ".\n\n"
+        String prompt = "You are a Senior Medical Consultant with 20+ years of experience. A patient named " + userFullName + " has booked a lab test: " + testName + ".\n\n"
                 + "**PATIENT PROFILE:**\n"
-                + "Gender: " + userGender + "\n"
-                + "Age: " + (userAge > 0 ? userAge : "Not provided") + " years\n"
-                + "Test Category: " + testCategory + "\n"
-                + "Markers being tested: " + (testMarkers != null ? testMarkers : "N/A") + "\n\n"
-                + "**HEALTH CONTEXT PROVIDED BY PATIENT:**\n" + userAnswers + "\n\n"
+                + "- Gender: " + userGender + "\n"
+                + "- Age: " + (userAge > 0 ? userAge : "Not provided") + " years\n"
+                + "- Test Category: " + testCategory + "\n"
+                + "- Markers being tested: " + (testMarkers != null ? testMarkers : "N/A") + "\n\n"
+                + "**HEALTH CONTEXT:**\n" + userAnswers + "\n\n"
                 + "**INSTRUCTIONS:**\n"
-                + "Generate a highly professional, comprehensive, and empathetic Lab Test Analysis Report. Use HTML formatting (like <b>, <i>, <br>, <ul>, <li>) to make the report look like a formal medical document. Do NOT use markdown symbols like # or *.\n\n"
+                + "Generate a professional, empathetic Lab Test Analysis Report. Use ONLY HTML (<b>, <ul>, <li>, <p>, <h4>, <table>). No Markdown.\n\n"
                 + "**REQUIRED SECTIONS:**\n"
-                + "1. <b>EXECUTIVE SUMMARY</b>: A brief overview of the patient's current health status based on the provided context.\n"
-                + "2. <b>CLINICAL CORRELATION</b>: Explain what the requested markers signify in the context of the patient's symptoms and history. Use professional medical terminology but provide clear explanations.\n"
-                + "3. <b>MARKER REFERENCE GUIDE</b>: Provide a list of the markers being tested with their typical normal ranges (specify units) and what high/low values might suggest.\n"
-                + "4. <b>PERSONALIZED RISK ASSESSMENT</b>: Identify any potential health risks or areas of concern based on the demographics and symptoms.\n"
-                + "5. <b>CLINICAL RECOMMENDATIONS</b>: Provide 3-5 actionable steps (e.g., fasting requirements, specific questions to ask their doctor, lifestyle adjustments).\n"
-                + "6. <b>PROFESSIONAL DISCLAIMER</b>: State that this is an AI-generated analysis and must be reviewed by a certified healthcare professional before making any medical decisions.\n\n"
-                + "**TONE:** Professional, authoritative yet supportive, and medically accurate.";
+                + "1. <b>EXECUTIVE SUMMARY</b>: Brief health status overview and what the test reveals.\n"
+                + "2. <b>CLINICAL CORRELATION</b>: Connect markers to symptoms/history in plain medical language.\n"
+                + "3. <b>MARKER REFERENCE GUIDE</b>: HTML <table> with Marker | Range | Low suggests | High suggests.\n"
+                + "4. <b>PERSONALIZED RISK ASSESSMENT</b>: Identify 2-4 potential risks based on profile (Low/Mod/High suspicion).\n"
+                + "5. <b>CLINICAL RECOMMENDATIONS</b>: 4-6 actionable items (fasting, questions for doctor, lifestyle).\n"
+                + "6. <b>PROFESSIONAL DISCLAIMER</b>: Boldly state this is educational AI analysis, not diagnosis.\n\n"
+                + "**TONE:** Professional, authoritative, and medically accurate. Return ONLY the HTML report no extra text before and after.";
 
         try {
             JSONObject message = new JSONObject();
@@ -565,9 +561,7 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
         return (int) (dp * getResources().getDisplayMetrics().density);
     }
 
-    // ─────────────────────────────────────────────
-    //  Question view holder
-    // ─────────────────────────────────────────────
+
 
     private static class QuestionView {
         String question;
