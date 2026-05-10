@@ -56,7 +56,7 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
     public static final String EXTRA_TEST_MARKERS = "test_markers";
     public static final String EXTRA_PREP_INSTRUCTIONS = "prep_instructions";
 
-    private static final String OPENROUTER_API_KEY = "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";
+    private static final String OPENROUTER_API_KEY = "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";
     private static final String OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 
     private LinearLayout llQuestionsContainer;
