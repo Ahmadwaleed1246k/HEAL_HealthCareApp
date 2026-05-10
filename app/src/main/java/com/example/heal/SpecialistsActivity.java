@@ -1,6 +1,9 @@
 package com.example.heal;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -14,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SpecialistsActivity extends AppCompatActivity {
 
@@ -22,6 +26,8 @@ public class SpecialistsActivity extends AppCompatActivity {
     private List<Doctor> doctorList;
     private List<Doctor> filteredList;
     private DatabaseReference mDatabase;
+    private EditText etSearch;
+    private String selectedSpecialty = "All";
     private androidx.appcompat.widget.AppCompatButton btnFilterAll, btnFilterCardiology, btnFilterDermatology, btnFilterDentistry, btnFilterPediatrics;
 
     @Override
@@ -46,6 +52,20 @@ public class SpecialistsActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference("doctors");
         
+        etSearch = findViewById(R.id.etSearch);
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterDoctors(selectedSpecialty, s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
         setupFilterButtons();
         fetchDoctors();
     }
@@ -57,29 +77,36 @@ public class SpecialistsActivity extends AppCompatActivity {
         btnFilterDentistry = findViewById(R.id.btnFilterDentistry);
         btnFilterPediatrics = findViewById(R.id.btnFilterPediatrics);
 
-        btnFilterAll.setOnClickListener(v -> filterDoctors("All"));
-        btnFilterCardiology.setOnClickListener(v -> filterDoctors("Cardiologist"));
-        btnFilterDermatology.setOnClickListener(v -> filterDoctors("Dermatologist"));
-        btnFilterDentistry.setOnClickListener(v -> filterDoctors("Dentist"));
-        btnFilterPediatrics.setOnClickListener(v -> filterDoctors("Pediatrician"));
+        btnFilterAll.setOnClickListener(v -> filterDoctors("All", etSearch.getText().toString()));
+        btnFilterCardiology.setOnClickListener(v -> filterDoctors("Cardiologist", etSearch.getText().toString()));
+        btnFilterDermatology.setOnClickListener(v -> filterDoctors("Dermatologist", etSearch.getText().toString()));
+        btnFilterDentistry.setOnClickListener(v -> filterDoctors("Dentist", etSearch.getText().toString()));
+        btnFilterPediatrics.setOnClickListener(v -> filterDoctors("Pediatrician", etSearch.getText().toString()));
     }
 
-    private void filterDoctors(String specialty) {
+    private void filterDoctors(String specialty, String query) {
+        selectedSpecialty = specialty;
         filteredList.clear();
-        if (specialty.equals("All")) {
-            filteredList.addAll(doctorList);
-            updateButtonStyles(btnFilterAll);
-        } else {
-            for (Doctor doctor : doctorList) {
-                if (doctor.getSpecialization() != null && doctor.getSpecialization().equalsIgnoreCase(specialty)) {
-                    filteredList.add(doctor);
-                }
+
+        for (Doctor doctor : doctorList) {
+            boolean matchesSpecialty = specialty.equals("All") || 
+                (doctor.getSpecialization() != null && doctor.getSpecialization().equalsIgnoreCase(specialty));
+            
+            boolean matchesQuery = query.isEmpty() || 
+                (doctor.getName() != null && doctor.getName().toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT))) ||
+                (doctor.getSpecialization() != null && doctor.getSpecialization().toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT)));
+
+            if (matchesSpecialty && matchesQuery) {
+                filteredList.add(doctor);
             }
-            if (specialty.equals("Cardiologist")) updateButtonStyles(btnFilterCardiology);
-            else if (specialty.equals("Dermatologist")) updateButtonStyles(btnFilterDermatology);
-            else if (specialty.equals("Dentist")) updateButtonStyles(btnFilterDentistry);
-            else if (specialty.equals("Pediatrician")) updateButtonStyles(btnFilterPediatrics);
         }
+
+        if (specialty.equals("All")) updateButtonStyles(btnFilterAll);
+        else if (specialty.equals("Cardiologist")) updateButtonStyles(btnFilterCardiology);
+        else if (specialty.equals("Dermatologist")) updateButtonStyles(btnFilterDermatology);
+        else if (specialty.equals("Dentist")) updateButtonStyles(btnFilterDentistry);
+        else if (specialty.equals("Pediatrician")) updateButtonStyles(btnFilterPediatrics);
+
         adapter.notifyDataSetChanged();
     }
 
@@ -106,7 +133,7 @@ public class SpecialistsActivity extends AppCompatActivity {
                         doctorList.add(doctor);
                     }
                 }
-                filterDoctors("All"); // Default to show all
+                filterDoctors("All", ""); // Default to show all
             }
 
             @Override
