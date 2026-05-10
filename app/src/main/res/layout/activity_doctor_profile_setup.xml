@@ -10,7 +10,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/headerCard"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:cardCornerRadius="24dp"
         app:cardElevation="8dp"
@@ -18,9 +18,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/gradient_teal"
-            android:gravity="center_vertical"
             android:orientation="vertical"
             android:padding="24dp">
 
@@ -47,11 +46,12 @@
                 android:id="@+id/tvHeaderSubtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Complete your professional details"
-                android:textColor="#E0F2F1"
-                android:textSize="16sp" />
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:alpha="0.9"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
