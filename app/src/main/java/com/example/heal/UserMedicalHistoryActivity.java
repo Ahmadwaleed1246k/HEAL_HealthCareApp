@@ -83,6 +83,8 @@ public class UserMedicalHistoryActivity extends AppCompatActivity {
             public void onItemClick(Appointment appointment) {
                 showAppointmentDetail(appointment);
             }
+
+            @Override public void onDismiss(Appointment appointment) {}
         });
 
         prescriptionAdapter = new PrescriptionAdapter(this, prescriptionList, true, new PrescriptionAdapter.OnPrescriptionActionListener() {

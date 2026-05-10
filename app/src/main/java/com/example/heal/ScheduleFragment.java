@@ -65,6 +65,7 @@ public class ScheduleFragment extends Fragment {
             @Override public void onItemClick(Appointment appointment) {
                 showDetailDialog(appointment);
             }
+            @Override public void onDismiss(Appointment appointment) {}
         });
         rvSchedule.setAdapter(adapter);
 

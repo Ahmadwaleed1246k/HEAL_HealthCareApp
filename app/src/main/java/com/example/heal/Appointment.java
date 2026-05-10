@@ -17,6 +17,7 @@ public class Appointment {
     private double consultationFee;
     private String cardNumber;
     private boolean dismissed;
+    private boolean dismissedByDoctor;
 
     public Appointment() {
         // Required for Firebase
@@ -79,4 +80,7 @@ public class Appointment {
     
     public boolean isDismissed() { return dismissed; }
     public void setDismissed(boolean dismissed) { this.dismissed = dismissed; }
+
+    public boolean isDismissedByDoctor() { return dismissedByDoctor; }
+    public void setDismissedByDoctor(boolean dismissedByDoctor) { this.dismissedByDoctor = dismissedByDoctor; }
 }
