@@ -160,6 +160,16 @@
                         android:textColor="@color/colorOnSurface"
                         android:textSize="15sp" />
                 </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnViewed"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Viewed &amp; Reset"
+                    android:visibility="gone"
+                    app:cornerRadius="28dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
             </LinearLayout>
 
         </LinearLayout>

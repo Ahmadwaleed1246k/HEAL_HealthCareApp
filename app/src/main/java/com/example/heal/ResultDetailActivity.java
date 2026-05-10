@@ -2,6 +2,7 @@ package com.example.heal;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +35,12 @@ public class ResultDetailActivity extends AppCompatActivity {
 
         tvTestName.setText(testName != null ? testName : "Lab Test");
         tvDate.setText(bookingDate != null ? bookingDate : "—");
-        tvAiResult.setText(aiResult != null ? aiResult : "No result available.");
+        
+        if (aiResult != null) {
+            tvAiResult.setText(Html.fromHtml(aiResult, Html.FROM_HTML_MODE_COMPACT));
+        } else {
+            tvAiResult.setText("No result available.");
+        }
 
         btnShare.setOnClickListener(v -> {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);

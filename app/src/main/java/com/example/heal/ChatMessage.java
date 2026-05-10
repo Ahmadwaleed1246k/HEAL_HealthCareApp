@@ -12,6 +12,8 @@ public class ChatMessage implements Serializable {
     private String description;
     private String reply;
     private String status;
+    private String paymentStatus;
+    private double amount;
     private String timestamp;
 
     public ChatMessage() {
@@ -25,6 +27,7 @@ public class ChatMessage implements Serializable {
         this.doctorId = doctorId;
         this.doctorName = doctorName;
         this.status = "pending";
+        this.paymentStatus = "unpaid";
     }
 
     // Getters and Setters
@@ -54,6 +57,12 @@ public class ChatMessage implements Serializable {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public String getPaymentStatus() { return paymentStatus; }
+    public void setPaymentStatus(String paymentStatus) { this.paymentStatus = paymentStatus; }
+
+    public double getAmount() { return amount; }
+    public void setAmount(double amount) { this.amount = amount; }
 
     public String getTimestamp() { return timestamp; }
     public void setTimestamp(String timestamp) { this.timestamp = timestamp; }

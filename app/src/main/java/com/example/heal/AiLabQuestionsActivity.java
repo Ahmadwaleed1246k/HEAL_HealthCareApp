@@ -68,6 +68,9 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
 
     private String testId, testName, testCategory, testMarkers, prepInstructions;
     private double testPrice;
+    private String userGender = "Not specified";
+    private int userAge = 0;
+    private String userFullName = "Patient";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +97,7 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
 
-        buildQuestionsFor(testId);
+        fetchUserProfileAndBuildQuestions();
 
         btnConfirmBooking.setOnClickListener(v -> {
             if (!allAnswered()) {
@@ -105,6 +108,60 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
         });
     }
 
+    private void fetchUserProfileAndBuildQuestions() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            buildQuestionsFor(testId);
+            return;
+        }
+
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+        db.child("users").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    userFullName = snapshot.child("name").getValue(String.class);
+                    userGender = snapshot.child("gender").getValue(String.class);
+                    String dob = snapshot.child("dob").getValue(String.class);
+                    if (dob != null) {
+                        userAge = calculateAge(dob);
+                    }
+                }
+                // Build questions AFTER fetching user profile
+                buildQuestionsFor(testId);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                buildQuestionsFor(testId);
+            }
+        });
+    }
+
+    private int calculateAge(String dob) {
+        try {
+            // Expected format: d/M/yyyy or dd/MM/yyyy
+            String[] parts = dob.split("/");
+            if (parts.length != 3) return 0;
+            int day = Integer.parseInt(parts[0]);
+            int month = Integer.parseInt(parts[1]);
+            int year = Integer.parseInt(parts[2]);
+
+            java.util.Calendar birth = java.util.Calendar.getInstance();
+            birth.set(year, month - 1, day);
+            java.util.Calendar today = java.util.Calendar.getInstance();
+
+            int age = today.get(java.util.Calendar.YEAR) - birth.get(java.util.Calendar.YEAR);
+            if (today.get(java.util.Calendar.DAY_OF_YEAR) < birth.get(java.util.Calendar.DAY_OF_YEAR)) {
+                age--;
+            }
+            return age;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+
     // ─────────────────────────────────────────────
     //  Per-test question definitions
     // ─────────────────────────────────────────────
@@ -113,90 +170,68 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
         if (id == null) return;
         switch (id) {
             case "comprehensive_blood_work":
-                addRadio("What is your age range?", "Under 18", "18–35", "36–50", "51–65", "65+");
-                addRadio("What is your gender?", "Male", "Female", "Prefer not to say");
-                addRadio("Current symptoms?", "Fatigue", "Dizziness", "Weakness", "None");
-                addRadio("When did you last eat?", "Less than 2 hours ago", "2–6 hours ago", "More than 10 hours ago");
-                addRadio("Known medical conditions?", "Diabetes", "Anaemia", "Hypertension", "None");
-                addText("Current medications (if any)");
+                addRadio("Have you fasted (no food or drink except water) for at least 8-12 hours?", "Yes", "No");
+                addText("Are you experiencing symptoms like chronic fatigue, persistent weakness, or unexplained weight changes?");
+                addText("Are you currently taking any medications, including blood thinners, antibiotics, or hormone therapy?");
+                addRadio("Any history of chronic conditions like Diabetes, Anemia, or Hypertension?", "Yes", "No", "Not sure");
                 break;
 
             case "lipid_profile_basic":
-                addRadio("What is your age range?", "Under 18", "18–35", "36–50", "51–65", "65+");
-                addRadio("What is your gender?", "Male", "Female", "Prefer not to say");
-                addRadio("Hours fasted before this test?", "Less than 6 hours", "6–9 hours", "9–12 hours", "More than 12 hours");
-                addRadio("Family history of heart disease?", "Yes", "No", "Not sure");
-                addRadio("Do you smoke?", "Yes", "No", "Occasionally");
-                addRadio("Exercise frequency?", "Daily", "3–5 times/week", "1–2 times/week", "Rarely/Never");
+                addRadio("Have you fasted for 12 hours before this test? (Crucial for Triglyceride accuracy)", "Yes", "No");
+                addRadio("Do you have a personal or family history of heart disease or stroke?", "Yes", "No", "Not sure");
+                addText("Describe your typical weekly physical activity and diet (e.g., high-fat, balanced, vegetarian).");
+                addRadio("Do you currently smoke or use tobacco products?", "Yes", "No", "Occasionally");
                 break;
 
             case "thyroid_profile":
-                addRadio("What is your age range?", "Under 18", "18–35", "36–50", "51–65", "65+");
-                addRadio("What is your gender?", "Male", "Female", "Prefer not to say");
-                addRadio("Symptoms you are experiencing?", "Unexplained weight gain", "Unexplained weight loss", "Fatigue & lethargy", "Hair loss", "None");
-                addRadio("Currently on thyroid medication?", "Yes", "No");
-                addRadio("Pregnancy status (if applicable)?", "Currently pregnant", "Postpartum (within 6 months)", "Not applicable");
-                addRadio("Previous thyroid condition?", "Hypothyroidism", "Hyperthyroidism", "No history");
+                addText("Are you experiencing sensitivity to cold, hair loss, or changes in heart rate?");
+                addRadio("Are you currently on any thyroid-related medications or taking Biotin supplements?", "Yes", "No");
+                addRadio("Any history of thyroid nodules, Goiter, or previous thyroid surgery?", "Yes", "No");
+                addRadio("If applicable, are you currently pregnant or postpartum?", "Pregnant", "Postpartum", "N/A");
                 break;
 
             case "liver_function_test":
-                addRadio("What is your age range?", "Under 18", "18–35", "36–50", "51–65", "65+");
-                addRadio("Alcohol consumption?", "Never", "Occasionally", "Regularly (weekly)", "Daily");
-                addText("Recent medications or supplements taken");
-                addRadio("Symptoms?", "Jaundice (yellow skin/eyes)", "Fatigue", "Nausea/vomiting", "Abdominal pain", "None");
-                addRadio("Known liver or hepatitis condition?", "Hepatitis B", "Hepatitis C", "Fatty liver", "None");
-                addRadio("Last 48h — consumed alcohol?", "Yes", "No");
+                addRadio("Have you consumed alcohol in the last 48-72 hours?", "Yes", "No");
+                addRadio("Are you experiencing jaundice (yellowing of eyes/skin) or upper abdominal pain?", "Yes", "No");
+                addRadio("Are you taking any over-the-counter painkillers like Acetaminophen/Paracetamol regularly?", "Yes", "No");
+                addRadio("Known history of Hepatitis or fatty liver disease?", "Yes", "No", "Not sure");
                 break;
 
             case "vitamin_d_b12_panel":
-                addRadio("What is your age range?", "Under 18", "18–35", "36–50", "51–65", "65+");
-                addRadio("What is your gender?", "Male", "Female", "Prefer not to say");
-                addRadio("Dietary type?", "Vegetarian", "Vegan", "Non-vegetarian / Omnivore");
-                addRadio("Average daily sun exposure?", "Less than 15 minutes", "15–30 minutes", "More than 30 minutes");
-                addRadio("Symptoms?", "Persistent fatigue", "Bone or joint pain", "Numbness/tingling", "Memory issues", "None");
-                addRadio("Currently taking Vitamin D/B12 supplements?", "Yes", "No");
+                addText("Describe your daily sun exposure and any dietary restrictions (e.g., Vegan, Vegetarian).");
+                addRadio("Are you experiencing numbness, tingling in hands/feet, or memory difficulties?", "Yes", "No");
+                addRadio("Are you currently taking any Vitamin D or B12 supplements or injections?", "Yes", "No");
+                addRadio("Any history of malabsorption issues (like Celiac or Crohn's disease)?", "Yes", "No", "Not sure");
                 break;
 
             case "cardiac_wellness":
-                addRadio("What is your age range?", "Under 30", "30–45", "46–60", "60+");
-                addRadio("What is your gender?", "Male", "Female", "Prefer not to say");
-                addRadio("Do you experience chest pain or pressure?", "Yes, frequently", "Yes, occasionally", "No");
-                addRadio("Family history of heart attack or cardiac disease?", "Yes", "No", "Not sure");
-                addRadio("Blood pressure status?", "Normal", "High (hypertension)", "Low", "Not aware");
-                addRadio("Exercise tolerance?", "Can exercise without any discomfort", "Get breathless easily", "Unable to exercise due to symptoms");
-                addRadio("Do you smoke or use tobacco?", "Yes", "No", "Ex-smoker");
+                addRadio("Do you experience chest pain, shortness of breath, or palpitations during physical exertion?", "Yes", "No");
+                addText("What is your most recent known blood pressure reading (if known)?");
+                addRadio("Do you have a family history of early-onset heart disease (before age 55)?", "Yes", "No", "Not sure");
+                addText("Describe your current stress levels and sleep patterns.");
                 break;
 
             case "executive_health_panel":
-                addRadio("What is your age range?", "Under 18", "18–35", "36–50", "51–65", "65+");
-                addRadio("What is your gender?", "Male", "Female", "Prefer not to say");
-                addRadio("Your approximate BMI category?", "Underweight", "Normal (18.5–24.9)", "Overweight (25–29.9)", "Obese (30+)", "Not sure");
-                addRadio("Known health conditions?", "Diabetes", "Hypertension", "High cholesterol", "Thyroid disorder", "None");
-                addRadio("When was your last full health check-up?", "Within 6 months", "6–12 months ago", "1–2 years ago", "More than 2 years ago", "Never");
-                addRadio("Primary reason for this panel?", "Routine check-up", "Feeling unwell", "Pre-employment requirement", "Doctor's recommendation");
+                addText("What is your primary health goal or concern for this comprehensive check-up?");
+                addText("Do you have any existing chronic conditions like Diabetes, High BP, or Thyroid issues?");
+                addRadio("Are you under significant professional or personal stress lately?", "Yes", "No");
+                addRadio("When was your last comprehensive medical screening?", "< 6 months", "6-12 months", "1-2 years", "> 2 years", "Never");
                 break;
 
             case "dna_genetic_screening":
-                addRadio("What is your age range?", "Under 18", "18–35", "36–50", "51–65", "65+");
-                addRadio("What is your gender?", "Male", "Female", "Prefer not to say");
-                addText("Any known family history of genetic or hereditary diseases? (describe or write 'None')");
-                addRadio("Primary purpose of this test?", "Ancestry and heritage", "Understanding disease risk", "Both ancestry and health risk", "Medication response (pharmacogenomics)");
-                addRadio("Have you done genetic testing before?", "Yes", "No");
+                addText("What specific health risks or ancestry traits are you most interested in investigating?");
+                addText("Do you have a family history of hereditary conditions (e.g., specific cancers, cystic fibrosis)?");
+                addRadio("Have you previously consulted a genetic counselor?", "Yes", "No");
                 break;
 
             case "imaging_radiology":
-                addText("Which body part or region needs to be imaged?");
-                addText("Describe your symptoms or reason for imaging");
-                addRadio("Have you had previous scans or imaging for this issue?", "Yes", "No");
-                addRadio("Referred by a doctor?", "Yes", "No, self-referred");
-                addRadio("Relevant conditions?", "Pregnancy", "Metal implants", "Claustrophobia", "None of the above");
+                addText("Exactly where is the pain or concern located, and how long has it persisted?");
+                addRadio("Do you have any metal implants, pacemakers, or known allergies to contrast dye?", "Yes", "No");
+                addRadio("Is there any possibility of pregnancy? (For X-ray/CT/MRI safety)", "Yes", "No", "N/A");
                 addRadio("Urgency?", "Routine", "Urgent (doctor advised)");
                 break;
 
             default:
-                // Generic fallback for unknown test types
-                addRadio("What is your age range?", "Under 18", "18–35", "36–50", "51–65", "65+");
-                addRadio("What is your gender?", "Male", "Female", "Prefer not to say");
                 addText("Describe any symptoms or health concerns relevant to this test");
                 addRadio("Known medical conditions?", "Diabetes", "Hypertension", "Heart disease", "None");
                 break;
@@ -398,17 +433,23 @@ public class AiLabQuestionsActivity extends AppCompatActivity {
             progressDialog.show();
         });
 
-        String prompt = "You are a medical lab assistant AI. A patient has booked the following lab test:\n\n"
-                + "Test: " + testName + "\n"
-                + "Category: " + testCategory + "\n"
+        String prompt = "You are a Senior Medical Consultant and Lab Specialist. A patient named " + userFullName + " has booked a lab test: " + testName + ".\n\n"
+                + "**PATIENT PROFILE:**\n"
+                + "Gender: " + userGender + "\n"
+                + "Age: " + (userAge > 0 ? userAge : "Not provided") + " years\n"
+                + "Test Category: " + testCategory + "\n"
                 + "Markers being tested: " + (testMarkers != null ? testMarkers : "N/A") + "\n\n"
-                + "Patient provided the following health context:\n" + userAnswers + "\n\n"
-                + "Based on this information, provide:\n"
-                + "1. What these tests may indicate given the patient's context\n"
-                + "2. Normal reference ranges for each marker\n"
-                + "3. Key health insights and what to watch for\n"
-                + "4. Recommended follow-up actions\n\n"
-                + "Keep the response clear, structured, and in plain language a patient can understand.";
+                + "**HEALTH CONTEXT PROVIDED BY PATIENT:**\n" + userAnswers + "\n\n"
+                + "**INSTRUCTIONS:**\n"
+                + "Generate a highly professional, comprehensive, and empathetic Lab Test Analysis Report. Use HTML formatting (like <b>, <i>, <br>, <ul>, <li>) to make the report look like a formal medical document. Do NOT use markdown symbols like # or *.\n\n"
+                + "**REQUIRED SECTIONS:**\n"
+                + "1. <b>EXECUTIVE SUMMARY</b>: A brief overview of the patient's current health status based on the provided context.\n"
+                + "2. <b>CLINICAL CORRELATION</b>: Explain what the requested markers signify in the context of the patient's symptoms and history. Use professional medical terminology but provide clear explanations.\n"
+                + "3. <b>MARKER REFERENCE GUIDE</b>: Provide a list of the markers being tested with their typical normal ranges (specify units) and what high/low values might suggest.\n"
+                + "4. <b>PERSONALIZED RISK ASSESSMENT</b>: Identify any potential health risks or areas of concern based on the demographics and symptoms.\n"
+                + "5. <b>CLINICAL RECOMMENDATIONS</b>: Provide 3-5 actionable steps (e.g., fasting requirements, specific questions to ask their doctor, lifestyle adjustments).\n"
+                + "6. <b>PROFESSIONAL DISCLAIMER</b>: State that this is an AI-generated analysis and must be reviewed by a certified healthcare professional before making any medical decisions.\n\n"
+                + "**TONE:** Professional, authoritative yet supportive, and medically accurate.";
 
         try {
             JSONObject message = new JSONObject();

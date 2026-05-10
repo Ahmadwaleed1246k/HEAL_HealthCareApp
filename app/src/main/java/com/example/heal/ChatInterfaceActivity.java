@@ -25,7 +25,7 @@ public class ChatInterfaceActivity extends AppCompatActivity {
 
     private TextView tvDoctorName, tvDoctorReply;
     private EditText etSymptoms, etDescription;
-    private View btnSendChat;
+    private View btnSendChat, btnViewed;
     private LinearLayout layoutReply;
     private Doctor doctor;
     private String patientId, patientName;
@@ -37,7 +37,9 @@ public class ChatInterfaceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat_interface);
 
         doctor = (Doctor) getIntent().getSerializableExtra("doctor");
-        patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
         patientName = new SessionManager(this).getName();
 
         tvDoctorName = findViewById(R.id.tvDoctorName);
@@ -45,21 +47,26 @@ public class ChatInterfaceActivity extends AppCompatActivity {
         etSymptoms = findViewById(R.id.etSymptoms);
         etDescription = findViewById(R.id.etDescription);
         btnSendChat = findViewById(R.id.btnSendChat);
+        btnViewed = findViewById(R.id.btnViewed);
         layoutReply = findViewById(R.id.layoutReply);
 
-        tvDoctorName.setText(doctor.getName());
+        if (doctor != null) {
+            tvDoctorName.setText(doctor.getName());
+            mDatabase = FirebaseDatabase.getInstance().getReference().child("chats")
+                    .child(patientId + "_" + doctor.getDoctor_id());
+        }
 
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("chats")
-                .child(patientId + "_" + doctor.getDoctor_id());
-
         btnSendChat.setOnClickListener(v -> sendConsultation());
+        btnViewed.setOnClickListener(v -> markAsViewed());
 
         checkExistingChat();
     }
 
     private void checkExistingChat() {
+        if (mDatabase == null) return;
+        
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -68,24 +75,30 @@ public class ChatInterfaceActivity extends AppCompatActivity {
                     if (message != null && message.getSymptoms() != null && !message.getSymptoms().isEmpty()) {
                         etSymptoms.setText(message.getSymptoms());
                         etDescription.setText(message.getDescription());
-                        if (!message.getSymptoms().isEmpty()) {
-                            etSymptoms.setEnabled(false);
-                            etDescription.setEnabled(false);
-                        }
+                        
+                        etSymptoms.setEnabled(false);
+                        etDescription.setEnabled(false);
+                        
                         btnSendChat.setVisibility(View.GONE);
                         layoutReply.setVisibility(View.VISIBLE);
 
                         if (message.getReply() != null && !message.getReply().isEmpty()) {
                             tvDoctorReply.setText(message.getReply());
+                            btnViewed.setVisibility(View.VISIBLE);
                         } else {
                             tvDoctorReply.setText("Waiting for doctor's response...");
+                            btnViewed.setVisibility(View.GONE);
                         }
                     }
+                } else {
+                    // Snapshot doesn't exist — reset UI to fresh state
+                    resetUI();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                // Handle error if needed
             }
         });
     }
@@ -99,10 +112,26 @@ public class ChatInterfaceActivity extends AppCompatActivity {
             return;
         }
 
+        if (doctor == null) return;
+
+        // Require payment before sending
+        ChatPaymentBottomSheet paymentSheet = new ChatPaymentBottomSheet(
+                doctor.getName(),
+                doctor.getConsultation_fee(),
+                cardNumber -> finalizeSendConsultation(symptoms, description)
+        );
+        paymentSheet.show(getSupportFragmentManager(), "chat_payment");
+    }
+
+    private void finalizeSendConsultation(String symptoms, String description) {
+        if (doctor == null || patientId == null) return;
+        
         String messageId = patientId + "_" + doctor.getDoctor_id();
         ChatMessage message = new ChatMessage(messageId, patientId, patientName, doctor.getDoctor_id(), doctor.getName());
         message.setSymptoms(symptoms);
         message.setDescription(description);
+        message.setPaymentStatus("paid");
+        message.setAmount(doctor.getConsultation_fee());
         message.setTimestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
 
         mDatabase.setValue(message).addOnCompleteListener(task -> {
@@ -112,5 +141,27 @@ public class ChatInterfaceActivity extends AppCompatActivity {
                 Toast.makeText(ChatInterfaceActivity.this, "Failed to send consultation", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void markAsViewed() {
+        if (mDatabase == null) return;
+        
+        mDatabase.removeValue().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(this, "Consultation reset. You can ask again.", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Failed to reset consultation", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void resetUI() {
+        etSymptoms.setEnabled(true);
+        etDescription.setEnabled(true);
+        etSymptoms.setText("");
+        etDescription.setText("");
+        btnSendChat.setVisibility(View.VISIBLE);
+        layoutReply.setVisibility(View.GONE);
+        btnViewed.setVisibility(View.GONE);
     }
 }
